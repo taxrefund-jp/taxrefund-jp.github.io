@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Japan Tax Refund Calculator | 日本免税计算器 - 退税汇率与手续费计算</title>
+<meta name="description" content="Free Japan tax-free shopping calculator. Instantly calculate 10% consumption tax refund, Global Blue / Digital Tax Free handling fees, and live currency exchange rates (CNY, KRW, USD, TWD, HKD, EUR). 日本购物免税计算器，支持实时汇率与退税手续费计算。">
+<meta name="keywords" content="Japan tax refund, tax free calculator, 日本免税计算器, 日本退税, Global Blue, 消费税计算">
+<style>
+:root {
+  --primary:#1a1a1a;--accent:#c5a059;--bg:#f4f5f7;--card:#fff;
+  --text:#1f2937;--muted:#6b7280;--border:#e5e7eb;--hl:#fdfbf7;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  margin:0;
+  line-height:1.45;
+  transition:background-color 0.3s ease;
+}
+
+/* 店舗タイプに連動する画面全体の背景色 */
+body.theme-global-blue {
+  background-color:#DCEBFF;
+}
+body.theme-digital {
+  background-color:#FFE0E0;
+}
+
+.app-shell{max-width:480px;margin:0 auto;min-height:100vh;padding-bottom:36px}
+.app-header{background:var(--primary);color:#fff;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}
+.app-title{font-size:16px;font-weight:700;letter-spacing:.04em;display:flex;align-items:center;gap:8px}
+.badge{background:var(--accent);color:#111;font-size:10px;padding:2px 6px;border-radius:4px;font-weight:800}
+.lang-pill{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;padding:6px 12px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px}
+.onboarding{padding:24px 20px}
+.onboarding h2{font-size:20px;margin:0 0 6px;text-align:center}
+.onboarding p{font-size:13px;color:var(--muted);text-align:center;margin:0 0 20px}
+.flag-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.flag-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 8px;text-align:center;cursor:pointer}
+.flag-card:active{transform:scale(.96);border-color:var(--accent)}
+.flag-icon{font-size:32px;display:block;margin-bottom:4px}
+.flag-lang{font-size:12px;font-weight:700;display:block}
+.flag-code{font-size:11px;color:var(--muted)}
+.content{padding:16px}
+.card{background:var(--card);border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:0 2px 10px rgba(0,0,0,.04)}
+.input-header{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.input-tag{font-size:16px;font-weight:700;color:var(--primary)}
+.tax-pill{font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;background:#eef0f3;color:var(--muted)}
+.tax-pill.incl{background:#fdf6e7;color:#8a6d3b}
+.input-wrap{position:relative}
+.yen{position:absolute;left:14px;top:24px;transform:translateY(-50%);font-size:20px;font-weight:700;color:var(--muted)}
+.input-wrap input{width:100%;padding:12px 40px 12px 34px;font-size:24px;font-weight:800;border:2px solid var(--border);border-radius:12px 12px 0 0;border-bottom:none;outline:none;background:#fafafa;color:var(--primary)}
+.input-wrap input::placeholder{color:#cbd5e1;font-weight:600}
+.input-wrap input:focus{border-color:var(--accent);background:#fff}
+.input-wrap input:focus~.conv-strip{border-color:var(--accent);background:#fdfbf7}
+.clear-btn{position:absolute;right:10px;top:24px;transform:translateY(-50%);width:24px;height:24px;border-radius:50%;border:none;background:#e5e7eb;color:#4b5563;font-size:13px;font-weight:700;cursor:pointer}
+.conv-strip{background:#f1f5f9;border:2px solid var(--border);border-top:1px dashed #cbd5e1;border-radius:0 0 12px 12px;padding:7px 14px;display:flex;justify-content:space-between;align-items:center}
+.conv-lbl{font-size:14px;font-weight:600;color:var(--muted)}
+.conv-val{font-size:20px;font-weight:800;color:#1e293b}
+.sync-div{display:flex;align-items:center;justify-content:center;margin:12px 0;position:relative}
+.sync-div::before{content:"";position:absolute;left:0;right:0;height:1px;background:var(--border)}
+.sync-badge{position:relative;z-index:1;background:#fff;border:1px solid var(--border);color:var(--muted);font-size:11px;font-weight:700;padding:2px 10px;border-radius:20px}
+.field-title{font-size:16px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:10px;display:block}
+.method-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.method-card{background:#fafafa;border:2px solid var(--border);border-radius:12px;padding:14px 10px;text-align:center;cursor:pointer;display:flex;flex-direction:column;align-items:center}
+.method-card.active{background:var(--hl);border-color:var(--accent);box-shadow:0 2px 8px rgba(197,160,89,.22)}
+.method-name{font-size:13px;font-weight:700;margin-top:6px}
+.method-fee{font-size:11px;color:var(--muted);font-weight:600;margin-top:2px}
+.method-card.active .method-fee{color:#8a6d3b}
+.rate-bar{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding-top:12px;border-top:1px solid var(--border);font-size:12px;color:var(--muted)}
+.rate-bar input{width:85px;padding:4px 8px;font-size:13px;border-radius:6px;border:1px solid var(--border);text-align:right}
+.reset-btn{background:none;border:none;color:#2563eb;font-size:11px;font-weight:600;cursor:pointer}
+.cmp-wrapper{background:#fff;border:1.5px solid #e2e8f0;border-radius:20px;padding:16px;margin-bottom:14px}
+
+.before-box{
+  background:#f8fafc;border:1.5px solid #cbd5e1;border-radius:14px;
+  padding:14px 16px;display:flex;flex-direction:column;align-items:stretch;gap:5px;
+}
+.before-lbl{font-size:18px;font-weight:800;color:#475569;white-space:nowrap}
+.before-vals{text-align:right;width:100%;min-width:0}
+.before-jpy{font-size:20px;font-weight:800;color:#64748b;display:block;line-height:1.2;text-align:right}
+.before-conv{font-size:20px;font-weight:700;color:#94a3b8;display:block;margin-top:2px;text-align:right}
+
+.down-arrow-wrap{display:flex;justify-content:center;align-items:center;margin:-6px 0;position:relative;z-index:2}
+.down-arrow-pill{background:var(--accent);color:#111;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;box-shadow:0 3px 8px rgba(197,160,89,.4);border:2px solid #fff}
+
+.fee-soft{
+  background:#fffaf0;border:1.5px solid #ead9b5;border-radius:14px;
+  padding:14px 16px;margin-top:14px;margin-bottom:12px;
+}
+.fee-soft .row{
+  display:flex;flex-direction:column;align-items:stretch;gap:5px;
+  font-size:16px;font-weight:800;padding:4px 0;border-bottom:none;
+}
+.fee-soft .row > div:first-child{
+  font-size:18px;font-weight:800;white-space:nowrap;color:#8a6d3b;
+}
+.fee-soft .r-val{
+  font-size:20px;font-weight:800;text-align:right;width:100%;
+}
+#v_tfee_cmp{font-size:20px !important;font-weight:800}
+.fee-soft .sub{
+  display:block;text-align:right;font-size:20px;font-weight:700;
+  line-height:1.2;color:#8a6d3b;margin-top:2px;width:100%;
+}
+
+.refund-soft{
+  background:linear-gradient(135deg,#f0fdf4 0%,#dcfce7 100%);
+  border:1.5px solid #86efac;border-radius:18px;padding:18px;
+  margin-bottom:14px;box-shadow:0 4px 12px rgba(22,163,74,.08)
+}
+.ref-header{
+  display:flex;flex-direction:column;align-items:stretch;
+  margin-bottom:8px;gap:7px;
+}
+.ref-title{
+  font-size:18px;font-weight:800;color:#166534;
+  display:flex;align-items:center;gap:6px;white-space:nowrap;
+}
+.ref-badges{
+  display:flex;flex-wrap:wrap;align-items:center;gap:6px;
+}
+.ref-badge{
+  background:#15803d;color:#fff;font-size:13px;font-weight:800;
+  padding:6px 11px;border-radius:20px;white-space:normal;
+  overflow-wrap:anywhere;
+}
+.ref-badge.tax-rate{
+  background:#166534;border:1px solid #bbf7d0;
+}
+.ref-body{display:flex;flex-direction:column;align-items:stretch;gap:10px}
+.ref-body > div{width:100%;text-align:right}
+.ref-jpy{
+  font-size:26px;font-weight:900;color:#14532d;
+  letter-spacing:-.02em;line-height:1.1;text-align:right;
+}
+.ref-conv{
+  font-size:24px;font-weight:800;color:#15803d;
+  margin-top:4px;text-align:right;
+}
+
+/* 免税条件・元の消費税額 */
+.tax-info-box{
+  background:rgba(255,255,255,.78);
+  padding:12px;
+  border-radius:11px;
+  border:1px solid #bbf7d0;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.tax-info-item{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+.tax-info-label{
+  font-size:12px;
+  font-weight:800;
+  color:#166534;
+}
+.eligibility-status{
+  display:inline-flex;
+  align-items:center;
+  align-self:flex-start;
+  padding:5px 10px;
+  border-radius:20px;
+  font-size:13px;
+  font-weight:900;
+  background:#dcfce7;
+  color:#166534;
+  overflow-wrap:anywhere;
+  max-width:100%;
+}
+.eligibility-status.not-eligible{
+  background:#fee2e2;
+  color:#991b1b;
+}
+.eligibility-status.empty{
+  background:#f1f5f9;
+  color:#475569;
+}
+.tax-info-value{
+  font-size:18px;
+  font-weight:900;
+  color:#14532d;
+  text-align:right;
+  overflow-wrap:anywhere;
+}
+.tax-info-conv{
+  font-size:18px;
+  font-weight:900;
+  color:#15803d;
+  text-align:right;
+  overflow-wrap:anywhere;
+}
+.tax-info-note{
+  font-size:10px;
+  line-height:1.5;
+  color:#4b6352;
+  border-top:1px solid #bbf7d0;
+  padding-top:8px;
+}
+
+.after-hero{
+  background:linear-gradient(135deg,#1a1816 0%,#30271e 100%);
+  color:#fff;border-radius:16px;padding:18px;
+  border:1.5px solid #3f3326;box-shadow:0 6px 16px rgba(0,0,0,.14)
+}
+.after-lbl{
+  font-size:18px;color:#e2d9c8;font-weight:800;
+  display:flex;align-items:center;gap:6px;margin-bottom:8px;
+  white-space:nowrap;
+}
+.after-jpy{
+  font-size:29px;font-weight:900;letter-spacing:-.02em;
+  line-height:1.15;text-align:right;
+}
+.after-conv{
+  font-size:24px;font-weight:700;color:var(--accent);
+  margin-top:3px;text-align:right;
+}
+
+.row{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid #f0f0f0;font-size:14px}
+.row:last-child{border-bottom:none}
+.row.hl{background:var(--hl);margin:0 -10px;padding:11px 10px;border-radius:8px;border-bottom:none;font-weight:700}
+.r-val{text-align:right;font-weight:600;white-space:nowrap}
+.m-inline{display:inline-flex;align-items:center;gap:6px}
+.sub{display:block;font-size:11px;color:var(--muted);font-weight:500}
+.minus{color:#dc2626}
+.notice{background:#fff;border:1px solid var(--border);border-left:5px solid var(--accent);border-radius:14px;padding:16px 18px}
+.notice-t{font-size:14px;font-weight:700;margin-bottom:8px}
+.notice ul{margin:0;padding-left:18px;font-size:13.5px;color:#374151;line-height:1.6}
+.notice li{margin-bottom:6px}
+.hidden{display:none!important}
+
+/* 店舗タイプ */
+.store-type-section{margin:0 0 14px}
+.store-section-label{font-size:13px;color:#666;margin-bottom:8px;font-weight:bold}
+.store-tabs-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.store-tab{
+ background:#fff;border:1.5px solid #e5e5e5;border-radius:12px;
+ padding:12px 8px;text-align:center;cursor:pointer;transition:.2s;
+ min-width:0;
+}
+.store-tab.active{border-color:#c5a059;background:#fdfaf3}
+.store-tab:active{transform:scale(.98)}
+.tab-title{display:block;font-size:13px;font-weight:bold;color:#222}
+.tab-sub{display:block;font-size:10px;color:#888;margin:3px 0;line-height:1.4}
+.tab-rate{display:inline-block;font-size:11px;font-weight:bold;color:#b08d44}
+
+/* 詳細内訳を大型化 */
+.detail-card {
+  padding: 22px 18px;
+}
+
+.detail-card .row {
+  font-size: 17px;
+  font-weight: 700;
+  padding: 15px 0;
+  line-height: 1.4;
+  gap: 12px;
+}
+
+.detail-card .r-val {
+  font-size: 19px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.detail-card .row.hl {
+  padding: 17px 12px;
+  font-size: 19px;
+}
+
+.detail-card .row.hl .r-val {
+  font-size: 21px;
+  font-weight: 900;
+}
+
+.detail-card .sub {
+  font-size: 15px;
+  font-weight: 700;
+  margin-top: 5px;
+}
+
+.detail-card .m-inline {
+  gap: 8px;
+}
+
+@media (max-width: 380px) {
+  .detail-card .row {
+    font-size: 15px;
+    gap: 6px;
+  }
+
+  .detail-card .r-val {
+    font-size: 16px;
+  }
+
+  .detail-card .row.hl .r-val {
+    font-size: 18px;
+  }
+}
+
+/* 店舗タイプ：文字・説明・料率を拡大 */
+.store-tab .tab-title {
+  font-size: 16px;
+}
+
+.store-tab .tab-sub {
+  font-size: 12px;
+}
+
+.store-tab .tab-rate {
+  font-size: 14px;
+}
+
+/* 返金方法：アイコン・文字・手数料を拡大 */
+.method-card svg {
+  width: 44px;
+  height: 44px;
+}
+
+.method-card .method-name {
+  font-size: 16px;
+}
+
+.method-card .method-fee {
+  font-size: 14px;
+}
+
+/* 注意事項：タイトル・本文を拡大 */
+.notice .notice-t {
+  font-size: 17px;
+}
+
+.notice ul {
+  font-size: 16px;
+  line-height: 1.7;
+}
+</style>
+</head>
+
+<body class="theme-global-blue">
+<div class="app-shell">
+<header class="app-header">
+  <div class="app-title">TAX REFUND <span class="badge">JAPAN</span></div>
+  <button type="button" class="lang-pill hidden" id="hLangBtn" onclick="openOb()">
+    <span id="hFlag">🇺🇸</span><span id="hCurr">USD</span><span>▾</span>
+  </button>
+</header>
+
+<div id="obView" class="onboarding">
+  <h2>Choose Your Currency</h2>
+  <p>Select your home country to translate &amp; convert JPY</p>
+  <div class="flag-grid" id="flagGrid"></div>
+</div>
+
+<div id="mainView" class="content hidden">
+  <div class="card">
+    <div class="input-header">
+      <span class="input-tag" id="l_excl">Tax-Excluded Price</span>
+      <span class="tax-pill">-10%</span>
+    </div>
+    <div class="input-wrap">
+      <span class="yen">¥</span>
+      <input type="text" id="exclIn" inputmode="numeric" placeholder="0" autocomplete="off" oninput="onExcl()">
+      <button type="button" class="clear-btn hidden" id="clr1" onclick="clrAll()">✕</button>
+      <div class="conv-strip"><span class="conv-lbl" id="cCurr1">🇺🇸 USD</span><span class="conv-val" id="exclConv">🇺🇸 ≈ 0.00 USD</span></div>
+    </div>
+
+    <div class="sync-div"><span class="sync-badge">⇅ +10% TAX</span></div>
+
+    <div class="input-header">
+      <span class="input-tag" id="l_incl">Tax-Included Price</span>
+      <span class="tax-pill incl">+10%</span>
+    </div>
+    <div class="input-wrap">
+      <span class="yen">¥</span>
+      <input type="text" id="inclIn" inputmode="numeric" placeholder="0" autocomplete="off" oninput="onIncl()">
+      <button type="button" class="clear-btn hidden" id="clr2" onclick="clrAll()">✕</button>
+      <div class="conv-strip"><span class="conv-lbl" id="cCurr2">🇺🇸 USD</span><span class="conv-val" id="inclConv">🇺🇸 ≈ 0.00 USD</span></div>
+    </div>
+  </div>
+
+  <div class="card store-type-section">
+    <div class="store-section-label" id="storeSectionLabel">Select Store Type</div>
+    <div class="store-tabs-grid">
+      <button type="button" class="store-tab active" data-type="global_blue" onclick="selectStoreType(this)">
+        <span class="tab-title">Global Blue</span>
+        <span class="tab-sub" id="storeGlobalDesc">Department Stores / Brand Boutiques</span>
+        <span class="tab-rate">2.3% ~ 1.6%</span>
+      </button>
+      <button type="button" class="store-tab" data-type="digital" onclick="selectStoreType(this)">
+        <span class="tab-title">Digital Tax Free</span>
+        <span class="tab-sub" id="storeDigitalDesc">Drugstores / Electronics Stores</span>
+        <span class="tab-rate">1.65%</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="field-title" id="l_method">Select Refund Method</span>
+    <div class="method-grid">
+      <div class="method-card active" id="m_card" onclick="setM('card')">
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><rect x="3" y="7" width="30" height="22" rx="4" fill="#1F2937"/><rect x="3" y="12" width="30" height="4" fill="#C5A059"/><rect x="7" y="21" width="8" height="3" rx="1" fill="#9CA3AF"/></svg>
+        <span class="method-name" id="mn_card">Credit Card</span><span class="method-fee" id="mf_card">Fee 4.0%</span>
+      </div>
+      <div class="method-card" id="m_cash" onclick="setM('cash')">
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><rect x="3" y="8" width="30" height="20" rx="4" fill="#059669"/><rect x="6" y="11" width="24" height="14" rx="2" stroke="#A7F3D0" stroke-width="1.5"/><circle cx="18" cy="18" r="4" fill="#ECFDF5"/></svg>
+        <span class="method-name" id="mn_cash">Cash</span><span class="method-fee" id="mf_cash">Fixed 200 JPY</span>
+      </div>
+      <div class="method-card" id="m_alipay" onclick="setM('alipay')">
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><rect x="3" y="3" width="30" height="30" rx="8" fill="#1677FF"/><path d="M18 8V12M11 12H25M12 16H24M21.5 16C20.5 21 16.5 25 10.5 27M14.5 19.5C17.5 22 21.5 24.5 26.5 26.5" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg>
+        <span class="method-name" id="mn_alipay">Alipay</span><span class="method-fee" id="mf_alipay">Fee 3.5%</span>
+      </div>
+      <div class="method-card" id="m_wechat" onclick="setM('wechat')">
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><rect x="3" y="3" width="30" height="30" rx="8" fill="#07C160"/><ellipse cx="15" cy="16" rx="7.5" ry="6" fill="#fff"/><ellipse cx="22.5" cy="20.5" rx="6" ry="4.8" fill="#E6F9EE"/></svg>
+        <span class="method-name" id="mn_wechat">WeChat Pay</span><span class="method-fee" id="mf_wechat">Fee 3.5%</span>
+      </div>
+    </div>
+
+    <div class="rate-bar">
+      <div>1 JPY = <input type="number" id="rate" step="0.0001" oninput="recalc()"> <span id="cCode">🇺🇸 USD</span></div>
+      <button type="button" class="reset-btn" onclick="resetRate()" id="l_rate">↻ Live Rate</button>
+    </div>
+  </div>
+
+  <div class="cmp-wrapper">
+    <div class="before-box">
+      <span class="before-lbl" id="t_bef">Store Payment (Tax-Included)</span>
+      <div class="before-vals">
+        <span class="before-jpy" id="v_bef">− 0 JPY</span>
+        <span class="before-conv" id="v_befC">🇺🇸 ≈ 0.00 USD</span>
+      </div>
+    </div>
+
+    <div class="fee-soft">
+      <div class="row">
+        <div id="t_tfee_cmp">Total Fees</div>
+        <div class="r-val minus" id="v_tfee_cmp">− 0 JPY</div>
+      </div>
+      <span class="sub" id="v_tfee_cmpC">🇺🇸 ≈ 0.00 USD</span>
+    </div>
+
+    <div class="down-arrow-wrap">
+      <span class="down-arrow-pill">↓</span>
+    </div>
+
+    <div class="refund-soft">
+      <div class="ref-header">
+        <span class="ref-title">↩️ <span id="t_final">Final Refund Amount</span></span>
+        <div class="ref-badges">
+          <span class="ref-badge" id="v_pct">0.0% Refund Rate</span>
+          <span class="ref-badge tax-rate" id="v_tax_pct">0.0% Tax Refund Rate</span>
+        </div>
+      </div>
+
+      <div class="ref-body">
+        <div>
+          <div class="ref-jpy" id="v_final">+ 0 JPY</div>
+          <div class="ref-conv" id="v_finalC">🇺🇸 ≈ 0.00 USD</div>
+        </div>
+
+        <div class="tax-info-box">
+          <div class="tax-info-item">
+            <span class="tax-info-label" id="t_eligibility">Tax-Free Eligibility</span>
+            <span class="eligibility-status empty" id="v_eligibility">Enter Purchase Amount</span>
+          </div>
+
+          <div class="tax-info-item">
+            <span class="tax-info-label" id="t_original_tax">Original Consumption Tax</span>
+            <span class="tax-info-value" id="v_original_tax">0 JPY</span>
+            <span class="tax-info-conv" id="v_original_tax_conv">🇺🇸 ≈ 0.00 USD</span>
+          </div>
+
+          <div class="tax-info-note" id="t_eligibility_note">
+            Preliminary check based on this input only. The legal threshold is the combined tax-excluded amount of eligible purchases by the same customer at the same store on the same day.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="after-hero">
+      <div class="after-lbl">💳 <span id="t_net">Final Net Cost</span></div>
+      <div class="after-jpy" id="v_net">− 0 JPY</div>
+      <div class="after-conv" id="v_netC">🇺🇸 ≈ 0.00 USD</div>
+    </div>
+  </div>
+
+  <div class="card detail-card">
+    <div class="row"><div id="t_excl">Tax-excluded Price</div><div class="r-val" id="v_excl">0 JPY</div></div>
+    <div class="row"><div id="t_tax">Consumption Tax (10%)</div><div class="r-val" id="v_tax">0 JPY</div></div>
+    <div class="row"><div id="t_incl">Tax-included Price</div><div class="r-val" id="v_incl">0 JPY</div></div>
+    <div class="row"><div><span id="t_adm">Tax-Free Admin Fee</span> <span id="admPct">(2.3%)</span></div><div class="r-val minus" id="v_adm">− 0 JPY</div></div>
+    <div class="row hl"><div id="t_ref">Refund Amount</div><div class="r-val" id="v_ref">+ 0 JPY</div></div>
+    <div class="row"><div id="t_mth">Refund Method</div><div class="r-val" id="v_mth">Credit Card</div></div>
+    <div class="row"><div id="t_mfee">Refund Processing Fee</div><div class="r-val minus" id="v_mfee">− 0 JPY</div></div>
+    <div class="row"><div id="t_tfee">Total Fees</div><div class="r-val"><span id="v_tfee">− 0 JPY</span><span class="sub" id="v_tfeeC">🇺🇸 ≈ 0.00 USD</span></div></div>
+  </div>
+
+  <div class="notice">
+    <div class="notice-t">⚠️ <span id="t_nt">Important Notice</span></div>
+    <ul><li id="t_n1"></li><li id="t_n2"></li><li id="t_n3"></li></ul>
+  </div>
+</div>
+</div>
+
+<script>
+var curC="US",curM="card",liveR=null,lastEd="excl";
+var currentStoreType="global_blue";
+
+var svgs={
+ card:'<svg width="18" height="18" viewBox="0 0 36 36" fill="none"><rect x="3" y="7" width="30" height="22" rx="4" fill="#1F2937"/><rect x="3" y="12" width="30" height="4" fill="#C5A059"/></svg>',
+ cash:'<svg width="18" height="18" viewBox="0 0 36 36" fill="none"><rect x="3" y="8" width="30" height="20" rx="4" fill="#059669"/><circle cx="18" cy="18" r="4" fill="#ECFDF5"/></svg>',
+ alipay:'<svg width="18" height="18" viewBox="0 0 36 36" fill="none"><rect x="3" y="3" width="30" height="30" rx="8" fill="#1677FF"/><path d="M18 8V12M11 12H25M12 16H24M21.5 16C20.5 21 16.5 25 10.5 27M14.5 19.5C17.5 22 21.5 24.5 26.5 26.5" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/></svg>',
+ wechat:'<svg width="18" height="18" viewBox="0 0 36 36" fill="none"><rect x="3" y="3" width="30" height="30" rx="8" fill="#07C160"/><ellipse cx="15" cy="16" rx="7.5" ry="6" fill="#fff"/><ellipse cx="22.5" cy="20.5" rx="6" ry="4.8" fill="#E6F9EE"/></svg>'
+};
+
+function entry(f,l,c,r,extra){
+ var symbols={USD:"$",KRW:"₩",CNY:"¥",TWD:"$",HKD:"$",EUR:"€",THB:"฿",VND:"₫",SGD:"$",AUD:"$",GBP:"£",CAD:"$",NZD:"$",CHF:"Fr",MYR:"RM",IDR:"Rp",PHP:"₱",INR:"₹",AED:"د.إ",SAR:"﷼",MXN:"$",BRL:"R$"};
+ var e={
+  f:f,l:l,sub:c+" ("+(symbols[c]||"")+")",c:c,r:r,
+  ex:"Tax-Excluded Price",in:"Tax-Included Price",sm:"Select Refund Method",
+  m:["Credit Card","Cash","Alipay","WeChat Pay"],
+  mf:["Fee 4.0%","Fixed 200 JPY","Fee 3.5%","Fee 3.5%"],
+  lr:"↻ Live Rate",bf:"Store Payment (Tax-Included)",
+  nt:"Final Net Cost",sv:"Final Refund",tx:"Consumption Tax (10%)",
+  af:"Tax-Free Admin Fee",rf:"Refund Amount",rm:"Refund Method",
+  pf:"Refund Processing Fee",tf:"Total Fees",fr:"Final Refund Amount",
+  rr:"Refund Rate",trr:"Tax Refund Rate",
+  ht:"Important Notice",
+  n1:"All results are approximate estimates, not exact amounts.",
+  n2:"Please use these figures for reference purposes only.",
+  n3:"Actual refunds may vary based on the tax-free operator's fees, exchange rates, and conversion charges on the day of processing."
+ };
+ if(extra)Object.assign(e,extra);
+ return e;
+}
+
+var DB={
+ US:entry("🇺🇸","English","USD",0.0067),
+ KR:entry("🇰🇷","한국어","KRW",9.2,{
+  ex:"세전 가격 (면세 기준)",in:"세후 가격 (결제 금액)",sm:"환불 방법 선택",
+  m:["신용카드","현금","알리페이","위챗페이"],
+  mf:["수수료 4.0%","고정 200 JPY","수수료 3.5%","수수료 3.5%"],
+  lr:"↻ 최신 환율",bf:"매장 결제 금액 (세금 포함)",nt:"최종 실부담액",
+  sv:"최종 환급액",tx:"소비세 (10%)",af:"면세 수수료",rf:"환급 금액",
+  rm:"환불 방법",pf:"환불 수수료",tf:"총 수수료",fr:"최종 환급 금액",
+  rr:"환급률",trr:"소비세 환급률",ht:"유의사항",
+  n1:"모든 계산 결과는 대략적인 추정치이며, 정확한 금액이 아닙니다.",
+  n2:"단순 참고용으로만 이용해 주시기 바랍니다.",
+  n3:"실제 환급액은 수속 당일 수수료, 환율 및 결제사의 환전 수수료에 따라 달라질 수 있습니다."
+ }),
+ CN:entry("🇨🇳","简体中文","CNY",0.048,{
+  ex:"不含税价格",in:"含税价格",sm:"选择退款方式",
+  m:["信用卡","现金","支付宝","微信支付"],
+  mf:["手续费 4.0%","固定 200 JPY","手续费 3.5%","手续费 3.5%"],
+  lr:"↻ 实时汇率",bf:"店铺含税支付金额",nt:"最终实际支付",
+  sv:"最终退款金额",tx:"消费税 (10%)",af:"退税手续费",rf:"退税金额",
+  rm:"退款方式",pf:"退款手续费",tf:"手续费合计",fr:"最终退税金额",
+  rr:"退税率",trr:"消费税退税率",ht:"注意事项",
+  n1:"所有计算结果均为大约估算值，并非准确金额。",
+  n2:"以上数据仅供参考使用。",
+  n3:"实际退税金额可能会根据办理当天的手续费、汇率及货币转换费而有所变动。"
+ }),
+ TW:entry("🇹🇼","繁體中文","TWD",0.215,{
+  ex:"未稅價格",in:"含稅價格",sm:"選擇退款方式",
+  m:["信用卡","現金","支付寶","微信支付"],
+  mf:["手續費 4.0%","固定 200 JPY","手續費 3.5%","手續費 3.5%"],
+  lr:"↻ 即時匯率",bf:"店鋪含稅付款金額",nt:"最終實際支付",
+  sv:"最終退款金額",tx:"消費稅 (10%)",af:"免稅手續費",rf:"退稅金額",
+  rm:"退款方式",pf:"退款手續費",tf:"總手續費",fr:"最終退稅金額",
+  rr:"退稅率",trr:"消費稅退稅率",ht:"注意事項",
+  n1:"所有計算結果皆為約略估算值，並非準確金額。",
+  n2:"以上數據僅供參考使用。",
+  n3:"實際退稅金額可能會依辦理當天的手續費、匯率及匯兌手續費而有所變動。"
+ }),
+ HK:entry("🇭🇰","香港繁體","HKD",0.052,{
+  ex:"未稅價格",in:"連稅價格",sm:"選擇退款方式",
+  m:["信用卡","現金","支付寶","微信支付"],
+  mf:["手續費 4.0%","固定 200 JPY","手續費 3.5%","手續費 3.5%"],
+  lr:"↻ 即時匯率",bf:"店舖連稅付款金額",nt:"最終實際支付",
+  sv:"最終退稅金額",tx:"消費稅 (10%)",af:"免稅手續費",rf:"退稅金額",
+  rm:"退款方式",pf:"退款手續費",tf:"總手續費",fr:"最終退稅金額",
+  rr:"退稅率",trr:"消費稅退稅率",ht:"注意事項",
+  n1:"所有計算結果均為大約估算值，並非準確金額。",
+  n2:"以上數據僅供參考使用。",
+  n3:"實際退稅金額可能會根據辦理當日的手續費、匯率及兌換手續費而有所變動。"
+ }),
+ EU:entry("🇪🇺","Europe","EUR",0.0061),
+ FR:entry("🇫🇷","Français","EUR",0.0061,{
+  ex:"Prix Hors Taxes (HT)",in:"Prix TTC",sm:"Mode de remboursement",
+  m:["Carte bancaire","Espèces","Alipay","WeChat Pay"],
+  mf:["Frais 4,0%","Fixe 200 JPY","Frais 3,5%","Frais 3,5%"],
+  lr:"↻ Taux en direct",bf:"Paiement en magasin (TTC)",
+  nt:"Coût net final",sv:"Remboursement final",tx:"Taxe à la consommation (10%)",
+  af:"Frais de détaxe",rf:"Montant du remboursement",
+  rm:"Mode de remboursement",pf:"Frais de traitement",
+  tf:"Total des frais",fr:"Montant final remboursé",
+  rr:"Taux de remboursement",trr:"Taux de remboursement de la taxe",
+  ht:"Remarque importante",
+  n1:"Tous les résultats sont des estimations approximatives.",
+  n2:"Veuillez utiliser ces chiffres à titre indicatif uniquement.",
+  n3:"Le remboursement réel peut varier selon les frais, le taux de change et les frais de conversion du jour."
+ }),
+ TH:entry("🇹🇭","ภาษาไทย","THB",0.225,{
+  ex:"ราคาไม่รวมภาษี",in:"ราคารวมภาษี",sm:"เลือกวิธีการคืนเงิน",
+  m:["บัตรเครดิต","เงินสด","อาลีเพย์","วีแชทเพย์"],
+  mf:["ค่าธรรมเนียม 4.0%","คงที่ 200 JPY","ค่าธรรมเนียม 3.5%","ค่าธรรมเนียม 3.5%"],
+  lr:"↻ อัตราปัจจุบัน",bf:"ยอดชำระที่ร้าน (รวมภาษี)",
+  nt:"ยอดจ่ายสุทธิ",sv:"ยอดเงินคืนสุทธิ",tx:"ภาษีมูลค่าเพิ่ม (10%)",
+  af:"ค่าธรรมเนียมการขอคืนภาษี",rf:"จำนวนเงินคืนภาษี",
+  rm:"วิธีการคืนเงิน",pf:"ค่าธรรมเนียมการโอนคืน",
+  tf:"รวมค่าธรรมเนียมทั้งหมด",fr:"ยอดเงินคืนสุทธิ",
+  rr:"อัตราการคืนเงิน",trr:"อัตราการคืนภาษี",ht:"ข้อควรทราบ",
+  n1:"ผลการคำนวณทั้งหมดเป็นเพียงการประมาณการเบื้องต้น",
+  n2:"กรุณาใช้ตัวเลขนี้เพื่อเป็นข้อมูลอ้างอิงเท่านั้น",
+  n3:"ยอดเงินจริงอาจแตกต่างตามค่าธรรมเนียมและอัตราแลกเปลี่ยน ณ วันที่ทำรายการ"
+ }),
+ VN:entry("🇻🇳","Tiếng Việt","VND",168,{
+  ex:"Giá chưa thuế",in:"Giá đã gồm thuế",sm:"Chọn phương thức hoàn tiền",
+  m:["Thẻ tín dụng","Tiền mặt","Alipay","WeChat Pay"],
+  mf:["Phí 4.0%","Cố định 200 JPY","Phí 3.5%","Phí 3.5%"],
+  lr:"↻ Tỷ giá thực",bf:"Số tiền thanh toán tại cửa hàng (đã gồm thuế)",
+  nt:"Thực trả cuối cùng",sv:"Số tiền hoàn cuối cùng",
+  tx:"Thuế tiêu dùng (10%)",af:"Phí dịch vụ hoàn thuế",
+  rf:"Số tiền hoàn thuế",rm:"Phương thức hoàn tiền",
+  pf:"Phí xử lý hoàn tiền",tf:"Tổng phí",fr:"Số tiền hoàn cuối cùng",
+  rr:"Tỷ lệ hoàn tiền",trr:"Tỷ lệ hoàn thuế",ht:"Lưu ý quan trọng",
+  n1:"Tất cả kết quả đều là ước tính sơ bộ.",
+  n2:"Vui lòng chỉ sử dụng các số liệu này để tham khảo.",
+  n3:"Số tiền hoàn thực tế có thể thay đổi tùy theo phí và tỷ giá tại ngày giao dịch."
+ }),
+ SG:entry("🇸🇬","Singapore","SGD",0.0089),
+ AU:entry("🇦🇺","Australia","AUD",0.010),
+ GB:entry("🇬🇧","UK","GBP",0.0052),
+ CA:entry("🇨🇦","Canada","CAD",0.0092),
+ NZ:entry("🇳🇿","New Zealand","NZD",0.011),
+ CH:entry("🇨🇭","Schweiz","CHF",0.0060,{rr:"Rückerstattungsquote",trr:"Steuerrückerstattungsquote",sv:"Endgültiger Erstattungsbetrag"}),
+ MY:entry("🇲🇾","Malaysia","MYR",0.031,{rr:"Kadar bayaran balik",trr:"Kadar bayaran balik cukai",sv:"Jumlah bayaran balik akhir"}),
+ ID:entry("🇮🇩","Indonesia","IDR",105,{rr:"Persentase pengembalian",trr:"Persentase pengembalian pajak",sv:"Jumlah pengembalian akhir"}),
+ PH:entry("🇵🇭","Pilipinas","PHP",0.39,{rr:"Rate ng refund",trr:"Rate ng refund sa buwis",sv:"Huling halaga ng refund"}),
+ IN:entry("🇮🇳","भारत","INR",0.56,{rr:"रिफंड दर",trr:"कर रिफंड दर",sv:"अंतिम रिफंड राशि"}),
+ AE:entry("🇦🇪","الإمارات","AED",0.0248,{rr:"معدل الاسترداد",trr:"معدل استرداد الضريبة",sv:"مبلغ الاسترداد النهائي"}),
+ SA:entry("🇸🇦","السعودية","SAR",0.0253,{rr:"معدل الاسترداد",trr:"معدل استرداد الضريبة",sv:"مبلغ الاسترداد النهائي"}),
+ DE:entry("🇩🇪","Deutsch","EUR",0.0061,{rr:"Erstattungsquote",trr:"Steuerrückerstattungsquote",sv:"Endgültiger Erstattungsbetrag"}),
+ IT:entry("🇮🇹","Italiano","EUR",0.0061,{rr:"Tasso di rimborso",trr:"Tasso di rimborso fiscale",sv:"Importo del rimborso finale"}),
+ ES:entry("🇪🇸","Español","EUR",0.0061,{rr:"Tasa de reembolso",trr:"Tasa de devolución de impuestos",sv:"Importe del reembolso final"}),
+ NL:entry("🇳🇱","Nederlands","EUR",0.0061,{rr:"Terugbetalingspercentage",trr:"Belastingteruggavepercentage",sv:"Definitief terugbetaald bedrag"}),
+ MX:entry("🇲🇽","México","MXN",0.115,{rr:"Tasa de reembolso",trr:"Tasa de devolución de impuestos",sv:"Importe del reembolso final"}),
+ BR:entry("🇧🇷","Brasil","BRL",0.033,{rr:"Taxa de reembolso",trr:"Taxa de restituição de impostos",sv:"Valor final do reembolso"})
+};
+
+/* 店舗タイプ翻訳 */
+var STORE_LANG={
+ US:"en",EU:"en",SG:"en",AU:"en",GB:"en",CA:"en",NZ:"en",
+ KR:"ko",CN:"zh",TW:"tw",HK:"tw",
+ FR:"fr",TH:"th",VN:"vi",
+ CH:"de",DE:"de",MY:"ms",ID:"id",PH:"tl",IN:"hi",
+ AE:"ar",SA:"ar",IT:"it",ES:"es",MX:"es",NL:"nl",BR:"pt"
+};
+
+var STORE_TEXT={
+ en:{title:"Select Store Type",global:"Department Stores / Brand Boutiques",digital:"Drugstores / Electronics Stores"},
+ ko:{title:"매장 유형 선택",global:"백화점 / 브랜드 전문점",digital:"드럭스토어 / 가전제품 매장"},
+ zh:{title:"选择店铺类型",global:"百货商店 / 品牌专卖店",digital:"药妆店 / 家电量贩店"},
+ tw:{title:"選擇店鋪類型",global:"百貨公司 / 品牌專門店",digital:"藥妝店 / 家電量販店"},
+ fr:{title:"Sélectionner le type de magasin",global:"Grands magasins / Boutiques de marque",digital:"Pharmacies / Magasins d'électronique"},
+ th:{title:"เลือกประเภทของร้านค้า",global:"ห้างสรรพสินค้า / ร้านค้าแบรนด์เนม",digital:"ร้านขายยาและเครื่องสำอาง / ร้านเครื่องใช้ไฟฟ้า"},
+ vi:{title:"Chọn loại cửa hàng",global:"Trung tâm thương mại / Cửa hàng thương hiệu",digital:"Nhà thuốc / Cửa hàng điện máy"},
+ de:{title:"Geschäftstyp auswählen",global:"Kaufhäuser / Markenboutiquen",digital:"Drogerien / Elektronikgeschäfte"},
+ ms:{title:"Pilih Jenis Kedai",global:"Gedung Serbaneka / Butik Jenama",digital:"Kedai Farmasi / Kedai Elektronik"},
+ id:{title:"Pilih Jenis Toko",global:"Department Store / Butik Merek",digital:"Toko Obat & Kosmetik / Toko Elektronik"},
+ tl:{title:"Pumili ng Uri ng Tindahan",global:"Department Store / Boutique ng Brand",digital:"Botika / Tindahan ng Elektronika"},
+ hi:{title:"स्टोर का प्रकार चुनें",global:"डिपार्टमेंट स्टोर / ब्रांड बुटीक",digital:"दवा और कॉस्मेटिक स्टोर / इलेक्ट्रॉनिक्स स्टोर"},
+ ar:{title:"اختر نوع المتجر",global:"المتاجر الكبرى / متاجر العلامات التجارية",digital:"متاجر الأدوية والتجميل / متاجر الإلكترونيات"},
+ it:{title:"Seleziona il tipo di negozio",global:"Grandi magazzini / Boutique di marca",digital:"Farmacie e profumerie / Negozi di elettronica"},
+ es:{title:"Seleccionar tipo de tienda",global:"Grandes almacenes / Tiendas de marca",digital:"Droguerías / Tiendas de electrónica"},
+ nl:{title:"Selecteer winkeltype",global:"Warenhuizen / Merkboetieks",digital:"Drogisterijen / Elektronicawinkels"},
+ pt:{title:"Selecione o tipo de loja",global:"Lojas de departamento / Boutiques de marca",digital:"Drogarias / Lojas de eletrônicos"}
+};
+
+/* 新機能：免税条件・元の消費税額の27地域翻訳 */
+var TAX_STATUS_TEXT={
+ en:{
+  eligibility:"Tax-Free Eligibility",
+  originalTax:"Original Consumption Tax",
+  enter:"Enter Purchase Amount",
+  eligible:"✓ Minimum Purchase Met",
+  notEligible:"✕ Minimum Not Met",
+  note:"Preliminary check based on this input only. The legal threshold is the combined tax-excluded amount of eligible purchases by the same customer at the same store on the same day."
+ },
+ ko:{
+  eligibility:"면세 구매 조건",
+  originalTax:"원래 소비세 금액",
+  enter:"구매 금액을 입력하세요",
+  eligible:"✓ 최소 구매 금액 충족",
+  notEligible:"✕ 최소 구매 금액 미달",
+  note:"현재 입력 금액만을 기준으로 한 예비 판정입니다. 실제 기준은 동일 구매자가 같은 매장에서 같은 날 구매한 대상 상품의 세전 합계 금액입니다."
+ },
+ zh:{
+  eligibility:"免税购买条件",
+  originalTax:"原始消费税金额",
+  enter:"请输入购买金额",
+  eligible:"✓ 已达到最低购买金额",
+  notEligible:"✕ 未达到最低购买金额",
+  note:"此结果仅根据当前输入金额进行初步判断。法定标准为同一购买者在同一店铺、同一天购买的符合条件商品的不含税金额合计。"
+ },
+ tw:{
+  eligibility:"免稅購買條件",
+  originalTax:"原始消費稅金額",
+  enter:"請輸入購買金額",
+  eligible:"✓ 已達最低購買金額",
+  notEligible:"✕ 未達最低購買金額",
+  note:"此結果僅依目前輸入金額進行初步判斷。法定標準為同一購買者於同一店鋪、同一天購買的符合資格商品未稅金額合計。"
+ },
+ fr:{
+  eligibility:"Conditions d'éligibilité à la détaxe",
+  originalTax:"Montant initial de la taxe à la consommation",
+  enter:"Saisissez le montant de l'achat",
+  eligible:"✓ Montant minimum atteint",
+  notEligible:"✕ Montant minimum non atteint",
+  note:"Vérification préliminaire basée uniquement sur le montant saisi. Le seuil légal porte sur le total HT des achats éligibles effectués par le même client dans le même magasin le même jour."
+ },
+ th:{
+  eligibility:"เงื่อนไขการซื้อสินค้าปลอดภาษี",
+  originalTax:"ยอดภาษีบริโภคเดิม",
+  enter:"กรุณากรอกยอดซื้อ",
+  eligible:"✓ ถึงยอดซื้อขั้นต่ำแล้ว",
+  notEligible:"✕ ยอดซื้อไม่ถึงขั้นต่ำ",
+  note:"เป็นการตรวจสอบเบื้องต้นจากยอดที่กรอกเท่านั้น เกณฑ์ตามกฎหมายพิจารณายอดรวมก่อนภาษีของสินค้าที่เข้าเงื่อนไข โดยผู้ซื้อคนเดียวกัน ณ ร้านเดียวกันในวันเดียวกัน"
+ },
+ vi:{
+  eligibility:"Điều kiện mua hàng miễn thuế",
+  originalTax:"Số thuế tiêu dùng ban đầu",
+  enter:"Vui lòng nhập số tiền mua hàng",
+  eligible:"✓ Đạt mức mua tối thiểu",
+  notEligible:"✕ Chưa đạt mức mua tối thiểu",
+  note:"Đây là kết quả kiểm tra sơ bộ chỉ dựa trên số tiền đã nhập. Ngưỡng theo quy định được tính trên tổng giá chưa thuế của các mặt hàng đủ điều kiện do cùng một khách hàng mua tại cùng một cửa hàng trong cùng một ngày."
+ },
+ de:{
+  eligibility:"Voraussetzungen für steuerfreies Einkaufen",
+  originalTax:"Ursprüngliche Verbrauchsteuer",
+  enter:"Bitte Kaufbetrag eingeben",
+  eligible:"✓ Mindestbetrag erreicht",
+  notEligible:"✕ Mindestbetrag nicht erreicht",
+  note:"Vorläufige Prüfung nur anhand des eingegebenen Betrags. Maßgeblich ist die Summe der steuerfreien Einkäufe desselben Kunden im selben Geschäft am selben Tag, jeweils ohne Steuer."
+ },
+ ms:{
+  eligibility:"Syarat Pembelian Bebas Cukai",
+  originalTax:"Jumlah Cukai Penggunaan Asal",
+  enter:"Masukkan jumlah pembelian",
+  eligible:"✓ Jumlah minimum dipenuhi",
+  notEligible:"✕ Jumlah minimum belum dipenuhi",
+  note:"Semakan awal berdasarkan jumlah yang dimasukkan sahaja. Had yang ditetapkan dikira daripada jumlah harga sebelum cukai bagi barangan yang layak, dibeli oleh pelanggan yang sama di kedai yang sama pada hari yang sama."
+ },
+ id:{
+  eligibility:"Syarat Pembelian Bebas Pajak",
+  originalTax:"Jumlah Pajak Konsumsi Awal",
+  enter:"Masukkan jumlah pembelian",
+  eligible:"✓ Minimum pembelian terpenuhi",
+  notEligible:"✕ Minimum pembelian belum terpenuhi",
+  note:"Pemeriksaan awal hanya berdasarkan jumlah yang dimasukkan. Ketentuan resmi dihitung dari total harga sebelum pajak barang yang memenuhi syarat, yang dibeli oleh pelanggan yang sama di toko yang sama pada hari yang sama."
+ },
+ tl:{
+  eligibility:"Kwalipikasyon para sa Tax-Free",
+  originalTax:"Orihinal na Buwis sa Konsumo",
+  enter:"Ilagay ang halaga ng pagbili",
+  eligible:"✓ Naabot ang minimum na halaga",
+  notEligible:"✕ Hindi naabot ang minimum na halaga",
+  note:"Paunang pagsusuri lamang ito batay sa halagang inilagay. Ang opisyal na batayan ay ang kabuuang presyong hindi kasama ang buwis ng mga kwalipikadong bilihin na binili ng parehong mamimili sa parehong tindahan sa parehong araw."
+ },
+ hi:{
+  eligibility:"कर-मुक्त खरीद की पात्रता",
+  originalTax:"मूल उपभोग कर",
+  enter:"खरीद राशि दर्ज करें",
+  eligible:"✓ न्यूनतम खरीद राशि पूरी",
+  notEligible:"✕ न्यूनतम खरीद राशि पूरी नहीं",
+  note:"यह प्रारंभिक जाँच केवल दर्ज की गई राशि पर आधारित है। आधिकारिक सीमा की गणना एक ही ग्राहक द्वारा एक ही दिन में एक ही दुकान से खरीदे गए पात्र सामान की कुल कर-पूर्व राशि से होती है।"
+ },
+ ar:{
+  eligibility:"شروط أهلية الشراء المعفى من الضريبة",
+  originalTax:"مبلغ ضريبة الاستهلاك الأصلية",
+  enter:"أدخل مبلغ الشراء",
+  eligible:"✓ تم استيفاء الحد الأدنى للشراء",
+  notEligible:"✕ لم يتم استيفاء الحد الأدنى للشراء",
+  note:"هذا فحص أولي يعتمد على المبلغ المُدخل فقط. يُحسب الحد القانوني من إجمالي قيمة المشتريات المؤهلة قبل الضريبة للعميل نفسه في المتجر نفسه وفي اليوم نفسه."
+ },
+ it:{
+  eligibility:"Requisiti per gli acquisti esenti da imposta",
+  originalTax:"Imposta sui consumi originale",
+  enter:"Inserisci l'importo dell'acquisto",
+  eligible:"✓ Importo minimo raggiunto",
+  notEligible:"✕ Importo minimo non raggiunto",
+  note:"Verifica preliminare basata solo sull'importo inserito. La soglia legale si calcola sul totale al netto delle imposte degli acquisti idonei effettuati dallo stesso cliente nello stesso negozio e nello stesso giorno."
+ },
+ es:{
+  eligibility:"Requisitos para compras libres de impuestos",
+  originalTax:"Impuesto al consumo original",
+  enter:"Introduce el importe de la compra",
+  eligible:"✓ Se alcanza el importe mínimo",
+  notEligible:"✕ No se alcanza el importe mínimo",
+  note:"Comprobación preliminar basada únicamente en el importe introducido. El umbral legal se calcula sobre el total antes de impuestos de las compras elegibles realizadas por el mismo cliente en la misma tienda y el mismo día."
+ },
+ nl:{
+  eligibility:"Voorwaarden voor belastingvrij winkelen",
+  originalTax:"Oorspronkelijke verbruiksbelasting",
+  enter:"Voer het aankoopbedrag in",
+  eligible:"✓ Minimumaankoopbedrag bereikt",
+  notEligible:"✕ Minimumaankoopbedrag niet bereikt",
+  note:"Voorlopige controle op basis van alleen dit ingevoerde bedrag. De wettelijke grens wordt berekend over het totale bedrag exclusief belasting van in aanmerking komende aankopen door dezelfde klant in dezelfde winkel op dezelfde dag."
+ },
+ pt:{
+  eligibility:"Requisitos para compras isentas de impostos",
+  originalTax:"Imposto sobre o consumo original",
+  enter:"Insira o valor da compra",
+  eligible:"✓ Valor mínimo atingido",
+  notEligible:"✕ Valor mínimo não atingido",
+  note:"Verificação preliminar baseada apenas no valor inserido. O limite legal considera o total antes dos impostos dos produtos elegíveis comprados pelo mesmo cliente, na mesma loja e no mesmo dia."
+ }
+};
+
+function applyStoreLanguage(countryCode){
+ var lang=STORE_LANG[countryCode]||"en";
+ var t=STORE_TEXT[lang]||STORE_TEXT.en;
+ txt("storeSectionLabel",t.title);
+ txt("storeGlobalDesc",t.global);
+ txt("storeDigitalDesc",t.digital);
+}
+
+function applyTaxStatusLanguage(countryCode){
+ var lang=STORE_LANG[countryCode]||"en";
+ var t=TAX_STATUS_TEXT[lang]||TAX_STATUS_TEXT.en;
+ txt("t_eligibility",t.eligibility);
+ txt("t_original_tax",t.originalTax);
+ txt("t_eligibility_note",t.note);
+ updateEligibility(parseMoney($("exclIn").value));
+}
+
+var fg=document.getElementById("flagGrid");
+Object.keys(DB).forEach(function(k){
+ var d=DB[k];
+ fg.innerHTML+='<div class="flag-card" onclick="setC(\''+k+'\')"><span class="flag-icon">'+d.f+'</span><span class="flag-lang">'+d.l+'</span><span class="flag-code">'+d.sub+'</span></div>';
+});
+
+function $(id){return document.getElementById(id)}
+function txt(id,v){$(id).innerText=v}
+function fJPY(n){return Math.round(n).toLocaleString("en-US")+" JPY"}
+function fConv(n,c){
+ var flag=DB[curC].f+" ";
+ if(c==="KRW"||c==="VND"||c==="IDR")return flag+"≈ "+Math.round(n).toLocaleString("en-US")+" "+c;
+ return flag+"≈ "+n.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})+" "+c;
+}
+
+function parseMoney(value){
+ return Number(String(value).replace(/,/g,"").replace(/[^\d]/g,""))||0;
+}
+
+function formatMoneyInput(input){
+ var oldValue=input.value;
+ var oldPos=input.selectionStart||0;
+ var digitsBefore=oldValue.slice(0,oldPos).replace(/[^\d]/g,"").length;
+ var digits=oldValue.replace(/[^\d]/g,"");
+
+ if(!digits){
+  input.value="";
+  return;
+ }
+
+ input.value=Number(digits).toLocaleString("en-US");
+
+ var newPos=0,count=0;
+ while(newPos<input.value.length&&count<digitsBefore){
+  if(/\d/.test(input.value.charAt(newPos)))count++;
+  newPos++;
+ }
+ input.setSelectionRange(newPos,newPos);
+}
+
+function formatMoneyValue(n){
+ return Math.round(n).toLocaleString("en-US");
+}
+
+function openOb(){
+ $("mainView").classList.add("hidden");
+ $("hLangBtn").classList.add("hidden");
+ $("obView").classList.remove("hidden");
+}
+
+function resetRate(){
+ var d=DB[curC];
+ var rate=(liveR&&liveR[d.c]&&liveR.JPY)?liveR[d.c]/liveR.JPY:d.r;
+ $("rate").value=Number(rate.toPrecision(7));
+ recalc();
+}
+
+function updClr(){
+ var h=$("exclIn").value!==""||$("inclIn").value!=="";
+ $("clr1").classList.toggle("hidden",!h);
+ $("clr2").classList.toggle("hidden",!h);
+}
+
+function clrAll(){
+ $("exclIn").value="";
+ $("inclIn").value="";
+ updClr();
+ calc(0,0);
+}
+
+function onExcl(){
+ lastEd="excl";
+ formatMoneyInput($("exclIn"));
+ updClr();
+
+ var r=$("exclIn").value;
+ if(r===""){
+  $("inclIn").value="";
+  calc(0,0);
+  return;
+ }
+
+ var ex=parseMoney(r);
+ var inc=Math.round(ex*1.1);
+ $("inclIn").value=formatMoneyValue(inc);
+ calc(ex,inc);
+}
+
+function onIncl(){
+ lastEd="incl";
+ formatMoneyInput($("inclIn"));
+ updClr();
+
+ var r=$("inclIn").value;
+ if(r===""){
+  $("exclIn").value="";
+  calc(0,0);
+  return;
+ }
+
+ var inc=parseMoney(r);
+ var ex=inc/1.1;
+ $("exclIn").value=formatMoneyValue(Math.round(ex));
+ calc(ex,inc);
+}
+
+function recalc(){
+ var ex=0;
+ var inc=0;
+
+ if(lastEd==="incl"){
+  inc=parseMoney($("inclIn").value);
+  ex=inc/1.1;
+ }else{
+  ex=parseMoney($("exclIn").value);
+  inc=Math.round(ex*1.1);
+ }
+
+ calc(ex,inc);
+}
+
+function setM(m){
+ curM=m;
+ ["card","cash","alipay","wechat"].forEach(function(x){
+  $("m_"+x).classList.toggle("active",x===m);
+ });
+ recalc();
+}
+
+/* 店舗タイプ選択＋背景色切り替え */
+function selectStoreType(buttonElement){
+ document.querySelectorAll(".store-tab").forEach(function(btn){
+  btn.classList.remove("active");
+ });
+
+ buttonElement.classList.add("active");
+ currentStoreType=buttonElement.getAttribute("data-type");
+
+ document.body.classList.remove(
+  "theme-global-blue",
+  "theme-digital"
+ );
+
+ if(currentStoreType==="global_blue"){
+  document.body.classList.add("theme-global-blue");
+ }else if(currentStoreType==="digital"){
+  document.body.classList.add("theme-digital");
+ }
+
+ recalc();
+}
+
+function getHandlingRate(taxExcludedPrice,storeType){
+ switch(storeType){
+  case "global_blue":
+   if(taxExcludedPrice>=5000000)return 0.016;
+   if(taxExcludedPrice>=3000000)return 0.018;
+   if(taxExcludedPrice>=1000000)return 0.021;
+   return 0.023;
+  case "digital":
+   return 0.0165;
+  default:
+   return 0.023;
+ }
+}
+
+function getHandlingRateLabel(taxExcludedPrice,storeType){
+ var rate=getHandlingRate(taxExcludedPrice,storeType);
+ return parseFloat((rate*100).toFixed(2)).toString();
+}
+
+/* 免税条件のリアルタイム判定 */
+function updateEligibility(ex){
+ var lang=STORE_LANG[curC]||"en";
+ var t=TAX_STATUS_TEXT[lang]||TAX_STATUS_TEXT.en;
+ var status=$("v_eligibility");
+
+ status.classList.remove("not-eligible","empty");
+
+ if(ex<=0){
+  status.innerText=t.enter;
+  status.classList.add("empty");
+ }else if(ex>=5000){
+  status.innerText=t.eligible;
+ }else{
+  status.innerText=t.notEligible;
+  status.classList.add("not-eligible");
+ }
+}
+
+function setC(k){
+ curC=k;
+ var d=DB[k],label=d.f+" "+d.c;
+ txt("hFlag",d.f);txt("hCurr",d.c);
+ txt("cCode",label);txt("cCurr1",label);txt("cCurr2",label);
+ txt("l_excl",d.ex);txt("l_incl",d.in);txt("l_method",d.sm);
+
+ ["card","cash","alipay","wechat"].forEach(function(x,i){
+  txt("mn_"+x,d.m[i]);txt("mf_"+x,d.mf[i]);
+ });
+
+ txt("l_rate",d.lr);txt("t_bef",d.bf);txt("t_net",d.nt);
+ txt("t_excl",d.ex);txt("t_tax",d.tx);txt("t_incl",d.in);
+ txt("t_adm",d.af);txt("t_ref",d.rf);txt("t_mth",d.rm);
+ txt("t_mfee",d.pf);txt("t_tfee",d.tf);txt("t_tfee_cmp",d.tf);
+ txt("t_final",d.fr);txt("t_nt",d.ht);
+ txt("t_n1",d.n1);txt("t_n2",d.n2);txt("t_n3",d.n3);
+
+ txt("v_pct","0.0% "+d.rr);
+ txt("v_tax_pct","0.0% "+d.trr);
+
+ applyStoreLanguage(k);
+ applyTaxStatusLanguage(k);
+
+ resetRate();
+ $("obView").classList.add("hidden");
+ $("mainView").classList.remove("hidden");
+ $("hLangBtn").classList.remove("hidden");
+}
+
+function calc(ex,inc){
+ var d=DB[curC],c=d.c,r=parseFloat($("rate").value)||0;
+ var tax=Math.max(0,inc-ex);
+
+ txt("exclConv",fConv(ex*r,c));
+ txt("inclConv",fConv(inc*r,c));
+
+ var aRate=getHandlingRate(ex,currentStoreType);
+ var adm=ex*aRate;
+
+ var ref=Math.max(0,tax-adm);
+ var mFee=curM==="cash"?(ref>0?200:0):curM==="card"?ref*.04:ref*.035;
+ var tFee=adm+mFee;
+ var fin=Math.max(0,ref-mFee);
+ var net=Math.max(0,inc-fin);
+
+ var pct=inc>0?((fin/inc)*100):0;
+ var taxRefundPct=tax>0?((fin/tax)*100):0;
+
+ var mIdx=["card","cash","alipay","wechat"].indexOf(curM);
+
+ txt("v_bef","− "+fJPY(inc));
+ txt("v_befC","− "+fConv(inc*r,c));
+ txt("v_net","− "+fJPY(net));
+ txt("v_netC","− "+fConv(net*r,c));
+
+ txt("v_pct",pct.toFixed(1)+"% "+d.rr);
+ txt("v_tax_pct",taxRefundPct.toFixed(1)+"% "+d.trr);
+
+ txt("admPct","("+getHandlingRateLabel(ex,currentStoreType)+"%)");
+
+ txt("v_excl",fJPY(ex));
+ txt("v_tax",fJPY(tax));
+ txt("v_incl",fJPY(inc));
+ txt("v_adm","− "+fJPY(adm));
+ txt("v_ref","+ "+fJPY(ref));
+
+ $("v_mth").innerHTML='<span class="m-inline">'+svgs[curM]+'<span>'+d.m[mIdx]+'</span></span>';
+
+ txt("v_mfee","− "+fJPY(mFee));
+ txt("v_tfee","− "+fJPY(tFee));
+ txt("v_tfeeC","− "+fConv(tFee*r,c));
+ txt("v_tfee_cmp","− "+fJPY(tFee));
+ txt("v_tfee_cmpC","− "+fConv(tFee*r,c));
+ txt("v_final","+ "+fJPY(fin));
+ txt("v_finalC","+ "+fConv(fin*r,c));
+
+ txt("v_original_tax",fJPY(tax));
+ txt("v_original_tax_conv",fConv(tax*r,c));
+
+ updateEligibility(ex);
+}
+
+/* 初期為替レート取得 */
+fetch("https://open.er-api.com/v6/latest/USD")
+.then(function(r){return r.json()})
+.then(function(d){
+ if(d&&d.result==="success"&&d.rates){
+  liveR=d.rates;
+  if(!$("mainView").classList.contains("hidden"))resetRate();
+ }
+})
+.catch(function(){});
+</script>
+</body>
+</html>
