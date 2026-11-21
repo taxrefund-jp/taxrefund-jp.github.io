@@ -199,14 +199,28 @@ body.is-buyer-pro #mainView .card,body.is-buyer-pro #mainView details.detail-car
 body.is-buyer-pro #mainView details.detail-card{overflow:hidden!important;border-radius:16px!important;margin-bottom:12px}
 body.is-buyer-pro #mainView details.detail-card summary{background:#fef3c7!important;color:#78350f!important;padding:14px 18px!important;font-size:14.5px!important;display:flex!important;justify-content:space-between!important;align-items:center!important}
 body.is-buyer-pro details.detail-card .detail-body{padding:8px 14px!important}
-body.is-buyer-pro details.detail-card *:not(summary):not(summary *):not(#byDetailSec):not(#byDetailSec *){padding-top:5px!important;padding-bottom:5px!important;line-height:1.35!important;font-size:13px!important;min-height:0!important;height:auto!important;margin-top:0!important;margin-bottom:0!important}
-#byDetailSec{border-top:1.5px dashed #cbd5e1;margin-top:10px;padding-top:10px;display:none}
+body.is-buyer-pro details.detail-card *:not(summary):not(summary *):not(#byDetailSec):not(#byDetailSec *):not(#feeRow *){padding-top:5px!important;padding-bottom:5px!important;line-height:1.35!important;font-size:13px!important;min-height:0!important;height:auto!important;margin-top:0!important;margin-bottom:0!important}
+body.is-buyer-pro details.detail-card .row,body.is-buyer-pro details.detail-card .row.hl{padding:4px 0!important;min-height:0!important;margin:0!important}
+#byDetailSec{border-top:1.5px dashed #cbd5e1;margin-top:6px;padding-top:6px;display:none}
 body.is-buyer-pro #byDetailSec{display:block}
-body.is-buyer-pro #byDetailSec>div:first-child{font-size:14px!important;margin-bottom:6px!important}
-.by-drow{display:flex;justify-content:space-between;align-items:center;color:#475569;border-bottom:1px solid #f1f5f9;padding:8px 0!important;line-height:1.45!important}
-body.is-buyer-pro #byDetailSec .by-drow *{font-size:14.5px!important}
-body.is-buyer-pro #byDetailSec .by-drow:last-child *{font-size:16px!important}
-.by-drow span:last-child{font-weight:800;color:#0f172a}
+body.is-buyer-pro #byDetailSec>div:first-child{font-size:13px!important;margin-bottom:3px!important}
+.by-drow{display:flex;justify-content:space-between;align-items:center;color:#475569;border-bottom:1px solid #f1f5f9;padding:4px 0!important;line-height:1.3!important}
+body.is-buyer-pro #byDetailSec .by-drow *{font-size:13px!important}
+body.is-buyer-pro #byDetailSec .by-drow:last-child *{font-size:14.5px!important}
+/* 既存のCSSの近くに追記 */
+body.is-buyer-pro .detail-body .row.hide-in-pro {
+  display: none !important;
+}
+#t_mfee_sub {
+  display: inline;
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 600;
+}
+body.is-buyer-pro #t_mfee_sub {
+  display: inline !important;
+  font-size: 13px !important;
+}
 .action-bar{display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:14px}
 .act-btn{background:rgba(255,255,255,.72);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1.5px solid rgba(255,255,255,.95);color:#1f2937;font-size:15.5px;font-weight:800;padding:14px;border-radius:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;box-shadow:0 4px 12px rgba(15,23,42,.06)}
 body.is-buyer-pro #saveMainBtn{background:linear-gradient(135deg,#f59e0b 0%,#d97706 100%)!important;color:#0f172a!important;border:none!important}
@@ -516,15 +530,30 @@ button:active{transform:scale(.96)!important;opacity:.85!important}
         <span id="detSummaryTitle">🧾 <span id="t_det_toggle">Receipt Details</span></span>
         <span style="font-size:12px;color:#94a3b8">▼</span>
       </summary>
-      <div class="detail-body" style="padding:0 18px 18px;border-top:1px solid #f1f5f9">
+           <div class="detail-body" style="padding:0 18px 18px;border-top:1px solid #f1f5f9">
         <div class="row"><div id="t_excl">Tax-excluded Price</div><div class="r-val" id="v_excl">0 JPY</div></div>
         <div class="row"><div id="t_tax">Consumption Tax (10%)</div><div class="r-val" id="v_tax">0 JPY</div></div>
         <div class="row"><div id="t_incl">Tax-included Price</div><div class="r-val" id="v_incl">0 JPY</div></div>
-        <div class="row"><div><span id="t_adm">Tax-Free Admin Fee</span> <span id="admPct">(2.3%)</span></div><div class="r-val minus" id="v_adm">− 0 JPY</div></div>
-        <div class="row hl"><div id="t_ref">Refund Amount</div><div class="r-val" id="v_ref">+ 0 JPY</div></div>
-        <div class="row"><div id="t_mth">Refund Method</div><div class="r-val" id="v_mth">Credit Card</div></div>
-        <div class="row"><div id="t_mfee">Refund Processing Fee</div><div class="r-val minus" id="v_mfee">− 0 JPY</div></div>
-        <div class="row"><div id="t_tfee">Total Fees</div><div class="r-val"><span id="v_tfee">− 0 JPY</span><span class="sub" id="v_tfeeC">🇺🇸 ≈ 0.00 USD</span></div></div>
+                <span id="v_ref" class="hidden">+ 0 JPY</span>
+        <span id="v_mth" class="hidden"></span>
+                <div class="row" id="feeRow" style="flex-direction:column;align-items:stretch;gap:0px">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div id="t_tfee">Total Fees</div>
+            <div class="r-val"><span id="v_tfee" class="minus">− 0 JPY</span><span class="sub" id="v_tfeeC">🇺🇸 ≈ 0.00 USD</span></div>
+          </div>
+     <div id="feeSubBox" style="background:rgba(15,23,42,.04);border:1px solid rgba(15,23,42,.08);border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:13.5px;font-weight:700;color:#475569">
+              <div><span id="t_adm">Tax-Free Admin Fee</span> <span id="admPct">(2.3%)</span></div>
+              <div style="color:#dc2626;font-weight:800" id="v_adm">− 0 JPY</div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:13.5px;font-weight:700;color:#475569;gap:6px">
+              <div style="min-width:0"><span id="t_mfee">Refund Processing Fee</span> <span id="t_mfee_sub" style="display:inline;font-size:13px;font-weight:600;color:#64748b"></span></div>
+              <div style="color:#dc2626;font-weight:800;white-space:nowrap" id="v_mfee">− 0 JPY</div>
+            </div>
+          </div>
+        <div class="row hl"><div id="t_det_fin">最终退税金额</div><div class="r-val" id="v_det_fin">+ 0 JPY</div></div>
+        <div class="row"><div id="t_det_net">最终实际支付</div><div class="r-val"><span id="v_det_net">− 0 JPY</span><span class="sub" id="v_det_netC">🇨🇳 ≈ 0.00 CNY</span></div></div>
+
         <div id="byDetailSec">
           <div style="font-weight:900;color:#92400e;margin-bottom:4px">💼 买手成本与利润明细</div>
           <div class="by-drow"><span>🎁 返点 / 平台返现 (<span id="dt_by_reb_p">0%</span>)</span><span id="dt_by_reb_v" style="color:#16a34a">+ 0 JPY</span></div>
@@ -649,7 +678,7 @@ function entry(f,l,c,r,extra){
 var DB={
   US:entry("🇺🇸","English","USD",0.0067),
   KR:entry("🇰🇷","한국어","KRW",9.2,{ex:"세전 가격 (면세 기준)",in:"세후 가격 (결제 금액)",sm:"환불 방법 선택",m:["신용카드","현금","알리페이","위챗페이"],mf:["수수료 4.0%","고정 200 JPY","수수료 3.5%","수수료 3.5%"],lr:"↻ 최신 환율",bf:"매장 결제 금액 (세금 포함)",nt:"최종 실부담액",sv:"최종 환급액",tx:"소비세 (10%)",af:"면세 수수료",rf:"환급 금액",rm:"환불 방법",pf:"환불 수수료",tf:"총 수수료",fr:"최종 환급 금액",rr:"환급률",trr:"소비세 환급률",ht:"유의사항",n1:"모든 계산 결과는 대략적인 추정치이며, 정확한 금액이 아닙니다.",n2:"단순 참고용으로만 이용해 주시기 바랍니다.",n3:"실제 환급액은 수속 당일 수수료, 환율 및 결제사의 환전 수수료에 따라 달라질 수 있습니다."}),
-  CN:entry("🇨🇳","简体中文","CNY",0.048,{ex:"不含税价格",in:"含税价格",sm:"选择退款方式",m:["信用卡","现金","支付宝","微信支付"],mf:["手续费 4.0%","固定 200 JPY","手续费 3.5%","手续费 3.5%"],lr:"↻ 实时汇率",bf:"店铺含税支付金额",nt:"最终实际支付",sv:"最终退款金额",tx:"消费税 (10%)",af:"退税手续费",rf:"退税金额",rm:"退款方式",pf:"退款手续费",tf:"手续费合计",fr:"最终退税金额",rr:"退税率",trr:"消费税退税率",ht:"注意事项",n1:"所有计算结果均为大约估算值，并非准确金额。",n2:"以上数据仅供参考使用。",n3:"实际退税金额可能会根据办理当天的手续费、汇率及货币转换费而有所变动。"}),
+  CN:entry("🇨🇳","简体中文","CNY",0.042,{ex:"不含税价格",in:"含税价格",sm:"选择退款方式",m:["信用卡","现金","支付宝","微信支付"],mf:["手续费 4.0%","固定 200 JPY","手续费 3.5%","手续费 3.5%"],lr:"↻ 实时汇率",bf:"店铺含税支付金额",nt:"最终实际支付",sv:"最终退款金额",tx:"消费税 (10%)",af:"退税手续费",rf:"退税金额",rm:"退款方式",pf:"退款手续费",tf:"手续费合计",fr:"最终退税金额",rr:"退税率",trr:"消费税退税率",ht:"注意事项",n1:"所有计算结果均为大约估算值，并非准确金额。",n2:"以上数据仅供参考使用。",n3:"实际退税金额可能会根据办理当天的手续费、汇率及货币转换费而有所变动。"}),
   TW:entry("🇹🇼","繁體中文","TWD",0.215,{ex:"未稅價格",in:"含稅價格",sm:"選擇退款方式",m:["信用卡","現金","支付寶","微信支付"],mf:["手續費 4.0%","固定 200 JPY","手續費 3.5%","手續費 3.5%"],lr:"↻ 即時匯率",bf:"店鋪含稅付款金額",nt:"最終實際支付",sv:"最終退款金額",tx:"消費稅 (10%)",af:"免稅手續費",rf:"退稅金額",rm:"退款方式",pf:"退款手續費",tf:"總手續費",fr:"最終退稅金額",rr:"退稅率",trr:"消費稅退稅率",ht:"注意事項",n1:"所有計算結果皆為約略估算值，並非準確金額。",n2:"以上數據僅供參考使用。",n3:"實際退稅金額可能會依辦理當天的手續費、匯率及匯兌手續費而有所變動。"}),
   HK:entry("🇭🇰","香港繁體","HKD",0.052,{ex:"未稅價格",in:"連稅價格",sm:"選擇退款方式",m:["信用卡","現金","支付寶","微信支付"],mf:["手續費 4.0%","固定 200 JPY","手續費 3.5%","手續費 3.5%"],lr:"↻ 即時匯率",bf:"店舖連稅付款金額",nt:"最終實際支付",sv:"最終退款金額",tx:"消費稅 (10%)",af:"免稅手續費",rf:"退稅金額",rm:"退款方式",pf:"退款手續費",tf:"總手續費",fr:"最終退稅金額",rr:"退稅率",trr:"消費稅退稅率",ht:"注意事項",n1:"所有計算結果均為大約估算值，並非準確金額。",n2:"以上數據僅供參考使用。",n3:"實際退稅金額可能會根據辦理當日的手續費、匯率及兌換手續費而有所變動。"}),
   EU:entry("🇪🇺","Europe","EUR",0.0061),
@@ -2257,7 +2286,13 @@ function calc(ex,inc){
   txt("v_tfee_cmp","− "+fJPY(tFee));
   txt("v_tfee_cmpC","− "+fConv(tFee*r,c));
   txt("v_final","+ "+fJPY(fin));
-  txt("v_finalC","+ "+fConv(fin*r,c));
+　txt("v_finalC",fConv(fin*r,c));
+    txt("t_det_fin", d.fr);
+  txt("v_det_fin", "+ " + fJPY(fin));
+  txt("t_det_net", d.nt);
+  txt("v_det_net", "− " + fJPY(net));
+  txt("v_det_netC", "− " + fConv(net * r, c));
+  txt("t_mfee_sub", d.m[mIdx] + " (" + d.mf[mIdx] + ")");
   txt("v_original_tax",fJPY(tax));
   txt("v_original_tax_conv",fConv(tax*r,c));
 
@@ -2458,7 +2493,7 @@ if(window._tourItems.length===0&&window._buyerItems.length===0){
 function saveCalcItem(){
   var isPro=(window.calcTopMode==="buyer"),lang=getLang(),s=SAVED_LANG[lang]||SAVED_LANG.en;
   var ex=parseMoney($("exclIn").value),inc=parseMoney($("inclIn").value);
-  var ref=parseFloat(String($("v_ref").textContent||"").replace(/[^0-9.]/g,""))||0;
+  var ref=parseFloat(String($("v_det_fin").textContent||"").replace(/[^0-9.]/g,""))||0;
   var fee=parseFloat(String($("v_tfee").textContent||"").replace(/[^0-9.]/g,""))||0;
   if(inc<=0){alert(isPro?"请先输入商品价格。":s.emptyAlert);return}
 
@@ -2638,7 +2673,8 @@ function showIndependentDetail(idx){
   if(isPro){
     var isLoss=(it.byProf||0)<0;
     var rate=it.taxRate||10,exclAmt=it.excl||Math.round(it.paid/(1+rate/100));
-    var feeJpy=Math.max(0,(it.paid||0)-exclAmt-(it.refund||0));
+        var rawFee=Number(String(it.fee||"").replace(/[^0-9]/g,""))||0;
+    var feeJpy=rawFee>0?rawFee:Math.max(0,(it.paid||0)-exclAmt-(it.refund||0));
     var netPaidJpy=Math.max(0,(it.paid||0)-(it.refund||0));
     mDiv.innerHTML='<div style="background:#fff;border-radius:18px;padding:20px;width:100%;max-width:340px;box-shadow:0 12px 30px rgba(0,0,0,0.25)">'
       +'<div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:10px;border-bottom:1.5px solid #f1f5f9">'
@@ -3119,13 +3155,15 @@ function restoreReturnState(isBfCache){
       }
     }
   }catch(e){}
+  
 }
 window.addEventListener("pageshow",function(e){restoreReturnState(e&&e.persisted)});
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",function(){restoreReturnState(false)});
 else restoreReturnState(false);
 
 
-fetch("https://er-api.com")
+fetch("https://open." + "er-api.com" + "/v6/latest/JPY")
+
   .then(function(r){return r.json()})
   .then(function(d){if(d&&d.result==="success"&&d.rates){liveR=d.rates;if(!$("mainView").classList.contains("hidden"))resetRate()}})
   .catch(function(){});
