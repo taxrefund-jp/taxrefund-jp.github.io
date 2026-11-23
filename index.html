@@ -7,6 +7,14 @@
 <link rel="icon" type="image/jpeg" href="IMG_9578.jpeg">
 
 <title>Japan Tax-Free Calculator</title>
+<meta name="description" content="2026 Japan Tax-Free Refund Calculator & Complete Guide (17 Languages). Calculate actual refund amounts after handling fees and check Global Blue, J-TaxRefund QR registration & airport KIOSK steps.">
+<meta property="og:title" content="Japan Tax-Free Calculator & 2026 Refund Guide">
+<meta property="og:description" content="Calculate your actual Japan tax-free refund (Global Blue / J-TaxRefund) in 17 languages & check airport customs KIOSK guides.">
+<meta property="og:url" content="https://taxrefund-jp.github.io">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://taxrefund-jp.github.io/IMG_9578.jpeg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://taxrefund-jp.github.io/IMG_9578.jpeg">
 <style>
 :root {
   --primary:#1a1a1a;--accent:#c5a059;--bg:#f4f5f7;--card:#fff;
@@ -305,11 +313,6 @@ button:active{transform:scale(.96)!important;opacity:.85!important}
 @media(max-width:380px){.detail-card .row{font-size:15px;gap:6px}.detail-card .r-val{font-size:16px}.detail-card .row.hl .r-val{font-size:18px}}
 </style>
 
-
-</style>
-</script>
-</head>
-
 </head>
 <body class="theme-global-blue">
 <div class="app-shell">
@@ -389,6 +392,10 @@ button:active{transform:scale(.96)!important;opacity:.85!important}
           <span class="tab-sub" id="storeDigitalDesc">Drugstores / Electronics Stores</span>
           <span class="tab-rate">1.65% ~ 1.5%</span>
         </button>
+      </div>
+    <div style="margin-top:8px;display:grid;grid-template-columns:1fr 1fr;gap:6px">
+        <button type="button" onclick="openNoQrGuideFromCalc()" style="background:#f0fdf4;border:1.5px solid #86efac;border-radius:10px;color:#15803d;font-size:11.5px;font-weight:900;cursor:pointer;padding:7px 8px;display:flex;align-items:center;justify-content:center;gap:4px;box-shadow:0 2px 5px rgba(22,163,74,.08)">✅ <span id="t_go_noqr_guide">No QR Needed? ▸</span></button>
+        <button type="button" id="btnGoQrGuide" onclick="openQrGuideFromCalc()" style="background:#eff6ff;border:1.5px solid #93c5fd;border-radius:10px;color:#1d4ed8;font-size:11.5px;font-weight:900;cursor:pointer;padding:7px 8px;display:flex;align-items:center;justify-content:center;gap:4px;box-shadow:0 2px 5px rgba(37,99,235,.08)">📖 <span id="t_go_qr_guide">How to register QR ▸</span></button>
       </div>
     </div>
 
@@ -599,6 +606,10 @@ button:active{transform:scale(.96)!important;opacity:.85!important}
       <h3 class="guide-section-title" id="g_chk_t">✈️ Airport Refund Flow &amp; Checklist</h3>
       <div id="g_chk_body"></div>
     </div>
+    <div class="card" id="sec_qr">
+      <h3 class="guide-section-title" id="g_qr_t">📱 Self QR Registration Guide</h3>
+      <div id="g_qr_body"></div>
+    </div>
     <div class="card" id="apFloorCard" style="margin-top:8px"></div>
     <div class="card" id="sec_new">
       <h3 class="guide-section-title" id="g_sec2_t">✨ Key Updates (From Nov 2026)</h3>
@@ -619,6 +630,10 @@ button:active{transform:scale(.96)!important;opacity:.85!important}
     <div class="card" id="sec_ng">
       <h3 class="guide-section-title" id="g_sec5_t">🚫 Common Mistakes to Avoid</h3>
       <div id="g_sec5_body"></div>
+    </div>
+    <div class="card" id="sec_faq">
+      <h3 class="guide-section-title" id="g_faq_t">❓ Frequently Asked Questions (Q&amp;A)</h3>
+      <div id="g_faq_body"></div>
     </div>
     <div class="card" id="sec_links">
       <h3 class="guide-section-title" id="g_sec6_t">🔗 Official Government Links</h3>
@@ -1760,6 +1775,576 @@ var GUIDE_EXTRA={
   }
 };
 
+window.curQrAgency="gb";
+function setQrAgency(ag){window.curQrAgency=ag;renderQrGuideCard();}
+
+var QR_SVGS={
+  card_gb:'<svg viewBox="0 0 280 112" style="width:100%;max-width:280px;display:block;margin:0 auto 8px;border-radius:10px;box-shadow:0 3px 10px rgba(37,99,235,.15)"><rect width="280" height="112" rx="10" fill="#eff6ff" stroke="#93c5fd" stroke-width="1.5"/><path d="M0 36 Q140 52 280 28 L280 112 L0 112 Z" fill="#1d4ed8"/><text x="140" y="16" font-size="10" font-weight="900" fill="#1e3a8a" text-anchor="middle">Global Blue</text><text x="140" y="29" font-size="11" font-weight="800" fill="#0f172a" text-anchor="middle">Scan to Claim Tax Refund</text><rect x="115" y="42" width="50" height="50" rx="6" fill="#fff" stroke="#1e40af" stroke-width="2"/><rect x="122" y="49" width="12" height="12" fill="#1e3a8a"/><rect x="146" y="49" width="12" height="12" fill="#1e3a8a"/><rect x="122" y="73" width="12" height="12" fill="#1e3a8a"/><rect x="138" y="65" width="8" height="8" fill="#1e3a8a"/><rect x="148" y="75" width="10" height="10" fill="#1e3a8a"/><text x="140" y="103" font-size="8" font-weight="700" fill="#dbeafe" text-anchor="middle">://globalblue.com</text></svg>',
+  card_jt:'<svg viewBox="0 0 280 112" style="width:100%;max-width:280px;display:block;margin:0 auto 8px;border-radius:10px;box-shadow:0 3px 10px rgba(225,29,72,.12)"><rect width="280" height="112" rx="10" fill="#fff1f2" stroke="#fda4af" stroke-width="1.5"/><rect x="75" y="8" width="130" height="96" rx="4" fill="#fff" stroke="#cbd5e1" stroke-width="1.2"/><text x="140" y="22" font-size="9" font-weight="900" fill="#e11d48" text-anchor="middle">TAX-FREE RECEIPT</text><line x1="88" y1="29" x2="192" y2="29" stroke="#e2e8f0" stroke-dasharray="3 2"/><text x="90" y="40" font-size="8" fill="#64748b">TOTAL (INCL. TAX)</text><text x="190" y="40" font-size="8" font-weight="800" fill="#0f172a" text-anchor="end">¥11,000</text><rect x="118" y="48" width="44" height="44" rx="4" fill="#f8fafc" stroke="#e11d48" stroke-width="1.8"/><rect x="124" y="54" width="10" height="10" fill="#be123c"/><rect x="146" y="54" width="10" height="10" fill="#be123c"/><rect x="124" y="76" width="10" height="10" fill="#be123c"/><rect x="138" y="68" width="14" height="14" fill="#be123c"/><text x="140" y="100" font-size="7.5" font-weight="800" fill="#be123c" text-anchor="middle">J-TaxRefund / PIE VAT QR</text></svg>',
+  card_ok:'<svg viewBox="0 0 280 112" style="width:100%;max-width:280px;display:block;margin:0 auto 8px;border-radius:10px;box-shadow:0 3px 10px rgba(22,163,74,.12)"><rect width="280" height="112" rx="10" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/><rect x="44" y="24" width="68" height="64" rx="8" fill="#fff" stroke="#16a34a" stroke-width="1.8"/><text x="78" y="52" font-size="22" text-anchor="middle">🛂</text><text x="78" y="74" font-size="8.5" font-weight="900" fill="#166534" text-anchor="middle">COUNTER DONE</text><path d="M126 56 L154 56 M147 49 L154 56 L147 63" stroke="#16a34a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><rect x="168" y="24" width="68" height="64" rx="8" fill="#16a34a"/><text x="202" y="52" font-size="22" text-anchor="middle">✈️</text><text x="202" y="74" font-size="8.5" font-weight="900" fill="#fff" text-anchor="middle">AIRPORT KIOSK</text></svg>',
+  s1:'<svg viewBox="0 0 240 76" style="width:100%;max-width:240px;display:block;margin-top:6px;border-radius:8px;background:#fff;border:1px solid #e2e8f0"><rect x="34" y="12" width="52" height="52" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/><rect x="44" y="22" width="32" height="32" fill="#1e293b" rx="3"/><rect x="49" y="27" width="8" height="8" fill="#fff"/><rect x="63" y="27" width="8" height="8" fill="#fff"/><rect x="49" y="41" width="8" height="8" fill="#fff"/><path d="M100 38 L124 38 M118 33 L124 38 L118 43" stroke="#0284c7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="140" y="8" width="64" height="60" rx="8" fill="#0f172a"/><rect x="145" y="14" width="54" height="48" rx="4" fill="#e0f2fe"/><path d="M154 26 L154 21 L159 21 M190 26 L190 21 L185 21 M154 50 L154 55 L159 55 M190 50 L190 55 L185 55" stroke="#0284c7" stroke-width="2" fill="none"/><rect x="163" y="29" width="18" height="18" fill="#0369a1" rx="2"/></svg>',
+  s2:'<svg viewBox="0 0 240 76" style="width:100%;max-width:240px;display:block;margin-top:6px;border-radius:8px;background:#fff;border:1px solid #e2e8f0"><rect x="45" y="8" width="150" height="60" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/><rect x="57" y="16" width="126" height="16" rx="4" fill="#dcfce7"/><text x="64" y="27" font-size="8.5" font-weight="800" fill="#166534">✓ ¥11,000 JPY</text><rect x="57" y="38" width="126" height="20" rx="4" fill="#fff" stroke="#0284c7" stroke-width="1.5"/><text x="64" y="51" font-size="8.5" font-weight="700" fill="#64748b">✉ user@email.com (OTP)</text></svg>',
+  s3:'<svg viewBox="0 0 240 76" style="width:100%;max-width:240px;display:block;margin-top:6px;border-radius:8px;background:#fff;border:1px solid #e2e8f0"><rect x="35" y="10" width="170" height="56" rx="8" fill="#0f172a"/><rect x="43" y="15" width="154" height="46" rx="4" fill="#fef2f2"/><rect x="51" y="20" width="24" height="26" rx="3" fill="#cbd5e1"/><circle cx="63" cy="29" r="5" fill="#64748b"/><path d="M55 43 Q63 36 71 43" fill="#64748b"/><line x1="83" y1="24" x2="145" y2="24" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/><line x1="83" y1="32" x2="130" y2="32" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/><rect x="50" y="49" width="140" height="8" rx="2" fill="#fee2e2" stroke="#ef4444" stroke-width="1"/><text x="120" y="55" font-size="6.5" font-weight="900" fill="#b91c1c" text-anchor="middle">P&lt;JPN&lt;&lt;PASSPORT&lt;MRZ&lt;CODE&lt;&lt;&lt;&lt;&lt;&lt;</text></svg>',
+  s4:'<svg viewBox="0 0 240 76" style="width:100%;max-width:240px;display:block;margin-top:6px;border-radius:8px;background:#fff;border:1px solid #e2e8f0"><rect x="18" y="14" width="46" height="48" rx="7" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/><text x="41" y="36" font-size="14" text-anchor="middle">💳</text><text x="41" y="52" font-size="7.5" font-weight="800" fill="#92400e" text-anchor="middle">Card</text><rect x="71" y="14" width="46" height="48" rx="7" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/><text x="94" y="36" font-size="14" text-anchor="middle">🔵</text><text x="94" y="52" font-size="7.5" font-weight="800" fill="#1e40af" text-anchor="middle">Alipay</text><rect x="124" y="14" width="46" height="48" rx="7" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/><text x="147" y="36" font-size="14" text-anchor="middle">💬</text><text x="147" y="52" font-size="7.5" font-weight="800" fill="#166534" text-anchor="middle">WeChat</text><rect x="177" y="14" width="46" height="48" rx="7" fill="#f1f5f9" stroke="#64748b" stroke-width="1.5"/><text x="200" y="36" font-size="14" text-anchor="middle">💴</text><text x="200" y="52" font-size="7.5" font-weight="800" fill="#334155" text-anchor="middle">Cash</text></svg>',
+  s5:'<svg viewBox="0 0 240 76" style="width:100%;max-width:240px;display:block;margin-top:6px;border-radius:8px;background:#fff;border:1px solid #e2e8f0"><rect x="40" y="8" width="64" height="60" rx="6" fill="#334155"/><rect x="48" y="14" width="48" height="24" rx="3" fill="#22c55e"/><text x="72" y="29" font-size="9" font-weight="900" fill="#fff" text-anchor="middle">GREEN</text><rect x="52" y="45" width="40" height="12" rx="2" fill="#94a3b8"/><text x="72" y="53" font-size="6.5" font-weight="800" fill="#0f172a" text-anchor="middle">PASSPORT</text><circle cx="158" cy="38" r="22" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/><path d="M148 38 L155 45 L169 31" stroke="#16a34a" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+};
+
+function renderQrGuideCard(){
+  var lang=getLang(),qr=QR_GUIDE_DATA[lang]||QR_GUIDE_DATA.en,qrBody=$("g_qr_body");
+  txt("g_qr_t",qr.title);
+  if(!qrBody)return;
+  var ag=window.curQrAgency||"gb";
+  var colMain=(ag==="gb")?"#1d4ed8":(ag==="jt"?"#e11d48":"#16a34a");
+  var colBg=(ag==="gb")?"#eff6ff":(ag==="jt"?"#fff1f2":"#f0fdf4");
+  var colBdr=(ag==="gb")?"#bfdbfe":(ag==="jt"?"#fecdd3":"#86efac");
+  var colTxt=(ag==="gb")?"#1e3a8a":(ag==="jt"?"#881337":"#166534");
+
+  qrBody.innerHTML="";
+
+  var tabRow=document.createElement("div");
+  tabRow.style.cssText="display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:10px";
+
+  var tabs=[
+    {id:"gb",lbl:qr.t1,col:"#1d4ed8"},
+    {id:"jt",lbl:qr.t2,col:"#e11d48"},
+    {id:"ok",lbl:qr.t3,col:"#16a34a"}
+  ];
+  tabs.forEach(function(tb){
+    var act=(ag===tb.id);
+    var b=document.createElement("button");
+    b.type="button";
+    b.textContent=tb.lbl;
+    b.style.cssText="padding:8px 4px;border-radius:10px;font-size:11.5px;font-weight:900;cursor:pointer;line-height:1.25;"+(act?"background:"+tb.col+";color:#fff;border:1.5px solid "+tb.col:"background:#f8fafc;color:#475569;border:1.5px solid #cbd5e1");
+    b.onclick=function(){setQrAgency(tb.id)};
+    tabRow.appendChild(b);
+  });
+  qrBody.appendChild(tabRow);
+
+  var cardBox=document.createElement("div");
+  cardBox.style.cssText="background:"+colBg+";border:1.5px solid "+colBdr+";border-radius:12px;padding:10px 11px;margin-bottom:10px";
+  cardBox.innerHTML=(ag==="gb"?QR_SVGS.card_gb:(ag==="jt"?QR_SVGS.card_jt:QR_SVGS.card_ok));
+
+  var stBox=document.createElement("div");
+  stBox.style.cssText="background:rgba(255,255,255,0.88);border-radius:8px;padding:6px 8px;margin-bottom:6px;font-size:12px;font-weight:800;color:#0f172a;line-height:1.4";
+  stBox.textContent=(ag==="gb"?qr.gbStores:(ag==="jt"?qr.jtStores:qr.okStores));
+  cardBox.appendChild(stBox);
+
+  var cardDesc=document.createElement("div");
+  cardDesc.style.cssText="font-size:12.5px;font-weight:800;color:"+colTxt+";text-align:center;line-height:1.4";
+cardDesc.textContent=(ag==="gb"?qr.gbDesc:(ag==="jt"?qr.jtDesc:qr.okDesc));
+cardBox.appendChild(cardDesc);
+qrBody.appendChild(cardBox);
+var steps=(ag==="gb"?qr.gbSteps:(ag==="jt"?qr.jtSteps:qr.okSteps));
+var listWrap=document.createElement("div");
+listWrap.style.cssText="display:flex;flex-direction:column;gap:8px";
+steps.forEach(function(st){
+var item=document.createElement("div");
+item.style.cssText="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:12px;padding:10px 12px";
+var head=document.createElement("div");
+head.style.cssText="display:flex;align-items:center;gap:6px;margin-bottom:4px";
+var badge=document.createElement("span");
+badge.style.cssText="background:"+colMain+";color:#fff;font-size:10.5px;font-weight:900;padding:2px 7px;border-radius:6px";
+badge.textContent=st.n;
+var title=document.createElement("span");
+title.style.cssText="font-size:13.5px;font-weight:900;color:#0f172a";
+title.textContent=st.t;
+head.appendChild(badge);
+head.appendChild(title);
+item.appendChild(head);
+var desc=document.createElement("div");
+desc.style.cssText="font-size:13px;color:#334155;line-height:1.45";
+desc.textContent=st.d;
+item.appendChild(desc);
+var svgWrap=document.createElement("div");
+svgWrap.innerHTML=QR_SVGS[st.svg]||"";
+item.appendChild(svgWrap);
+listWrap.appendChild(item);
+});
+qrBody.appendChild(listWrap);
+var tipBox=document.createElement("div");
+tipBox.style.cssText="margin-top:10px;padding:8px 11px;background:#fefce8;border:1.5px solid #fde047;border-radius:10px;font-size:12.5px;font-weight:800;color:#854d0e;line-height:1.45";
+tipBox.textContent=qr.tip;
+qrBody.appendChild(tipBox);
+}
+
+var QR_GUIDE_DATA={
+  en:{
+    chip:"📱 3 Claim Patterns",title:"📱 Tax-Free Registration Guide (3 Patterns)",
+    t1:"🔵 Global Blue QR",t2:"🔴 Receipt QR",t3:"✅ No QR Needed",
+    gbStores:"📌 Received a blue Global Blue 'Scan to Claim' card or QR slip at checkout.",
+    gbDesc:"Store usually registered your passport. Scan the QR to link your payout method (auto-links future Global Blue purchases!).",
+    gbSteps:[
+      {n:"STEP 1",t:"Scan the Global Blue QR",d:"Scan the QR on the blue card or slip with your phone camera to open My Tax Refund.",svg:"s1"},
+      {n:"STEP 2",t:"Verify Email & Details",d:"Enter your email address and confirm your passport and purchase details shown.",svg:"s2"},
+      {n:"STEP 3",t:"Set Payout Method",d:"Register Credit Card, Alipay, or WeChat Pay.",svg:"s4"},
+      {n:"STEP 4",t:"Airport Customs KIOSK",d:"At the airport [BEFORE bag drop], scan your passport at the KIOSK (🟢 GREEN = Auto-refund starts!).",svg:"s5"}
+    ],
+    jtStores:"📌 Receipt has a QR code at bottom (J-TaxRefund / PIE VAT) & staff asked you to self-register.",
+    jtDesc:"Scan the receipt QR on your phone to photograph your passport & register your payout method.",
+    jtSteps:[
+      {n:"STEP 1",t:"Scan Receipt QR Code",d:"Scan the QR printed at the bottom of your receipt (keep the paper receipt).",svg:"s1"},
+      {n:"STEP 2",t:"Email Verification (OTP)",d:"Enter your email address and input the 4–6 digit verification code sent to you.",svg:"s2"},
+      {n:"STEP 3",t:"Scan Passport Photo Page",d:"Take a clear photo of your passport's bio-data page including the 2 bottom MRZ lines.",svg:"s3"},
+      {n:"STEP 4",t:"Select Payout Method",d:"Choose Credit Card, Alipay, WeChat Pay, or Cash pickup at the airport.",svg:"s4"},
+      {n:"STEP 5",t:"Airport Customs KIOSK",d:"Save the screen. At the airport [BEFORE bag drop], scan passport at KIOSK (🟢 GREEN = Done!).",svg:"s5"}
+    ],
+    okStores:"📌 Staff completed all registration on their tablet/POS at checkout (no QR card given) or Airport Duty-Free.",
+    okDesc:"No smartphone steps needed! Staff already linked your passport & refund method (even if different from payment card).",
+    okSteps:[
+      {n:"STEP 1",t:"Keep Your Receipt Safely",d:"Confirm with staff that your refund card or cash option is registered and keep your receipt.",svg:"s4"},
+      {n:"STEP 2",t:"Go Directly to Airport KIOSK",d:"Skip phone steps! At the airport [BEFORE bag drop], scan passport at KIOSK (🟢 GREEN = Done!).",svg:"s5"}
+    ],
+    tip:"💡 Complete QR registration on hotel Wi-Fi BEFORE arriving at the airport!"
+  },
+  zh:{
+    chip:"📱 退税登记3模式",title:"📱 退税登记操作指南（按手边单据分3种）",
+    t1:"🔵 Global Blue扫码",t2:"🔴 小票二维码登记",t3:"✅ 无需手机登记",
+    gbStores:"📌 结账时收到蓝色「Global Blue Scan to Claim」卡片或指引单的情况",
+    gbDesc:"店员通常已录入护照，您只需扫码绑定收款账户（绑定一次后，其他 Global Blue 店铺自动关联！）。",
+    gbSteps:[
+      {n:"STEP 1",t:"扫描蓝色卡片二维码",d:"用手机相机扫描 Global Blue 卡片上的二维码进入 My Tax Refund 页面。",svg:"s1"},
+      {n:"STEP 2",t:"输入邮箱验证身份",d:"输入电子邮箱并完成验证，核对页面显示的护照及购物信息。",svg:"s2"},
+      {n:"STEP 3",t:"绑定收款方式",d:"绑定信用卡、支付宝或微信支付。",svg:"s4"},
+      {n:"STEP 4",t:"机场海关刷护照即退税",d:"离境当天【托运行李前】在海关 KIOSK 刷护照，亮绿灯（GREEN）即自动打款！",svg:"s5"}
+    ],
+    jtStores:"📌 购物小票底部印有二维码（J-TaxRefund / PIE VAT 等）且店员提示需自行登记的情况",
+    jtDesc:"结账时未录入护照，必须由顾客用手机扫码、拍摄护照首页并绑定收款方式。",
+    jtSteps:[
+      {n:"STEP 1",t:"扫描小票底部二维码",d:"用手机相机扫描小票下方的二维码（请务必保管好纸质小票）。",svg:"s1"},
+      {n:"STEP 2",t:"邮箱验证（填写验证码）",d:"输入电子邮箱，查收并填写收到的 4～6 位数字验证码（OTP）。",svg:"s2"},
+      {n:"STEP 3",t:"拍摄护照首页（含机读码）",d:"按画面提示拍摄护照有照片的一页，确保底部两行英文数字机读码清晰完整。",svg:"s3"},
+      {n:"STEP 4",t:"选择退税收款方式",d:"选择信用卡（Visa/Master/银联等）、支付宝、微信支付，或机场现金领取。",svg:"s4"},
+      {n:"STEP 5",t:"机场海关刷护照即完成",d:"截图保存完成画面。离境当天【托运行李前】在海关 KIOSK 刷护照，亮绿灯（GREEN）即完成！",svg:"s5"}
+    ],
+    okStores:"📌 店员在柜台终端已录完全部信息（未发扫码卡片/无需扫码）或机场免税店的情况",
+    okDesc:"无需任何手机操作！店员已在店内将护照及您指定的退税方式（可与付款卡不同）全部绑定完毕。",
+    okSteps:[
+      {n:"STEP 1",t:"确认店内已完成登记并保管小票",d:"结账时确认已登记退税卡或机场现金领取，妥善保管好购物小票即可。",svg:"s4"},
+      {n:"STEP 2",t:"离境当天直接刷海关 KIOSK",d:"无需手机登记！出发当天【托运行李前】在海关 KIOSK 刷护照，亮绿灯（GREEN）即完成。",svg:"s5"}
+    ],
+    tip:"💡 凡是需要手机扫码登记的购物，请务必在前往机场前连酒店 Wi-Fi 完成！"
+  },
+  tw:{
+    chip:"📱 退稅登記3模式",title:"📱 退稅登記操作指南（依手邊單據分3種）",
+    t1:"🔵 Global Blue掃碼",t2:"🔴 收據QR碼登記",t3:"✅ 無需手機登記",
+    gbStores:"📌 結帳時收到藍色「Global Blue Scan to Claim」小卡或指引單的情況",
+    gbDesc:"店員通常已登錄護照，您只需掃碼設定收款帳戶（綁定一次後，其他 Global Blue 店鋪自動關聯！）。",
+    gbSteps:[
+      {n:"STEP 1",t:"掃描藍色小卡 QR Code",d:"用手機相機掃描 Global Blue 卡片上的 QR Code 進入 My Tax Refund 網頁。",svg:"s1"},
+      {n:"STEP 2",t:"輸入 Email 驗證身分",d:"輸入電子信箱並完成驗證，核對畫面顯示的護照及消費資訊。",svg:"s2"},
+      {n:"STEP 3",t:"設定收款方式",d:"綁定信用卡或電子支付。",svg:"s4"},
+      {n:"STEP 4",t:"機場海關刷護照即退稅",d:"離境當天【託運行李前】於海關 KIOSK 刷護照，顯示綠燈（GREEN）即自動撥款！",svg:"s5"}
+    ],
+    jtStores:"📌 購物收據下方印有 QR Code（J-TaxRefund / PIE VAT 等）且店員提示需自行登記的情況",
+    jtDesc:"結帳時未登錄護照，必須由旅客用手機掃碼、拍攝護照首頁並設定收款方式。",
+    jtSteps:[
+      {n:"STEP 1",t:"掃描收據下方 QR Code",d:"用手機相機掃描收據底部的 QR Code（請務必妥善保管紙本收據）。",svg:"s1"},
+      {n:"STEP 2",t:"Email 驗證（填入驗證碼）",d:"輸入電子信箱，查收並填入收到的 4～6 位數驗證碼（OTP）。",svg:"s2"},
+      {n:"STEP 3",t:"拍攝護照首頁（含機讀碼）",d:"依畫面指示拍攝護照有照片的一頁，確保底部兩行機讀碼清晰完整。",svg:"s3"},
+      {n:"STEP 4",t:"選擇退稅領取方式",d:"選擇信用卡（Visa/Mastercard/JCB等）、電子支付，或機場領取日圓現金。",svg:"s4"},
+      {n:"STEP 5",t:"機場海關刷護照即完成",d:"截圖保存完成畫面。離境當天【託運行李前】於海關 KIOSK 刷護照，顯示綠燈（GREEN）即完成！",svg:"s5"}
+    ],
+    okStores:"📌 店員在櫃檯終端已幫您登錄全部資訊（未發掃碼卡片/無需掃碼）或機場免稅店的情況",
+    okDesc:"無需任何手機操作！店員已在店內將護照及您指定的退稅方式（可與付款卡不同）全部綁定完畢。",
+    okSteps:[
+      {n:"STEP 1",t:"確認店內已完成登記並保管收據",d:"結帳時確認已登記退稅卡或機場現金領取，妥善保管收據即可。",svg:"s4"},
+      {n:"STEP 2",t:"離境當天直接刷海關 KIOSK",d:"無需手機登記！出發當天【託運行李前】於海關 KIOSK 刷護照，亮綠燈（GREEN）即完成。",svg:"s5"}
+    ],
+    tip:"💡 凡是需要手機掃碼登記的消費，請務必在前往機場前連飯店 Wi-Fi 完成！"
+  },
+  ko:{
+    chip:"📱 등록 방법 3가지",title:"📱 면세 등록 가이드 (수령한 안내물 기준 3가지)",
+    t1:"🔵 Global Blue QR",t2:"🔴 영수증 QR 등록",t3:"✅ 모바일 등록 불필요",
+    gbStores:"📌 결제 시 파란색 'Global Blue Scan to Claim' 카드나 QR 안내지를 받은 경우",
+    gbDesc:"매장에서 여권은 등록 완료된 경우가 많으며, QR을 스캔해 환급 수단만 등록하면 됩니다(자동 연동).",
+    gbSteps:[
+      {n:"STEP 1",t:"파란 안내 카드 QR 스캔",d:"휴대폰 카메라로 Global Blue 카드의 QR 코드를 스캔해 My Tax Refund에 접속합니다.",svg:"s1"},
+      {n:"STEP 2",t:"이메일 인증 및 내역 확인",d:"이메일 주소를 입력해 인증을 마치고 화면의 여권 및 구매 내역을 확인합니다.",svg:"s2"},
+      {n:"STEP 3",t:"환급 수단 등록",d:"신용카드·알리페이·위챗페이를 등록합니다.",svg:"s4"},
+      {n:"STEP 4",t:"공항 세관 KIOSK 여권 스캔",d:"출국 당일 【수하물 위탁 전】 공항 세관 KIOSK에 여권을 스캔해 초록불(GREEN)이 뜨면 자동 환급!",svg:"s5"}
+    ],
+    jtStores:"📌 영수증 하단에 QR 코드(J-TaxRefund / PIE VAT 등)가 인쇄되어 직접 등록 안내를 받은 경우",
+    jtDesc:"결제 시 여권 정보가 미등록된 상태로, 고객이 직접 QR을 스캔해 여권 촬영 및 수령 수단을 등록해야 합니다.",
+    jtSteps:[
+      {n:"STEP 1",t:"영수증 하단 QR 코드 스캔",d:"휴대폰 카메라로 영수증 하단의 QR 코드를 스캔합니다 (종이 영수증 필수 보관).",svg:"s1"},
+      {n:"STEP 2",t:"이메일 인증 (인증번호 입력)",d:"이메일 주소를 입력하고 메일로 받은 4~6자리 인증번호(OTP)를 입력합니다.",svg:"s2"},
+      {n:"STEP 3",t:"여권 사진면 촬영 (하단 코드 포함)",d:"안내 프레임에 맞춰 여권 얼굴 사진과 하단 두 줄 영문·숫자 코드(MRZ)가 선명히 나오도록 촬영합니다.",svg:"s3"},
+      {n:"STEP 4",t:"환급 수령 수단 선택",d:"신용카드(Visa/Master/JCB 등), 간편결제(알리페이/위챗페이) 또는 공항 현금 수령을 선택합니다.",svg:"s4"},
+      {n:"STEP 5",t:"공항 세관 KIOSK 여권 스캔",d:"완료 화면을 저장하세요. 출국 당일 【수하물 위탁 전】 세관 KIOSK에 여권을 스캔해 초록불(GREEN)이 뜨면 끝!",svg:"s5"}
+    ],
+    okStores:"📌 직원이 매장 단말기에서 모든 정보(여권+환급 수단)를 등록 완료하여 QR 안내가 없는 경우",
+    okDesc:"스마트폰 QR 등록이 전혀 필요 없습니다! 매장에서 여권과 환급 수단 등록이 이미 완료되었습니다.",
+    okSteps:[
+      {n:"STEP 1",t:"매장 등록 확인 및 영수증 보관",d:"결제 시 직원이 환급 카드 또는 공항 현금 수령 등록을 마쳤는지 확인하고 영수증을 보관하세요.",svg:"s4"},
+      {n:"STEP 2",t:"출국 당일 공항 KIOSK로 직행",d:"모바일 등록 없이 출국 당일 【수하물 위탁 전】 세관 KIOSK에 여권만 스캔(🟢 GREEN)하면 완료!",svg:"s5"}
+    ],
+    tip:"💡 QR 등록이 필요한 영수증은 공항에 가기 전 호텔 Wi-Fi에서 미리 등록해 두세요!"
+    },
+  th:{
+    chip:"📱 วิธีลงทะเบียน 3 แบบ",title:"📱 คู่มือลงทะเบียนคืนภาษี (แบ่งตามเอกสารที่ได้รับ 3 แบบ)",
+    t1:"🔵 การ์ด Global Blue",t2:"🔴 สแกน QR ใบเสร็จ",t3:"✅ ไม่ต้องสแกนมือถือ",
+    gbStores:"📌 กรณีได้รับใบแนะนำสีฟ้า 'Global Blue Scan to Claim' หรือใบ QR ตอนชำระเงิน",
+    gbDesc:"ร้านมักลงทะเบียนพาสปอร์ตให้แล้ว คุณเพียงสแกน QR เพื่อผูกช่องทางรับเงินคืน (เชื่อมต่ออัตโนมัติในร้านเครือเดียวกัน)",
+    gbSteps:[
+      {n:"STEP 1",t:"สแกน QR บนการ์ดสีฟ้า",d:"ใช้กล้องมือถือสแกน QR บนการ์ด Global Blue เพื่อเข้าหน้า My Tax Refund",svg:"s1"},
+      {n:"STEP 2",t:"ยืนยันอีเมลและตรวจสอบข้อมูล",d:"กรอกอีเมลเพื่อยืนยันตัวตน และตรวจสอบข้อมูลพาสปอร์ตกับยอดซื้อบนหน้าจอ",svg:"s2"},
+      {n:"STEP 3",t:"ผูกช่องทางรับเงินคืน",d:"ผูกบัตรเครดิต, Alipay หรือ WeChat Pay",svg:"s4"},
+      {n:"STEP 4",t:"สแกนพาสปอร์ตที่ KIOSK สนามบิน",d:"วันกลับ【ก่อนโหลดกระเป๋า】สแกนพาสปอร์ตที่ตู้ KIOSK ศุลกากร (ขึ้นสีเขียว GREEN = คืนเงินอัตโนมัติ!)",svg:"s5"}
+    ],
+    jtStores:"📌 กรณีใบเสร็จมี QR Code ด้านล่าง (J-TaxRefund / PIE VAT) และพนักงานแจ้งให้ลงทะเบียนเอง",
+    jtDesc:"ต้องสแกน QR ท้ายใบเสร็จด้วยมือถือเพื่อถ่ายรูปพาสปอร์ตและเลือกช่องทางรับเงินคืนด้วยตนเอง",
+    jtSteps:[
+      {n:"STEP 1",t:"สแกน QR Code ท้ายใบเสร็จ",d:"ใช้กล้องมือถือสแกน QR Code ด้านล่างใบเสร็จ (กรุณาเก็บใบเสร็จตัวจริงไว้ให้ดี)",svg:"s1"},
+      {n:"STEP 2",t:"ยืนยันอีเมล (กรอกรหัส OTP)",d:"กรอกอีเมลของคุณ และนำรหัสยืนยัน 4–6 หลักที่ได้รับทางอีเมลมากรอก",svg:"s2"},
+      {n:"STEP 3",t:"ถ่ายรูปหน้าพาสปอร์ต (ให้เห็นแถบรหัส)",d:"ถ่ายรูปหน้าแรกของพาสปอร์ตให้เห็นรูปถ่ายและแถบรหัส 2 บรรทัดด้านล่างอย่างชัดเจน",svg:"s3"},
+      {n:"STEP 4",t:"เลือกช่องทางรับเงินคืน",d:"เลือกบัตรเครดิต, Alipay, WeChat Pay หรือรับเงินสดที่สนามบิน",svg:"s4"},
+      {n:"STEP 5",t:"สแกนพาสปอร์ตที่ KIOSK สนามบิน",d:"บันทึกหน้าจอเมื่อเสร็จสิ้น วันกลับ【ก่อนโหลดกระเป๋า】สแกนพาสปอร์ตที่ตู้ KIOSK (ขึ้นสีเขียว GREEN = เสร็จสิ้น!)",svg:"s5"}
+    ],
+    okStores:"📌 กรณีพนักงานลงทะเบียนข้อมูลทั้งหมดให้เสร็จที่ร้านแล้ว (ไม่ได้รับการ์ดให้สแกน QR) หรือดิวตี้ฟรีสนามบิน",
+    okDesc:"ไม่ต้องสแกน QR ผ่านมือถือ! พนักงานที่ร้านได้ลงทะเบียนพาสปอร์ตและช่องทางคืนเงินให้เรียบร้อยแล้ว",
+    okSteps:[
+      {n:"STEP 1",t:"ตรวจสอบการลงทะเบียนและเก็บใบเสร็จ",d:"ตรวจสอบว่าพนักงานลงทะเบียนบัตรรับเงินคืนหรือรับเงินสดเรียบร้อยแล้ว และเก็บใบเสร็จไว้",svg:"s4"},
+      {n:"STEP 2",t:"ตรงไปที่ตู้ KIOSK สนามบินได้เลย",d:"ไม่ต้องทำอะไรในมือถือ! วันกลับ【ก่อนโหลดกระเป๋า】สแกนพาสปอร์ตที่ตู้ KIOSK (🟢 GREEN = เสร็จสมบูรณ์)",svg:"s5"}
+    ],
+    tip:"💡 ใบเสร็จที่ต้องสแกน QR แนะนำให้ลงทะเบียนล่วงหน้าผ่าน Wi-Fi โรงแรมก่อนไปถึงสนามบิน!"
+  },
+  vi:{
+    chip:"📱 3 Cách đăng ký",title:"📱 Hướng dẫn đăng ký hoàn thuế (3 trường hợp)",
+    t1:"🔵 Thẻ Global Blue",t2:"🔴 Quét QR hóa đơn",t3:"✅ Không cần quét QR",
+    gbStores:"📌 Khi nhận được thẻ xanh 'Global Blue Scan to Claim' hoặc phiếu QR lúc thanh toán.",
+    gbDesc:"Cửa hàng thường đã nhập hộ chiếu, bạn chỉ cần quét QR để liên kết tài khoản nhận tiền (tự động liên kết lần sau!).",
+    gbSteps:[
+      {n:"STEP 1",t:"Quét QR trên thẻ xanh Global Blue",d:"Dùng camera quét mã QR trên thẻ Global Blue để mở trang My Tax Refund.",svg:"s1"},
+      {n:"STEP 2",t:"Xác thực Email & kiểm tra thông tin",d:"Nhập email để xác thực và kiểm tra thông tin hộ chiếu, đơn hàng trên màn hình.",svg:"s2"},
+      {n:"STEP 3",t:"Đăng ký tài khoản nhận tiền",d:"Thêm Thẻ tín dụng, Alipay hoặc WeChat Pay.",svg:"s4"},
+      {n:"STEP 4",t:"Quét hộ chiếu tại KIOSK sân bay",d:"Tại sân bay [TRƯỚC khi ký gửi hành lý], quét hộ chiếu tại máy KIOSK Hải quan (🟢 GREEN = Hoàn tiền tự động!).",svg:"s5"}
+    ],
+    jtStores:"📌 Khi hóa đơn có mã QR ở cuối (J-TaxRefund / PIE VAT) và nhân viên hướng dẫn tự đăng ký.",
+    jtDesc:"Bạn phải tự quét QR trên điện thoại để chụp trang hộ chiếu và chọn phương thức nhận hoàn thuế.",
+    jtSteps:[
+      {n:"STEP 1",t:"Quét mã QR ở cuối hóa đơn",d:"Dùng camera điện thoại quét mã QR dưới đáy hóa đơn (giữ kỹ hóa đơn giấy).",svg:"s1"},
+      {n:"STEP 2",t:"Xác thực Email (Nhập mã OTP)",d:"Nhập email và điền mã xác thực 4–6 chữ số gửi về hộp thư của bạn.",svg:"s2"},
+      {n:"STEP 3",t:"Chụp trang thông tin hộ chiếu",d:"Chụp rõ trang có ảnh và 2 dòng mã vạch MRZ ở phía dưới hộ chiếu.",svg:"s3"},
+      {n:"STEP 4",t:"Chọn phương thức nhận hoàn thuế",d:"Chọn Thẻ tín dụng, Alipay, WeChat Pay hoặc Tiền mặt tại sân bay.",svg:"s4"},
+      {n:"STEP 5",t:"Quét hộ chiếu tại KIOSK sân bay",d:"Lưu màn hình hoàn tất. Tại sân bay [TRƯỚC khi ký gửi hành lý], quét hộ chiếu tại máy KIOSK (🟢 GREEN = Xong!).",svg:"s5"}
+    ],
+    okStores:"📌 Khi nhân viên đã nhập xong toàn bộ thông tin tại quầy (không phát thẻ QR) hoặc mua tại miễn thuế sân bay.",
+    okDesc:"Không cần thao tác QR trên điện thoại! Nhân viên đã hoàn tất đăng ký hộ chiếu và tài khoản nhận tiền tại quầy.",
+    okSteps:[
+      {n:"STEP 1",t:"Xác nhận đã đăng ký tại quầy & giữ hóa đơn",d:"Đảm bảo nhân viên đã đăng ký thẻ nhận tiền hoặc tiền mặt khi thanh toán và giữ kỹ hóa đơn.",svg:"s4"},
+      {n:"STEP 2",t:"Đến thẳng máy KIOSK ở sân bay",d:"Không cần thao tác điện thoại! Tại sân bay [TRƯỚC khi ký gửi], quét hộ chiếu tại KIOSK (🟢 GREEN = Hoàn tất!).",svg:"s5"}
+    ],
+    tip:"💡 Hãy hoàn tất đăng ký QR qua Wi-Fi khách sạn TRƯỚC khi ra sân bay để tiết kiệm thời gian!"
+  },
+  fr:{
+    chip:"📱 3 Cas d'inscription",title:"📱 Guide d'inscription détaxe (3 cas possibles)",
+    t1:"🔵 QR Global Blue",t2:"🔴 QR sur ticket",t3:"✅ Sans QR requis",
+    gbStores:"📌 Si vous avez reçu une carte bleue 'Global Blue Scan to Claim' ou un coupon QR en caisse.",
+    gbDesc:"Le magasin a souvent enregistré votre passeport ; scannez le QR pour lier votre moyen de remboursement.",
+    gbSteps:[
+      {n:"STEP 1",t:"Scanner le QR de la carte bleue",d:"Scannez le QR code sur la carte Global Blue avec votre téléphone pour ouvrir My Tax Refund.",svg:"s1"},
+      {n:"STEP 2",t:"Vérifier l'e-mail & les données",d:"Saisissez votre e-mail et vérifiez vos informations de passeport et d'achat.",svg:"s2"},
+      {n:"STEP 3",t:"Enregistrer le paiement",d:"Ajoutez Carte bancaire, Alipay ou WeChat Pay.",svg:"s4"},
+      {n:"STEP 4",t:"Borne KIOSK à l'aéroport",d:"À l'aéroport [AVANT dépôt bagages], scannez votre passeport au KIOSK douanier (🟢 GREEN = Remboursement lancé !).",svg:"s5"}
+    ],
+    jtStores:"📌 Si votre ticket comporte un QR code en bas (J-TaxRefund / PIE VAT) avec consigne d'inscription.",
+    jtDesc:"Vous devez scanner le QR sur votre téléphone pour photographier votre passeport et choisir le remboursement.",
+    jtSteps:[
+      {n:"STEP 1",t:"Scanner le QR au bas du ticket",d:"Scannez le QR code imprimé au bas du ticket (conservez le ticket papier).",svg:"s1"},
+      {n:"STEP 2",t:"Vérification e-mail (Code OTP)",d:"Entrez votre adresse e-mail et saisissez le code de vérification reçu.",svg:"s2"},
+      {n:"STEP 3",t:"Photographier le passeport",d:"Prenez en photo la page d'identité du passeport en incluant les 2 lignes de code MRZ en bas.",svg:"s3"},
+      {n:"STEP 4",t:"Choisir le mode de remboursement",d:"Sélectionnez Carte bancaire, Alipay, WeChat Pay ou Espèces à l'aéroport.",svg:"s4"},
+      {n:"STEP 5",t:"Borne KIOSK à l'aéroport",d:"Enregistrez l'écran final. À l'aéroport [AVANT dépôt bagages], scannez votre passeport au KIOSK (🟢 GREEN = Validé !).",svg:"s5"}
+    ],
+    okStores:"📌 Si le vendeur a tout enregistré sur sa tablette/caisse (aucune carte QR remise) ou en Duty-Free aéroport.",
+    okDesc:"Aucune inscription QR sur téléphone ! Le personnel a déjà lié votre passeport et le mode de remboursement.",
+    okSteps:[
+      {n:"STEP 1",t:"Vérifier l'enregistrement & garder le ticket",d:"Assurez-vous que votre carte/espèces de remboursement est enregistrée et gardez votre ticket.",svg:"s4"},
+      {n:"STEP 2",t:"Aller directement au KIOSK aéroport",d:"Aucune manipulation sur téléphone ! À l'aéroport [AVANT dépôt bagages], scannez votre passeport au KIOSK (🟢 GREEN = Validé !).",svg:"s5"}
+    ],
+    tip:"💡 Effectuez l'inscription QR sur le Wi-Fi de l'hôtel AVANT d'arriver à l'aéroport !"
+    },
+  de:{
+    chip:"📱 3 Registrierungsarten",title:"📱 Tax-Free-Registrierung (3 Fälle je nach Beleg)",
+    t1:"🔵 Global Blue QR",t2:"🔴 Beleg-QR-Code",t3:"✅ Ohne QR fertig",
+    gbStores:"📌 Wenn Sie an der Kasse eine blaue 'Global Blue Scan to Claim'-Karte erhalten haben.",
+    gbDesc:"Das Geschäft hat Ihren Pass meist schon erfasst; scannen Sie den QR, um Ihre Auszahlungsart zu hinterlegen.",
+    gbSteps:[
+      {n:"STEP 1",t:"QR-Code auf blauer Karte scannen",d:"Scannen Sie den QR-Code auf der Global Blue-Karte mit Ihrer Handykamera.",svg:"s1"},
+      {n:"STEP 2",t:"E-Mail bestätigen & Daten prüfen",d:"Geben Sie Ihre E-Mail-Adresse ein und prüfen Sie Ihre hinterlegten Pass- und Kaufdaten.",svg:"s2"},
+      {n:"STEP 3",t:"Auszahlungsart speichern",d:"Hinterlegen Sie Kreditkarte, Alipay oder WeChat Pay.",svg:"s4"},
+      {n:"STEP 4",t:"Zoll-KIOSK am Flughafen",d:"Am Flughafen [VOR Gepäckabgabe] Reisepass am KIOSK scannen (🟢 GREEN = Erstattung ausgelöst!).",svg:"s5"}
+    ],
+    jtStores:"📌 Wenn unten auf Ihrem Beleg ein QR-Code (J-TaxRefund / PIE VAT) zur Selbstregistrierung steht.",
+    jtDesc:"Sie müssen den QR per Handy scannen, Ihren Reisepass fotografieren und die Auszahlungsart wählen.",
+    jtSteps:[
+      {n:"STEP 1",t:"QR-Code unten auf dem Beleg scannen",d:"Scannen Sie den QR-Code auf dem Kassenbon (Papierbeleg unbedingt aufbewahren).",svg:"s1"},
+      {n:"STEP 2",t:"E-Mail-Verifizierung (OTP-Code)",d:"Geben Sie Ihre E-Mail-Adresse ein und tragen Sie den zugesandten Bestätigungscode ein.",svg:"s2"},
+      {n:"STEP 3",t:"Reisepass-Fotoseite scannen",d:"Fotografieren Sie die Bildseite Ihres Reisepasses inklusive der 2 MRZ-Codezeilen unten.",svg:"s3"},
+      {n:"STEP 4",t:"Erstattungsmethode wählen",d:"Wählen Sie Kreditkarte, Alipay, WeChat Pay oder Barauszahlung am Flughafen.",svg:"s4"},
+      {n:"STEP 5",t:"Zoll-KIOSK am Flughafen",d:"Bestätigung speichern. Am Flughafen [VOR Gepäckabgabe] Pass am KIOSK scannen (🟢 GREEN = Fertig!).",svg:"s5"}
+    ],
+    okStores:"📌 Wenn das Personal alles direkt im Geschäft erfasst hat (keine QR-Karte erhalten) oder Flughafen-Duty-Free.",
+    okDesc:"Keine QR-Registrierung am Handy nötig! Das Personal hat Pass & Erstattungsart bereits vollständig erfasst.",
+    okSteps:[
+      {n:"STEP 1",t:"Registrierung prüfen & Beleg aufbewahren",d:"Prüfen Sie, ob Karte/Bargeld im Geschäft erfasst wurde, und bewahren Sie den Beleg auf.",svg:"s4"},
+      {n:"STEP 2",t:"Direkt zum Flughafen-KIOSK gehen",d:"Keine Handy-Eingabe nötig! Am Flughafen [VOR Gepäckabgabe] Pass am KIOSK scannen (🟢 GREEN = Fertig!).",svg:"s5"}
+    ],
+    tip:"💡 Erledigen Sie die QR-Registrierung vorab im Hotel-WLAN, bevor Sie zum Flughafen fahren!"
+  },
+  es:{
+    chip:"📱 3 Formas de registro",title:"📱 Guía de registro Tax-Free (3 casos según recibo)",
+    t1:"🔵 QR Global Blue",t2:"🔴 QR en recibo",t3:"✅ Sin QR necesario",
+    gbStores:"📌 Si recibió una tarjeta azul 'Global Blue Scan to Claim' o cupón QR al pagar.",
+    gbDesc:"La tienda suele haber registrado su pasaporte; escanee el QR para vincular su método de reembolso.",
+    gbSteps:[
+      {n:"STEP 1",t:"Escanear QR de la tarjeta azul",d:"Escanee el QR de la tarjeta Global Blue con la cámara de su móvil.",svg:"s1"},
+      {n:"STEP 2",t:"Verificar correo y datos",d:"Introduzca su correo electrónico y compruebe los datos de su pasaporte y compra.",svg:"s2"},
+      {n:"STEP 3",t:"Registrar método de pago",d:"Añada Tarjeta de crédito, Alipay o WeChat Pay.",svg:"s4"},
+      {n:"STEP 4",t:"KIOSKO de Aduanas en aeropuerto",d:"En el aeropuerto [ANTES de facturar], escanee su pasaporte en el KIOSKO (🟢 GREEN = ¡Reembolso activado!).",svg:"s5"}
+    ],
+    jtStores:"📌 Si su recibo tiene un QR al final (J-TaxRefund / PIE VAT) con indicación de registro propio.",
+    jtDesc:"Debe escanear el QR en su móvil para fotografiar su pasaporte y elegir el método de reembolso.",
+    jtSteps:[
+      {n:"STEP 1",t:"Escanear QR al final del recibo",d:"Escanee el código QR del recibo con su móvil (conserve el recibo de papel).",svg:"s1"},
+      {n:"STEP 2",t:"Verificación de correo (Código OTP)",d:"Introduzca su correo electrónico y escriba el código de verificación recibido.",svg:"s2"},
+      {n:"STEP 3",t:"Fotografiar página del pasaporte",d:"Tome una foto clara de la página con foto y las 2 líneas de código MRZ inferiores.",svg:"s3"},
+      {n:"STEP 4",t:"Elegir método de reembolso",d:"Seleccione Tarjeta de crédito, Alipay, WeChat Pay o Efectivo en el aeropuerto.",svg:"s4"},
+      {n:"STEP 5",t:"KIOSKO de Aduanas en aeropuerto",d:"Guarde la pantalla final. En el aeropuerto [ANTES de facturar], escanee su pasaporte en el KIOSKO (🟢 GREEN = ¡Listo!).",svg:"s5"}
+    ],
+    okStores:"📌 Si el personal registró todo en su terminal en tienda (sin tarjeta QR) o en Duty-Free de aeropuerto.",
+    okDesc:"¡No requiere registro QR en el móvil! El personal ya vinculó su pasaporte y método de pago en la tienda.",
+    okSteps:[
+      {n:"STEP 1",t:"Confirmar registro y guardar recibo",d:"Asegúrese de que registraron su tarjeta/efectivo en tienda y guarde su recibo.",svg:"s4"},
+      {n:"STEP 2",t:"Ir directo al KIOSKO del aeropuerto",d:"¡Sin pasos en el móvil! En el aeropuerto [ANTES de facturar], escanee su pasaporte en el KIOSKO (🟢 GREEN = ¡Listo!).",svg:"s5"}
+    ],
+    tip:"💡 ¡Complete el registro QR con el Wi-Fi del hotel ANTES de ir al aeropuerto!"
+  },
+  id:{
+    chip:"📱 3 Pola Daftar",title:"📱 Panduan Daftar Tax-Free (3 Pola Dokumen)",
+    t1:"🔵 QR Global Blue",t2:"🔴 QR di Struk",t3:"✅ Tanpa Scan QR",
+    gbStores:"📌 Jika Anda menerima kartu biru 'Global Blue Scan to Claim' atau slip QR saat bayar.",
+    gbDesc:"Toko biasanya sudah mencatat paspor; pindai QR untuk menautkan metode pencairan dana.",
+    gbSteps:[
+      {n:"STEP 1",t:"Pindai QR di Kartu Biru",d:"Pindai kode QR pada kartu Global Blue menggunakan kamera HP.",svg:"s1"},
+      {n:"STEP 2",t:"Verifikasi Email & Cek Data",d:"Masukkan alamat email Anda dan periksa data paspor serta transaksi yang tampil.",svg:"s2"},
+      {n:"STEP 3",t:"Daftarkan Metode Refund",d:"Tambahkan Kartu Kredit, Alipay, atau WeChat Pay.",svg:"s4"},
+      {n:"STEP 4",t:"Scan Paspor di KIOSK Bandara",d:"Di bandara [SEBELUM bag drop], pindai paspor di KIOSK Bea Cukai (🟢 GREEN = Refund otomatis diproses!).",svg:"s5"}
+    ],
+    jtStores:"📌 Jika bagian bawah struk memiliki kode QR (J-TaxRefund / PIE VAT) dan diminta daftar sendiri.",
+    jtDesc:"Anda wajib memindai QR di HP untuk memfoto paspor dan memilih metode refund.",
+    jtSteps:[
+      {n:"STEP 1",t:"Pindai QR di Bagian Bawah Struk",d:"Pindai kode QR pada bagian bawah struk belanja (simpan struk kertas dengan baik).",svg:"s1"},
+      {n:"STEP 2",t:"Verifikasi Email (Kode OTP)",d:"Masukkan email Anda lalu ketik 4–6 digit kode verifikasi yang dikirim ke email.",svg:"s2"},
+      {n:"STEP 3",t:"Foto Halaman Paspor (Termasuk MRZ)",d:"Ambil foto halaman identitas paspor beserta 2 baris kode MRZ di bagian bawah secara jelas.",svg:"s3"},
+      {n:"STEP 4",t:"Pilih Metode Refund",d:"Pilih Kartu Kredit, Alipay, WeChat Pay, atau Tunai di bandara.",svg:"s4"},
+      {n:"STEP 5",t:"Scan Paspor di KIOSK Bandara",d:"Simpan layar selesai. Di bandara [SEBELUM bag drop], pindai paspor di KIOSK (🟢 GREEN = Selesai!).",svg:"s5"}
+    ],
+    okStores:"📌 Jika staf sudah menyelesaikan semua input di toko (tanpa kartu QR) atau Duty-Free Bandara.",
+    okDesc:"Tidak perlu daftar QR di HP! Staf toko sudah menyelesaikan pendaftaran paspor & metode refund Anda.",
+    okSteps:[
+      {n:"STEP 1",t:"Pastikan Pendaftaran Selesai & Simpan Struk",d:"Pastikan staf sudah mencatat kartu/tunai refund Anda saat bayar dan simpan struknya.",svg:"s4"},
+      {n:"STEP 2",t:"Langsung ke KIOSK Bea Cukai Bandara",d:"Tanpa langkah di HP! Di bandara [SEBELUM bag drop], pindai paspor di KIOSK (🟢 GREEN = Selesai!).",svg:"s5"}
+    ],
+    tip:"💡 Selesaikan pendaftaran QR lewat Wi-Fi hotel SEBELUM berangkat ke bandara!"
+    },
+  ms:{
+    chip:"📱 3 Corak Daftar",title:"📱 Panduan Daftar Bebas Cukai (3 Corak Resit)",
+    t1:"🔵 QR Global Blue",t2:"🔴 QR pada Resit",t3:"✅ Tanpa Imbas QR",
+    gbStores:"📌 Jika anda menerima kad biru 'Global Blue Scan to Claim' atau slip QR semasa bayar.",
+    gbDesc:"Kedai biasanya telah merekod pasport; imbas QR untuk memautkan kaedah bayaran balik.",
+    gbSteps:[
+      {n:"STEP 1",t:"Imbas QR pada Kad Biru",d:"Imbas kod QR pada kad Global Blue menggunakan kamera telefon.",svg:"s1"},
+      {n:"STEP 2",t:"Sahkan E-mel & Semak Maklumat",d:"Masukkan alamat e-mel anda dan semak maklumat pasport serta pembelian yang dipaparkan.",svg:"s2"},
+      {n:"STEP 3",t:"Daftar Kaedah Bayaran Balik",d:"Masukkan Kad Kredit, Alipay atau WeChat Pay.",svg:"s4"},
+      {n:"STEP 4",t:"Imbas Pasport di KIOSK Airport",d:"Di lapangan terbang [SEBELUM serah bagasi], imbas pasport di KIOSK Kastam (🟢 GREEN = Bayaran balik diproses!).",svg:"s5"}
+    ],
+    jtStores:"📌 Jika bahagian bawah resit mempunyai kod QR (J-TaxRefund / PIE VAT) dan diminta daftar sendiri.",
+    jtDesc:"Anda perlu mengimbas QR di telefon untuk menangkap gambar pasport & memilih kaedah bayaran balik.",
+    jtSteps:[
+      {n:"STEP 1",t:"Imbas QR di Bahagian Bawah Resit",d:"Imbas kod QR pada bahagian bawah resit belian (simpan resit kertas dengan selamat).",svg:"s1"},
+      {n:"STEP 2",t:"Pengesahan E-mel (Kod OTP)",d:"Masukkan e-mel anda dan isikan 4–6 digit kod pengesahan yang dihantar ke e-mel.",svg:"s2"},
+      {n:"STEP 3",t:"Tangkap Gambar Halaman Pasport",d:"Ambil gambar halaman biodata pasport termasuk 2 baris kod MRZ di bahagian bawah.",svg:"s3"},
+      {n:"STEP 4",t:"Pilih Kaedah Bayaran Balik",d:"Pilih Kad Kredit, Alipay, WeChat Pay atau Tunai di lapangan terbang.",svg:"s4"},
+      {n:"STEP 5",t:"Imbas Pasport di KIOSK Airport",d:"Simpan skrin pengesahan. Di lapangan terbang [SEBELUM serah bagasi], imbas pasport di KIOSK (🟢 GREEN = Selesai!).",svg:"s5"}
+    ],
+    okStores:"📌 Jika staf telah melengkapkan semua input di kedai (tanpa kad QR) atau Bebas Cukai Airport.",
+    okDesc:"Tidak perlu daftar QR di telefon! Staf kedai telah melengkapkan pendaftaran pasport & kaedah bayaran balik anda.",
+    okSteps:[
+      {n:"STEP 1",t:"Pastikan Pendaftaran Selesai & Simpan Resit",d:"Pastikan staf telah merekodkan kad/tunai bayaran balik anda semasa bayar dan simpan resit.",svg:"s4"},
+      {n:"STEP 2",t:"Terus ke KIOSK Kastam Airport",d:"Tiada langkah di telefon! Di lapangan terbang [SEBELUM serah bagasi], imbas pasport di KIOSK (🟢 GREEN = Selesai!).",svg:"s5"}
+    ],
+    tip:"💡 Lengkapkan pendaftaran QR menggunakan Wi-Fi hotel SEBELUM ke lapangan terbang!"
+  },
+  tl:{
+    chip:"📱 3 Paraan ng Rehistro",title:"📱 Gabay sa Tax-Free Registration (3 Paraan)",
+    t1:"🔵 Global Blue QR",t2:"🔴 QR sa Resibo",t3:"✅ Walang QR Needed",
+    gbStores:"📌 Kung nakatanggap ka ng asul na 'Global Blue Scan to Claim' card o QR slip sa pagbabayad.",
+    gbDesc:"Karaniwang naka-rehistro na ang pasaporte sa tindahan; i-scan ang QR para i-link ang iyong payout method.",
+    gbSteps:[
+      {n:"STEP 1",t:"I-scan ang QR sa Asul na Card",d:"I-scan ang QR code sa Global Blue card gamit ang camera ng phone.",svg:"s1"},
+      {n:"STEP 2",t:"I-verify ang Email at Detalye",d:"Ilagay ang iyong email address at suriin ang nakarehistrong detalye ng pasaporte at binili.",svg:"s2"},
+      {n:"STEP 3",t:"Irehistro ang Payout Method",d:"Idagdag ang Credit Card, Alipay, o WeChat Pay.",svg:"s4"},
+      {n:"STEP 4",t:"Customs KIOSK sa Airport",d:"Sa airport [BAGO mag-bag drop], i-scan ang pasaporte sa Customs KIOSK (🟢 GREEN = Automatic refund!).",svg:"s5"}
+    ],
+    jtStores:"📌 Kung ang ibaba ng resibo ay may QR code (J-TaxRefund / PIE VAT) at sinabihang mag-self-register.",
+    jtDesc:"Kailangan mong i-scan ang QR sa phone para kuhanan ng larawan ang pasaporte at pumili ng refund.",
+    jtSteps:[
+      {n:"STEP 1",t:"I-scan ang QR sa Ibaba ng Resibo",d:"I-scan ang QR code sa ibaba ng resibo gamit ang camera ng phone (itago nang maayos ang papel na resibo).",svg:"s1"},
+      {n:"STEP 2",t:"Email Verification (OTP Code)",d:"Ilagay ang iyong email at i-type ang 4–6 digit verification code na ipinadala sa inbox mo.",svg:"s2"},
+      {n:"STEP 3",t:"Kuhanan ng Larawan ang Pasaporte",d:"Kuhanan nang malinaw ang photo page ng pasaporte kasama ang 2 linya ng MRZ code sa ibaba.",svg:"s3"},
+      {n:"STEP 4",t:"Piliin ang Paraan ng Refund",d:"Piliin ang Credit Card, Alipay, WeChat Pay, o Cash sa airport.",svg:"s4"},
+      {n:"STEP 5",t:"Customs KIOSK sa Airport",d:"I-save ang completion screen. Sa airport [BAGO mag-bag drop], i-scan ang pasaporte sa KIOSK (🟢 GREEN = Tapos na!).",svg:"s5"}
+    ],
+    okStores:"📌 Kung tinapos na ng staff ang lahat ng input sa tindahan (walang ibinigay na QR card) o Airport Duty-Free.",
+    okDesc:"Hindi na kailangan ng QR registration sa phone! Tinapos na ng staff sa tindahan ang pasaporte at refund method mo.",
+    okSteps:[
+      {n:"STEP 1",t:"Kumpirmahin ang Rehistro at Itago ang Resibo",d:"Siguraduhing nairehistro ng staff ang iyong refund card o cash option sa pagbabayad at itago ang resibo.",svg:"s4"},
+      {n:"STEP 2",t:"Dumiretso sa Airport KIOSK",d:"Walang kailangang gawin sa phone! Sa airport [BAGO mag-bag drop], i-scan ang pasaporte sa KIOSK (🟢 GREEN = Tapos na!).",svg:"s5"}
+    ],
+    tip:"💡 Tapusin ang QR registration sa Wi-Fi ng hotel BAGO pumunta sa airport para makatipid sa oras!"
+  },
+  hi:{
+    chip:"📱 रजिस्ट्रेशन के 3 तरीके",title:"📱 टैक्स-फ्री रजिस्ट्रेशन गाइड (दस्तावेज़ के अनुसार 3 तरीके)",
+    t1:"🔵 Global Blue QR",t2:"🔴 रसीद पर QR",t3:"✅ QR की जरूरत नहीं",
+    gbStores:"📌 यदि आपको भुगतान के समय नीला 'Global Blue Scan to Claim' कार्ड या QR पर्ची मिली है।",
+    gbDesc:"स्टोर ने आमतौर पर पासपोर्ट दर्ज कर दिया है; रिफंड का तरीका जोड़ने के लिए QR स्कैन करें।",
+    gbSteps:[
+      {n:"STEP 1",t:"नीले कार्ड का QR स्कैन करें",d:"अपने फोन कैमरे से Global Blue कार्ड पर दिए QR कोड को स्कैन करें।",svg:"s1"},
+      {n:"STEP 2",t:"ईमेल और विवरण जांचें",d:"अपना ईमेल पता दर्ज करें और स्क्रीन पर दिख रही पासपोर्ट व खरीद जानकारी की जांच करें।",svg:"s2"},
+      {n:"STEP 3",t:"रिफंड का तरीका जोड़ें",d:"क्रेडिट कार्ड, Alipay या WeChat Pay जोड़ें।",svg:"s4"},
+      {n:"STEP 4",t:"एयरपोर्ट कस्टम KIOSK पर स्कैन",d:"एयरपोर्ट पर [बैग ड्रॉप से पहले] कस्टम KIOSK पर पासपोर्ट स्कैन करें (🟢 GREEN = ऑटो रिफंड शुरू!)।",svg:"s5"}
+    ],
+    jtStores:"📌 यदि आपकी रसीद के नीचे QR कोड (J-TaxRefund / PIE VAT) है और स्वयं पंजीकरण करने को कहा गया है।",
+    jtDesc:"आपको खुद फोन से QR स्कैन करके पासपोर्ट की फोटो लेनी होगी और रिफंड का तरीका चुनना होगा।",
+    jtSteps:[
+      {n:"STEP 1",t:"रसीद के नीचे का QR कोड स्कैन करें",d:"अपने फोन कैमरे से रसीद के नीचे छपा QR कोड स्कैन करें (कागज की रसीद संभाल कर रखें)।",svg:"s1"},
+      {n:"STEP 2",t:"ईमेल सत्यापन (OTP कोड)",d:"अपना ईमेल दर्ज करें और इनबॉक्स में आया 4–6 अंकों का सत्यापन कोड डालें।",svg:"s2"},
+      {n:"STEP 3",t:"पासपोर्ट फोटो पेज स्कैन करें",d:"पासपोर्ट के फोटो और नीचे की 2 MRZ कोड लाइनों वाले पेज की स्पष्ट फोटो लें।",svg:"s3"},
+      {n:"STEP 4",t:"रिफंड का तरीका चुनें",d:"क्रेडिट कार्ड, Alipay, WeChat Pay, या एयरपोर्ट पर नकद (Cash) चुनें।",svg:"s4"},
+      {n:"STEP 5",t:"एयरपोर्ट कस्टम KIOSK पर स्कैन",d:"पंजीकरण स्क्रीन सेव करें। एयरपोर्ट पर [बैग ड्रॉप से पहले] KIOSK पर पासपोर्ट स्कैन करें (🟢 GREEN = पूरा हुआ!)।",svg:"s5"}
+    ],
+    okStores:"📌 यदि स्टाफ ने दुकान पर ही सारा पंजीकरण पूरा कर दिया है (कोई QR कार्ड नहीं दिया) या एयरपोर्ट ड्यूटी-फ्री।",
+    okDesc:"फोन पर QR पंजीकरण की आवश्यकता नहीं! स्टाफ ने दुकान पर ही आपका पासपोर्ट और रिफंड का तरीका दर्ज कर दिया है।",
+    okSteps:[
+      {n:"STEP 1",t:"पंजीकरण की पुष्टि करें और रसीद रखें",d:"सुनिश्चित करें कि भुगतान के समय स्टाफ ने आपका रिफंड कार्ड या नकद विकल्प दर्ज कर लिया है और रसीद रखें।",svg:"s4"},
+      {n:"STEP 2",t:"सीधे एयरपोर्ट KIOSK पर जाएं",d:"फोन पर कोई स्टेप नहीं! एयरपोर्ट पर [बैग ड्रॉप से पहले] KIOSK पर पासपोर्ट स्कैन करें (🟢 GREEN = पूरा हुआ!)।",svg:"s5"}
+    ],
+    tip:"💡 कतार से बचने के लिए एयरपोर्ट पहुंचने से पहले होटल के Wi-Fi पर QR पंजीकरण पूरा कर लें!"
+    },
+  ar:{
+    chip:"📱 3 طرق للتسجيل",title:"📱 دليل التسجيل الضريبي (3 حالات حسب الإيصال)",
+    t1:"🔵 QR Global Blue",t2:"🔴 QR أسفل الإيصال",t3:"✅ بدون الحاجة لـ QR",
+    gbStores:"📌 إذا استلمت بطاقة 'Global Blue Scan to Claim' الزرقاء أو قسيمة QR عند الدفع.",
+    gbDesc:"غالباً ما يسجل المتجر جواز السفر؛ امسح رمز QR لربط طريقة استلام المبلغ.",
+    gbSteps:[
+      {n:"STEP 1",t:"امسح رمز QR على البطاقة الزرقاء",d:"امسح رمز QR على بطاقة Global Blue بكاميرا هاتفك لفتح صفحة My Tax Refund.",svg:"s1"},
+      {n:"STEP 2",t:"تحقق من البريد الإلكتروني والبيانات",d:"أدخل بريدك الإلكتروني وتأكد من بيانات جواز السفر والمشتريات المعروضة.",svg:"s2"},
+      {n:"STEP 3",t:"سجل طريقة الاسترداد",d:"أضف بطاقة ائتمان أو Alipay أو WeChat Pay.",svg:"s4"},
+      {n:"STEP 4",t:"جهاز KIOSK الجمركي بالمطار",d:"في المطار [قبل تسليم الحقائب] امسح جوازك في جهاز KIOSK (🟢 GREEN = تم تفعيل الاسترداد التلقائي!).",svg:"s5"}
+    ],
+    jtStores:"📌 إذا كان أسفل إيصالك رمز QR (J-TaxRefund / PIE VAT) وطُلب منك التسجيل الذاتي.",
+    jtDesc:"يجب عليك مسح الرمز بهاتفك لتصوير جواز السفر واختيار طريقة الاسترداد.",
+    jtSteps:[
+      {n:"STEP 1",t:"امسح رمز QR أسفل الإيصال",d:"امسح رمز QR المطبوع أسفل الإيصال بكاميرا هاتفك (احتفظ بالإيصال الورقي جيداً).",svg:"s1"},
+      {n:"STEP 2",t:"تأكيد البريد الإلكتروني (رمز OTP)",d:"أدخل بريدك الإلكتروني واكتب رمز التحقق المكون من 4–6 أرقام المرسل لبريدك.",svg:"s2"},
+      {n:"STEP 3",t:"صور صفحة جواز السفر",d:"التقط صورة واضحة لصفحة البيانات في جواز سفرك متضمنة سطري الرموز السفلية (MRZ).",svg:"s3"},
+      {n:"STEP 4",t:"اختر طريقة استلام المبلغ",d:"اختر بطاقة ائتمان، Alipay، WeChat Pay، أو نقداً في المطار.",svg:"s4"},
+      {n:"STEP 5",t:"جهاز KIOSK الجمركي بالمطار",d:"احفظ شاشة التأكيد. في المطار [قبل تسليم الحقائب] امسح جوازك في KIOSK (🟢 GREEN = تم بنجاح!).",svg:"s5"}
+    ],
+    okStores:"📌 إذا أتم الموظف جميع الإجراءات بالمتجر (لم تُعطَ بطاقة QR) أو السوق الحرة بالمطار.",
+    okDesc:"لا حاجة للتسجيل عبر QR بالهاتف! أتم الموظف تسجيل جواز سفرك وطريقة الاسترداد بالمتجر.",
+    okSteps:[
+      {n:"STEP 1",t:"تأكد من إتمام التسجيل واحتفظ بالإيصال",d:"تأكد من أن الموظف سجل بطاقتك أو خيار النقد عند الدفع واحتفظ بالإيصال.",svg:"s4"},
+      {n:"STEP 2",t:"توجه مباشرة لجهاز KIOSK بالمطار",d:"لا خطوات على الهاتف! في المطار [قبل تسليم الحقائب] امسح جوازك في KIOSK (🟢 GREEN = تم بنجاح!).",svg:"s5"}
+    ],
+    tip:"💡 أكمل تسجيل QR عبر واي فاي الفندق قبل الوصول إلى المطار لتجنب الانتظار!"
+  },
+  it:{
+    chip:"📱 3 Modalità QR",title:"📱 Guida alla registrazione Tax-Free (3 casi)",
+    t1:"🔵 QR Global Blue",t2:"🔴 QR su scontrino",t3:"✅ Nessun QR richiesto",
+    gbStores:"📌 Se hai ricevuto una scheda blu 'Global Blue Scan to Claim' o un tagliando QR alla cassa.",
+    gbDesc:"Il negozio ha di solito già registrato il passaporto; scansiona il QR per collegare il rimborso.",
+    gbSteps:[
+      {n:"STEP 1",t:"Scansiona il QR sulla scheda blu",d:"Inquadra con la fotocamera il QR sulla scheda Global Blue per aprire My Tax Refund.",svg:"s1"},
+      {n:"STEP 2",t:"Verifica e-mail e dati",d:"Inserisci la tua e-mail e controlla i dati del passaporto e dell'acquisto mostrati.",svg:"s2"},
+      {n:"STEP 3",t:"Registra metodo di rimborso",d:"Aggiungi Carta di credito, Alipay o WeChat Pay.",svg:"s4"},
+      {n:"STEP 4",t:"Dogana KIOSK in aeroporto",d:"In aeroporto [PRIMA di imbarcare i bagagli], scansiona il passaporto al KIOSK (🟢 GREEN = Rimborso avviato!).",svg:"s5"}
+    ],
+    jtStores:"📌 Se in fondo allo scontrino c'è un QR (J-TaxRefund / PIE VAT) e ti è stato chiesto di registrarti.",
+    jtDesc:"Devi scansionare il QR sullo smartphone per fotografare il passaporto e scegliere il rimborso.",
+    jtSteps:[
+      {n:"STEP 1",t:"Scansiona il QR in fondo allo scontrino",d:"Inquadra con la fotocamera il QR stampato in fondo allo scontrino (conserva lo scontrino cartaceo).",svg:"s1"},
+      {n:"STEP 2",t:"Verifica e-mail (Codice OTP)",d:"Inserisci la tua e-mail e digita il codice di verifica ricevuto nella casella di posta.",svg:"s2"},
+      {n:"STEP 3",t:"Fotografa il passaporto",d:"Scatta una foto nitida alla pagina con foto e le 2 righe di codice MRZ in basso del passaporto.",svg:"s3"},
+      {n:"STEP 4",t:"Scegli il metodo di rimborso",d:"Seleziona Carta di credito, Alipay, WeChat Pay oppure Contanti in aeroporto.",svg:"s4"},
+      {n:"STEP 5",t:"Dogana KIOSK in aeroporto",d:"Salva la schermata finale. In aeroporto [PRIMA di imbarcare i bagagli], scansiona il passaporto al KIOSK (🟢 GREEN = Fatto!).",svg:"s5"}
+    ],
+    okStores:"📌 Se il personale ha già registrato tutto in negozio (nessuna scheda QR consegnata) o Duty-Free aeroportuale.",
+    okDesc:"Nessuna registrazione QR sullo smartphone! Il personale ha già completato passaporto e rimborso in negozio.",
+    okSteps:[
+      {n:"STEP 1",t:"Conferma registrazione e conserva scontrino",d:"Assicurati che il personale abbia registrato carta/contanti al pagamento e conserva lo scontrino.",svg:"s4"},
+      {n:"STEP 2",t:"Vai direttamente al KIOSK in aeroporto",d:"Nessun passaggio sul telefono! In aeroporto [PRIMA di imbarcare i bagagli], scansiona il passaporto al KIOSK (🟢 GREEN = Fatto!).",svg:"s5"}
+    ],
+    tip:"💡 Completa la registrazione QR sul Wi-Fi dell'hotel PRIMA di arrivare in aeroporto!"
+  },
+  nl:{
+    chip:"📱 3 Registratiewijzen",title:"📱 Handleiding Tax-Free registratie (3 patronen)",
+    t1:"🔵 Global Blue QR",t2:"🔴 QR op kassabon",t3:"✅ Geen QR nodig",
+    gbStores:"📌 Als u bij het afrekenen een blauwe 'Global Blue Scan to Claim'-kaart of QR-bon heeft gekregen.",
+    gbDesc:"De winkel heeft uw paspoort meestal al geregistreerd; scan de QR om uw terugbetalingsmethode te koppelen.",
+    gbSteps:[
+      {n:"STEP 1",t:"Scan de QR op de blauwe kaart",d:"Scan de QR-code op de Global Blue-kaart met uw telefooncamera.",svg:"s1"},
+      {n:"STEP 2",t:"Verifieer e-mail & gegevens",d:"Vul uw e-mailadres in en controleer de weergegeven paspoort- en aankoopgegevens.",svg:"s2"},
+      {n:"STEP 3",t:"Registreer terugbetaling",d:"Voeg Creditcard, Alipay of WeChat Pay toe.",svg:"s4"},
+      {n:"STEP 4",t:"Douane-KIOSK op luchthaven",d:"Scan op de luchthaven [VOOR bagageafgifte] uw paspoort bij de KIOSK (🟢 GREEN = Terugbetaling gestart!).",svg:"s5"}
+    ],
+    jtStores:"📌 Als onderaan uw kassabon een QR-code (J-TaxRefund / PIE VAT) staat voor zelfregistratie.",
+    jtDesc:"U moet de QR zelf scannen op uw telefoon om uw paspoort te fotograferen en terugbetaling te kiezen.",
+    jtSteps:[
+      {n:"STEP 1",t:"Scan de QR onderaan de kassabon",d:"Scan de QR-code onderaan uw kassabon (bewaar de papieren bon goed).",svg:"s1"},
+      {n:"STEP 2",t:"E-mailverificatie (OTP-code)",d:"Vul uw e-mailadres in en voer de ontvangen verificatiecode in.",svg:"s2"},
+      {n:"STEP 3",t:"Scan paspoort-fotopagina",d:"Maak een duidelijke foto van uw paspoortpagina inclusief de 2 onderste MRZ-coderegels.",svg:"s3"},
+      {n:"STEP 4",t:"Kies terugbetalingsmethode",d:"Kies Creditcard, Alipay, WeChat Pay of Contant geld op de luchthaven.",svg:"s4"},
+      {n:"STEP 5",t:"Douane-KIOSK op luchthaven",d:"Bewaar het bevestigingsscherm. Scan op de luchthaven [VOOR bagageafgifte] uw paspoort bij de KIOSK (🟢 GREEN = Klaar!).",svg:"s5"}
+    ],
+    okStores:"📌 Als het personeel alles direct in de winkel heeft geregistreerd (geen QR-kaart gekregen) of Luchthaven Duty-Free.",
+    okDesc:"Geen QR-registratie op telefoon nodig! Het personeel heeft paspoort & terugbetaling al in de winkel voltooid.",
+    okSteps:[
+      {n:"STEP 1",t:"Controleer registratie & bewaar bon",d:"Controleer of kaart/contant bij betaling is geregistreerd en bewaar uw kassabon.",svg:"s4"},
+      {n:"STEP 2",t:"Ga direct naar de luchthaven-KIOSK",d:"Geen stappen op telefoon! Scan op de luchthaven [VOOR bagageafgifte] uw paspoort bij de KIOSK (🟢 GREEN = Klaar!).",svg:"s5"}
+    ],
+    tip:"💡 Voltooi de QR-registratie via hotel-wifi VOORDAT u naar de luchthaven vertrekt!"
+  },
+  pt:{
+    chip:"📱 3 Formas de registro",title:"📱 Guia de registro Tax-Free (3 padrões)",
+    t1:"🔵 QR Global Blue",t2:"🔴 QR no recibo",t3:"✅ Sem QR necessário",
+    gbStores:"📌 Se você recebeu um cartão azul 'Global Blue Scan to Claim' ou cupom QR no caixa.",
+    gbDesc:"A loja geralmente já registrou o passaporte; escaneie o QR para vincular sua forma de reembolso.",
+    gbSteps:[
+      {n:"STEP 1",t:"Escanear QR do cartão azul",d:"Escaneie o QR no cartão Global Blue com a câmera do celular.",svg:"s1"},
+      {n:"STEP 2",t:"Verificar e-mail e dados",d:"Insira seu e-mail e confira os dados do passaporte e da compra exibidos.",svg:"s2"},
+      {n:"STEP 3",t:"Cadastrar reembolso",d:"Adicione Cartão de crédito, Alipay ou WeChat Pay.",svg:"s4"},
+      {n:"STEP 4",t:"Alfândega KIOSK no aeroporto",d:"No aeroporto [ANTES de despachar bagagem], escaneie o passaporte no KIOSK (🟢 GREEN = Reembolso iniciado!).",svg:"s5"}
+    ],
+    jtStores:"📌 Se o rodapé do recibo tem um QR code (J-TaxRefund / PIE VAT) e pediram para você se registrar.",
+    jtDesc:"Você deve escanear o QR no celular para fotografar o passaporte e escolher a forma de reembolso.",
+    jtSteps:[
+      {n:"STEP 1",t:"Escanear QR no rodapé do recibo",d:"Escaneie o código QR no final do recibo (guarde o recibo em papel com cuidado).",svg:"s1"},
+      {n:"STEP 2",t:"Verificação de e-mail (Código OTP)",d:"Insira seu e-mail e digite o código de verificação enviado para sua caixa de entrada.",svg:"s2"},
+      {n:"STEP 3",t:"Fotografar página do passaporte",d:"Tire uma foto nítida da página com foto e as 2 linhas de código MRZ inferiores do passaporte.",svg:"s3"},
+      {n:"STEP 4",t:"Escolher forma de reembolso",d:"Selecione Cartão de crédito, Alipay, WeChat Pay ou Dinheiro no aeroporto.",svg:"s4"},
+      {n:"STEP 5",t:"Alfândega KIOSK no aeroporto",d:"Salve a tela final. No aeroporto [ANTES de despachar bagagem], escaneie o passaporte no KIOSK (🟢 GREEN = Pronto!).",svg:"s5"}
+    ],
+okStores:"📌 Se a equipe já concluiu todo o cadastro na loja (sem cartão QR entregue) ou Duty-Free de aeroporto.",
+okDesc:"Não precisa de registro QR no celular! A equipe da loja já concluiu seu passaporte e forma de reembolso.",
+okSteps:[
+{n:"STEP 1",t:"Confirmar cadastro e guardar recibo",d:"Certifique-se de que cadastraram seu cartão/dinheiro no pagamento e guarde o recibo.",svg:"s4"},
+{n:"STEP 2",t:"Ir direto ao KIOSK no aeroporto",d:"Sem passos no celular! No aeroporto [ANTES de despachar bagagem], escaneie o passaporte no KIOSK (🟢 GREEN = Pronto!).",svg:"s5"}
+],
+tip:"💡 Faça o registro QR no Wi-Fi do hotel ANTES de ir para o aeroporto para ganhar tempo!"
+　}
+};
 
 var AP_UI={
   en:["🛫 Airport Tax-Free Floor Guide","🔵 STEP 1 · BEFORE Security (Customs KIOSK)","🌐 Official Airport Tax-Free Guide ↗"],
@@ -1767,38 +2352,15 @@ var AP_UI={
   zh:["🛫 主要机场免税办理楼层图解","🔵 STEP 1 · 安检/托运前（海关KIOSK终端）","🌐 查看机场官方免税办理指南 ↗"],
   tw:["🛫 主要機場免稅辦理樓層圖解","🔵 STEP 1 · 安檢/託運前（海關KIOSK終端）","🌐 查看機場官方免稅辦理指南 ↗"],
   ko:["🛫 주요 공항 면세 수속 층별 가이드","🔵 STEP 1 · 수하물/보안검색 전 (세관 KIOSK)","🌐 공항 공식 면세 수속 안내 열기 ↗"],
-  vi:["🛫 Sơ đồ tầng hoàn thuế tại sân bay","🔵 BƯỚC 1 · TRƯỚC an ninh (Máy KIOSK hải quan)","🌐 Hướng dẫn hoàn thuế chính thức ↗"],
-  fr:["🛫 Plan des bornes détaxe par aéroport","🔵 ÉTAPE 1 · AVANT sécurité (Borne KIOSK douane)","🌐 Guide officiel détaxe de l'aéroport ↗"],
-  es:["🛫 Guía de pisos Tax-Free por aeropuerto","🔵 PASO 1 · ANTES de seguridad (KIOSKO aduana)","🌐 Guía oficial Tax-Free del aeropuerto ↗"],
-  de:["🛫 Flughafen-Lageplan Tax-Free","🔵 SCHRITT 1 · VOR Kontrolle (Zoll-KIOSK)","🌐 Offizieller Tax-Free-Guide des Flughafens ↗"],
-  id:["🛫 Panduan Lantai Tax-Free Bandara","🔵 TAHAP 1 · SEBELUM Keamanan (KIOSK Bea Cukai)","🌐 Panduan Resmi Tax-Free Bandara ↗"],
-  ms:["🛫 Panduan Tingkat Bebas Cukai Lapangan Terbang","🔵 LANGKAH 1 · SEBELUM Keselamatan (KIOSK Kastam)","🌐 Panduan Rasmi Bebas Cukai Lapangan Terbang ↗"],
-  tl:["🛫 Gabay sa Palapag ng Airport Tax-Free","🔵 HAKBANG 1 · BAGO Security (Customs KIOSK)","🌐 Opisyal na Gabay sa Tax-Free ng Airport ↗"],
-  hi:["🛫 एयरपोर्ट टैक्स-फ्री फ्लोर गाइड","🔵 चरण 1 · सुरक्षा से पहले (कस्टम KIOSK)","🌐 आधिकारिक एयरपोर्ट टैक्स-फ्री गाइड ↗"],
-  ar:["🛫 دليل طوابق استرداد الضريبة بالمطارات","🔵 الخطوة 1 · قبل التفتيش الأمني (جهاز KIOSK)","🌐 دليل الإعفاء الضريبي الرسمي للمطار ↗"],
-  it:["🛫 Mappa piani Tax-Free in aeroporto","🔵 FASE 1 · PRIMA dei controlli (KIOSK dogana)","🌐 Guida ufficiale Tax-Free dell'aeroporto ↗"],
-  nl:["🛫 Luchthaven Tax-Free Plattegrond","🔵 STAP 1 · VOOR controle (Douane-KIOSK)","🌐 Officiële Tax-Free-gids van de luchthaven ↗"],
-  pt:["🛫 Guia de Pisos Tax-Free nos Aeroportos","🔵 PASSO 1 · ANTES da segurança (KIOSK alfândega)","🌐 Guia Oficial Tax-Free do Aeroporto ↗"]
+  vi:["🛫 Sơ đồ tầng hoàn thuế tại sân bay","🔵 BƯỚC 1 · TRƯỚC an ninh (Máy KIOSK hải quan)","🌐 Hướng dẫn hoàn thuế chính thức ↗"]
 };
-
 var GREEN_RED_NOTE={
   en:"🖥 KIOSK Result: 🟢 GREEN = Approved (Proceed!) · 🔴 RED = Show items & passport at Customs Desk.",
   zh:"🖥 终端判定：🟢 GREEN = 验证通过（可直接前往安检）· 🔴 RED = 请携商品与护照前往旁边海关柜台验货。",
   tw:"🖥 終端判定：🟢 GREEN = 驗證通過（可直接前往安檢）· 🔴 RED = 請攜帶商品與護照前往旁邊海關櫃檯驗貨。",
   ko:"🖥 단말기 판정: 🟢 GREEN = 확인 완료(그대로 통과) · 🔴 RED = 물품·여권을 지참해 옆 세관 카운터에서 현물 확인.",
   th:"🖥 ผลหน้าจอ KIOSK: 🟢 GREEN = ผ่าน (เดินผ่านได้เลย) · 🔴 RED = นำสินค้าและพาสปอร์ตไปตรวจที่เคาน์เตอร์ศุลกากร",
-  vi:"🖥 Kết quả KIOSK: 🟢 GREEN = Đạt (Đi tiếp) · 🔴 RED = Mang hàng & hộ chiếu tới quầy Hải quan kiểm tra.",
-  fr:"🖥 Résultat KIOSK : 🟢 GREEN = Validé (Passez !) · 🔴 RED = Présentez articles & passeport au comptoir douanier.",
-  es:"🖥 Resultado KIOSKO: 🟢 GREEN = Aprobado (¡Pase!) · 🔴 RED = Muestre artículos y pasaporte en el mostrador de Aduanas.",
-  de:"🖥 KIOSK-Anzeige: 🟢 GREEN = Genehmigt (Weitergehen!) · 🔴 RED = Waren & Reisepass am Zollschalter vorzeigen.",
-  id:"🖥 Hasil KIOSK: 🟢 GREEN = Lolos (Silakan lanjut) · 🔴 RED = Tunjukkan barang & paspor di konter Bea Cukai.",
-  ms:"🖥 Keputusan KIOSK: 🟢 GREEN = Lulus (Teruskan) · 🔴 RED = Tunjuk barang & pasport di kaunter Kastam.",
-  tl:"🖥 Resulta ng KIOSK: 🟢 GREEN = Aprubado (Tuloy na!) · 🔴 RED = Ipakita ang items at pasaporte sa Customs Desk.",
-  hi:"🖥 KIOSK परिणाम: 🟢 GREEN = स्वीकृत (आगे बढ़ें) · 🔴 RED = कस्टम डेस्क पर सामान और पासपोर्ट दिखाएं।",
-  ar:"🖥 نتيجة KIOSK: 🟢 GREEN = مقبول (تابع السير) · 🔴 RED = اعرض السلع والجواز عند كاونتر الجمارك.",
-  it:"🖥 Esito KIOSK: 🟢 GREEN = Approvato (Procedi!) · 🔴 RED = Mostra articoli e passaporto al banco Dogana.",
-  nl:"🖥 KIOSK-uitslag: 🟢 GREEN = Goedgekeurd (Doorlopen!) · 🔴 RED = Toon artikelen & paspoort bij de douanebalie.",
-  pt:"🖥 Resultado KIOSK: 🟢 GREEN = Aprovado (Siga!) · 🔴 RED = Mostre itens e passaporte no balcão da Alfândega."
+  vi:"🖥 Kết quả KIOSK: 🟢 GREEN = Đạt (Đi tiếp) · 🔴 RED = Mang hàng & hộ chiếu tới quầy Hải quan kiểm tra."
 };
 
 var STEP1_DONE_NOTE={
@@ -2226,15 +2788,60 @@ function setM(m){
   recalc();
 }
 
+var GO_QR_LANG={
+  en:{qr:"How to register QR ▸",noqr:"No QR Needed? ▸"},
+  zh:{qr:"扫码登记步骤 ▸",noqr:"无需扫码的情况? ▸"},
+  tw:{qr:"掃碼登記步驟 ▸",noqr:"無需掃碼的情況? ▸"},
+  ko:{qr:"QR 등록 방법 ▸",noqr:"등록 불필요한 경우? ▸"},
+  th:{qr:"วิธีลงทะเบียน QR ▸",noqr:"กรณีไม่ต้องสแกน? ▸"},
+  vi:{qr:"Cách đăng ký QR ▸",noqr:"Không cần quét QR? ▸"},
+  fr:{qr:"Inscription QR ▸",noqr:"Sans QR requis ? ▸"},
+  de:{qr:"QR-Registrierung ▸",noqr:"Ohne QR fertig? ▸"},
+  es:{qr:"Cómo registrar QR ▸",noqr:"¿Sin QR necesario? ▸"},
+  id:{qr:"Cara daftar QR ▸",noqr:"Tanpa scan QR? ▸"},
+  ms:{qr:"Cara daftar QR ▸",noqr:"Tanpa imbas QR? ▸"},
+  tl:{qr:"Paano mag-QR ▸",noqr:"Walang QR needed? ▸"},
+  hi:{qr:"QR पंजीकरण कैसे करें ▸",noqr:"QR की जरूरत नहीं? ▸"},
+  ar:{qr:"طريقة تسجيل QR ▸",noqr:"بدون الحاجة لـ QR؟ ▸"},
+  it:{qr:"Come registrare QR ▸",noqr:"Nessun QR richiesto? ▸"},
+  nl:{qr:"QR registreren ▸",noqr:"Geen QR nodig? ▸"},
+  pt:{qr:"Como registrar QR ▸",noqr:"Sem QR necessário? ▸"}
+};
+
+function updateQrLinkBtnStyle(){
+  var btn=$("btnGoQrGuide");
+  if(btn){
+    var isDig=(currentStoreType==="digital");
+    btn.style.color=isDig?"#e11d48":"#1d4ed8";
+    btn.style.background=isDig?"#fff1f2":"#eff6ff";
+    btn.style.borderColor=isDig?"#fda4af":"#93c5fd";
+  }
+  var t=GO_QR_LANG[getLang()]||GO_QR_LANG.en;
+  txt("t_go_qr_guide",t.qr);
+  txt("t_go_noqr_guide",t.noqr);
+}
+
 function selectStoreType(btn){
   document.querySelectorAll(".store-tab").forEach(function(b){b.classList.remove("active")});
   btn.classList.add("active");
   currentStoreType=btn.getAttribute("data-type");
   document.body.classList.remove("theme-global-blue","theme-digital");
   document.body.classList.add(currentStoreType==="digital"?"theme-digital":"theme-global-blue");
+  updateQrLinkBtnStyle();
   recalc();
 }
 
+function openQrGuideFromCalc(){
+  window.curQrAgency=(currentStoreType==="digital")?"jt":"gb";
+  switchTab("guide");
+  setTimeout(function(){jumpGuideSec("sec_qr")},80);
+}
+
+function openNoQrGuideFromCalc(){
+  window.curQrAgency="ok";
+  switchTab("guide");
+  setTimeout(function(){jumpGuideSec("sec_qr")},80);
+}
 function getHandlingRate(ex,st){
   if(st==="global_blue"){
     if(ex>=5000000)return 0.016;
@@ -2325,6 +2932,8 @@ function setC(k){
 
   var st=STORE_TEXT[lang]||STORE_TEXT.en;
   txt("storeSectionLabel",st.title);txt("storeGlobalDesc",st.global);txt("storeDigitalDesc",st.digital);
+  updateQrLinkBtnStyle();
+
   var tx=TAX_STATUS_TEXT[lang]||TAX_STATUS_TEXT.en;
   txt("t_eligibility",tx.eligibility);txt("t_original_tax",tx.originalTax);txt("t_eligibility_note",tx.note);
 
@@ -2965,16 +3574,350 @@ function formatDescHtml(str,lang){
   return s;
 }
 
+var FAQ_DATA={
+  en:{
+    chip:"❓ Q&A",
+    title:"❓ Frequently Asked Questions (12 Essential Q&As)",
+    items:[
+      {q:"Q1. What if the airport Customs KIOSK shows a RED light (🔴)? Will I be fined?",a:"No fines or confiscation! It simply means a routine physical check. Bring your passport, receipt, and purchased items to the adjacent Customs desk. Once verified, it is approved on the spot."},
+      {q:"Q2. How long does Customs take at the airport? When should I arrive?",a:"KIOSK scanning takes 1–2 minutes, but queues or physical checks can take 15–30+ minutes. Arrive at least 3 hours before departure and ALWAYS clear Customs BEFORE checking in your luggage."},
+      {q:"Q3. What if I have a domestic transit in Japan (e.g., Sapporo → Haneda → Overseas)?",a:"You must clear Customs at your FINAL international departure airport (e.g., Haneda/Kansai). If your luggage contains tax-free items (especially >100ml liquids), ask airline staff at the first domestic airport for 'Short Check-in' (to pick up your bag at the transit airport) so you can present the items if Customs shows RED! (If all items fit in carry-on, through check-in is fine.)"},
+      {q:"Q4. What if I lost my paper receipt or forgot to register my QR online?",a:"Since purchase data is digitized, Customs can still verify your passport without a paper receipt. However, if your store required self-QR registration (J-TaxRefund / Global Blue), you MUST complete your payout registration on your phone before clearing Customs."},
+      {q:"Q5. Can I receive my refund on a DIFFERENT credit card than the one I paid with?",a:"Yes, in most stores and apps! You can register a different credit card or e-wallet (Alipay / WeChat Pay) as your payout method, provided it is under the SAME name as your passport."},
+      {q:"Q6. Can I combine a department store's 5% guest discount with 10% tax-free?",a:"Yes! First pay the 5% discounted price (must still be ¥5,000+ excl. tax), and the tax refund will be calculated on that discounted amount."},
+      {q:"Q7. What if my receipt mixes 10% items (clothes) and 8% items (snacks/drinks)?",a:"They can be combined on one receipt to reach ¥5,000+ (excl. tax). Each item's tax (10% or 8%) is calculated separately and refunded together."},
+      {q:"Q8. If I use store coupons or points, is the ¥5,000 minimum checked before or after discount?",a:"It is checked AFTER coupon/point discounts. Your actual paid amount (excl. tax) must be at least ¥5,000."},
+      {q:"Q9. When and in what currency will I receive my refund?",a:"Card, Alipay, and WeChat Pay refunds arrive automatically in 2–14 days in your home currency (converted at your card/app rate). Only Cash (JPY) refunds are collected immediately at the airport after immigration."},
+      {q:"Q10. Can I wear clothes or use bags bought tax-free while still in Japan?",a:"Yes! Under the Nov 2026 rules, general items (clothes, bags, watches, electronics) can be opened and used in Japan if taken abroad within 90 days. However, food, drinks, cosmetics & medicine MUST remain unopened in Japan."},
+      {q:"Q11. Where do I clear Customs if I depart Japan by cruise ship?",a:"Clear Customs at the designated port counter at your FINAL Japanese port of call (e.g., Hakata, Yokohama, Naha) before boarding."},
+      {q:"Q12. I accidentally left Japan without clearing Customs. Can I claim a refund later?",a:"No. Without Customs approval at departure, refunds cannot be claimed retroactively under any circumstances."}
+    ]
+  },
+  zh:{
+    chip:"❓ 常见问题",
+    title:"❓ 退税实战高频问答（12个必看Q&A）",
+    items:[
+      {q:"Q1. 机场海关终端（KIOSK）亮红灯（🔴 RED）怎么办？会被罚款吗？",a:"不会被罚款或没收，这只是常规抽检信号。请携带护照、小票和退税商品到旁边的人工海关柜台核验实物，确认无误后当场即可通过。"},
+      {q:"Q2. 机场退税大概要花多少时间？提前多久到机场比较稳妥？",a:"刷护照只需1～2分钟，但高峰期排队或遇红灯开箱核验可能需要15～30分钟以上。建议提前3小时到达机场，并务必在【托运行李前】办理海关确认。"},
+      {q:"Q3. 日本国内转机（如札幌→羽田→回国 / 福冈→关西→回国）怎么办理？【非常重要】",a:"必须在离开日本的【最后一个国际机场】（羽田/关西等）过海关！如果托运行李里有退税品（尤其是超100ml液体），在第一程国内机场值机时，务必向地勤申请「行李止步（Short Check-in / 仅托运至中转机场）」，在中转机场先取出行李箱去国际航站楼刷海关（遇红灯需开箱验货），过完海关再重新托运！※若所有退税品都能随身带上飞机，则可直接联程托运。"},
+      {q:"Q4. 纸质小票丢了，或者忘了在手机上扫码登记怎么办？",a:"新政下消费记录已电子化，丢了纸质小票只要刷护照也能过海关。但如果是需要手机扫码登记的店铺（J-TaxRefund / Global Blue 蓝卡等），必须在过海关前用手机补完收款账户登记，否则无法打款。"},
+      {q:"Q5. 付款用的信用卡和接收退税的信用卡，可以不是同一张吗？",a:"可以！无论是在店员终端登记，还是在手机网页绑定，都可以指定另一张本人名下的信用卡或支付宝/微信作为收款账户（姓名须与护照一致）。"},
+      {q:"Q6. 百货商场的「95折优惠卡（5%折扣）」和「退税」可以同时享受吗？",a:"可以！结账时先享受95折（折后不含税仍需满5,000日元），退税系统会按折后实际支付金额计算退税。"},
+      {q:"Q7. 同一张小票里既有10%商品（衣服）又有8%商品（零食）怎么算？",a:"新政允许直接合并累计满5,000日元（不含税）。系统会自动按10%和8%分别计算税额并合并退还（可使用本页计算器顶部的10%/8%按钮分别估算）。"},
+      {q:"Q8. 使用店铺优惠券或积分抵扣后，满5,000日元按折前还是折后算？",a:"按【使用优惠券/积分抵扣后的实际支付金额（不含税）】计算，折后必须满5,000日元才符合退税条件。"},
+      {q:"Q9. 退税款大概多久到账？按什么汇率结算？",a:"信用卡、支付宝、微信退税在海关确认后通常 2天～2周内自动到账，按发卡行或支付平台结算当日的汇率折算为本国货币。只有选「现金退税」才是出境后当场领日元。"},
+      {q:"Q10. 免税买的衣服、包包、手表，在日本旅游期间可以直接拆开穿戴吗？",a:"可以！2026年11月新政起，服饰、箱包、腕表、家电等只要在90天内携带出境，在日本境内可以直接拆封使用。但食品、饮料、药品、化妆品在日境内严禁开封（哪怕拆1件整张小票作废）。"},
+      {q:"Q11. 坐邮轮（游轮）离开日本，在哪里办理海关确认？",a:"在离开日本的【最后一个停靠港口】（如博多港、横滨港、那霸港等）的出境海关柜台出示护照和商品办理确认。"},
+      {q:"Q12. 忘记过海关就直接出境回国了，事后还能补办退税吗？",a:"不能。离境时未在海关完成确认（GREEN判定或柜台核验），回国后任何情况下都无法补办退税。"}
+    ]
+  }
+  ,
+  tw:{
+    chip:"❓ 常見問題",
+    title:"❓ 退稅實戰高頻問答（12個必看Q&A）",
+    items:[
+      {q:"Q1. 機場海關終端（KIOSK）亮紅燈（🔴 RED）怎麼辦？會被罰款嗎？",a:"不會被罰款或沒收，這只是常規抽檢訊號。請攜帶護照、收據和退稅商品到旁邊的人工海關櫃檯核驗實物，確認無誤後當場即可通過。"},
+      {q:"Q2. 機場退稅大概要花多少時間？提前多久到機場比較穩妥？",a:"刷護照只需1～2分鐘，但尖峰時段排隊或遇紅燈開箱核驗可能需要15～30分鐘以上。建議提前3小時到達機場，並務必在【託運行李前】辦理海關確認。"},
+      {q:"Q3. 日本國內轉機（如札幌→羽田→回國 / 福岡→關西→回國）怎麼辦理？【非常重要】",a:"必須在離開日本的【最後一個國際機場】（羽田/關西等）過海關！如果託運行李裡有退稅品（尤其是超100ml液體），在第一程國內機場報到時，務必向地勤申請「行李止步（Short Check-in / 僅託運至中轉機場）」，在中轉機場先領出行李箱去國際航廈刷海關（遇紅燈需開箱驗貨），過完海關再重新託運！※若所有退稅品都能隨身帶上飛機，則可直接聯程託運。"},
+      {q:"Q4. 紙本收據丟了，或者忘了在手機上掃碼登記怎麼辦？",a:"新制下消費紀錄已電子化，丟了紙本收據只要刷護照也能過海關。但如果是需要手機掃碼登記的店鋪（J-TaxRefund / Global Blue 藍卡等），必須在過海關前用手機補完收款帳戶登記，否則無法撥款。"},
+      {q:"Q5. 付款用的信用卡和接收退稅的信用卡，可以不是同一張嗎？",a:"可以！無論是在店員終端登記，還是在手機網頁綁定，都可以指定另一張本人名下的信用卡或電子支付作為收款帳戶（姓名須與護照一致）。"},
+      {q:"Q6. 百貨公司的「95折優惠卡（5%折扣）」和「退稅」可以同時享受嗎？",a:"可以！結帳時先享受95折（折後未稅仍需滿5,000日圓），退稅系統會按折後實際支付金額計算退稅。"},
+      {q:"Q7. 同一張收據裡既有10%商品（衣服）又有8%商品（零食）怎麼算？",a:"新制允許直接合併累計滿5,000日圓（未稅）。系統會自動按10%和8%分別計算稅額並合併退還（可使用本頁計算機頂部的10%/8%按鈕分別估算）。"},
+      {q:"Q8. 使用店鋪優惠券或點數折抵後，滿5,000日圓按折前還是折後算？",a:"按【使用優惠券/點數折抵後的實際支付金額（未稅）】計算，折後必須滿5,000日圓才符合退稅條件。"},
+      {q:"Q9. 退稅款大概多久入帳？按什麼匯率結算？",a:"信用卡、電子支付退稅在海關確認後通常 2天～2週內自動入帳，按發卡行或支付平台結算當日的匯率折算為本國貨幣。只有選「現金退稅」才是出境後當場領日圓。"},
+      {q:"Q10. 免稅買的衣服、包包、手錶，在日本旅遊期間可以直接拆開穿戴嗎？",a:"可以！2026年11月新制起，服飾、箱包、腕錶、家電等只要在90天內攜帶出境，在日本境內可以直接拆封使用。但食品、飲料、藥品、化妝品在日境內嚴禁開封（哪怕拆1件整張收據作廢）。"},
+      {q:"Q11. 搭郵輪離開日本，在哪裡辦理海關確認？",a:"在離開日本的【最後一個停靠港口】（如博多港、橫濱港、那霸港等）的出境海關櫃檯出示護照和商品辦理確認。"},
+      {q:"Q12. 忘記過海關就直接出境回國了，事後還能補辦退稅嗎？",a:"不能。離境時未在海關完成確認（GREEN判定或櫃檯核驗），回國後任何情況下都無法補辦退稅。"}
+    ]
+  },
+  ko:{
+    chip:"❓ 자주 묻는 질문",
+    title:"❓ 면세 실전 FAQ (필수 Q&A 12선)",
+    items:[
+      {q:"Q1. 공항 세관 단말기(KIOSK)에서 빨간불(🔴 RED)이 뜨면 어떻게 되나요? 벌금이 있나요?",a:"벌금이나 압수는 전혀 없습니다. 무작위 현물 검사 대상이라는 신호일 뿐입니다. 여권, 영수증, 구매한 면세품을 지참해 바로 옆 세관 카운터에서 확인을 받으면 현장에서 즉시 승인됩니다."},
+      {q:"Q2. 공항 세관 수속은 얼마나 걸리나요? 출발 몇 시간 전에 가야 하나요?",a:"KIOSK 스캔은 1~2분이면 끝나지만, 혼잡 시간대 대기나 빨간불 현물 확인 시 15~30분 이상 걸릴 수 있습니다. 출발 최소 3시간 전에 공항에 도착해 반드시 【수하물 위탁 전】에 세관 확인을 마치세요."},
+      {q:"Q3. 일본 국내선 환승(예: 삿포로→하네다→귀국 / 후쿠오카→간사이→귀국) 시 어디서 수속하나요?【매우 중요】",a:"일본을 출국하는 【마지막 국제공항】(하네다·간사이 등)에서 세관 확인을 해야 합니다! 위탁 수하물에 면세품(특히 100ml 초과 액체류)이 있다면, 첫 국내선 공항 체크인 시 항공사 직원에게 반드시 '환승 공항에서 짐을 한 번 찾겠다(Short Check-in)'고 신청하세요. 환승 공항에서 짐을 찾아 국제선 세관 KIOSK 스캔(빨간불 시 가방 개봉 확인) 후 다시 수하물을 부쳐야 합니다! ※기내 반입 가능한 물품만 있다면 최종 목적지까지 바로 부쳐도 됩니다."},
+      {q:"Q4. 종이 영수증을 잃어버렸거나, 스마트폰 QR 등록을 깜빡하고 공항에 왔다면?",a:"2026년 11월 신제도부터 구매 내역이 전산화되어 종이 영수증이 없어도 여권만으로 세관 통과가 가능합니다. 단, J-TaxRefund·Global Blue 등 스마트폰 사전 등록이 필요한 매장은 세관 통과 전에 반드시 휴대폰으로 환급 계좌 등록을 완료해야 환급받을 수 있습니다."},
+      {q:"Q5. 결제한 카드와 '다른 카드'로 환급받을 수 있나요?",a:"네, 대부분의 매장과 앱에서 가능합니다! 여권과 동일한 본인 명의의 다른 신용카드나 알리페이·위챗페이를 환급 수단으로 지정할 수 있습니다."},
+      {q:"Q6. 백화점의 '5% 게스트 카드 할인'과 '면세(10% 환급)'를 중복 적용할 수 있나요?",a:"네, 가능합니다! 5% 할인 적용 후 금액(세전 5,000엔 이상)으로 결제하면, 해당 할인된 결제 금액을 기준으로 면세 환급액이 계산됩니다."},
+      {q:"Q7. 한 영수증에 10% 상품(의류)과 8% 상품(과자·음료)이 섞여 있으면 어떻게 계산되나요?",a:"한 영수증으로 합산해 세전 5,000엔 이상이면 면세 대상이 됩니다. 10% 상품과 8% 상품 각각의 세율이 자동 계산되어 합산 환급됩니다."},
+      {q:"Q8. 매장 쿠폰이나 포인트를 사용한 경우, 5,000엔 기준은 할인 전/후 중 어느 쪽인가요?",a:"쿠폰·포인트 할인 적용 후 【실제 결제 금액(세전)】 기준으로 5,000엔 이상이어야 합니다."},
+      {q:"Q9. 환급금은 언제, 어떤 통화로 들어오나요?",a:"신용카드·알리페이·위챗페이는 세관 승인 후 보통 2일~2주 이내에 카드사/앱 환율로 자동 환전되어 입금됩니다. '현금(JPY) 수령'을 선택한 경우에만 출국심사 후 지정 카운터에서 즉시 엔화로 받습니다."},
+      {q:"Q10. 면세로 산 옷, 가방, 시계를 일본 여행 중에 바로 뜯어서 착용해도 되나요?",a:"네, 가능합니다! 2026년 11월 신제도부터 의류·가방·시계·가전 등 일반물품은 구입 후 90일 이내 해외 반출 조건으로 일본 내에서 개봉·사용해도 됩니다. 단, 식품·음료·화장품·의약품은 일본 내 개봉이 엄격히 금지됩니다(1개라도 뜯으면 영수증 전체 면세 취소)."},
+      {q:"Q11. 크루즈선으로 일본을 출국하는 경우 어디서 세관 확인을 하나요?",a:"일본을 마지막으로 출항하는 항구(하카타항·요코하마항·나하항 등)의 출국 세관 카운터에서 여권과 물품을 제시해 확인받습니다."},
+      {q:"Q12. 세관을 거치지 않고 실수로 출국해 버렸습니다. 나중에 환급 신청이 가능한가요?",a:"불가능합니다. 출국 시 세관 승인(GREEN 판정 또는 현물 확인)을 받지 않은 경우, 어떤 이유로도 사후 환급은 절대 불가합니다."}
+    ]
+  },
+  th:{
+    chip:"❓ คำถามที่พบบ่อย",
+    title:"❓ คำถามที่พบบ่อยเกี่ยวกับการคืนภาษี (12 ข้อสำคัญ)",
+    items:[
+      {q:"Q1. ถ้าตู้ศุลกากร (KIOSK) ที่สนามบินขึ้นไฟสีแดง (🔴 RED) ต้องทำอย่างไร? จะโดนปรับไหม?",a:"ไม่โดนปรับหรือยึดของครับ เป็นเพียงการสุ่มตรวจตามปกติ ให้ถือพาสปอร์ต ใบเสร็จ และสินค้าที่ซื้อไปที่เคาน์เตอร์ศุลกากรข้างๆ เพื่อให้เจ้าหน้าที่ตรวจดูสินค้า เมื่อตรวจเสร็จจะอนุมัติทันที"},
+      {q:"Q2. ขั้นตอนศุลกากรที่สนามบินใช้เวลานานไหม? ควรไปถึงก่อนกี่ชั่วโมง?",a:"การสแกนที่ตู้ใช้เวลา 1–2 นาที แต่หากคิวยาวหรือติดไฟแดงตรวจสินค้าอาจใช้เวลา 15–30 นาทีขึ้นไป ควรถึงสนามบินก่อนเวลาบินอย่างน้อย 3 ชั่วโมง และต้องทำขั้นตอนศุลกากร【ก่อนโหลดกระเป๋า】เสมอ"},
+      {q:"Q3. กรณีต่อเครื่องในประเทศญี่ปุ่น (เช่น ซัปโปโร→ฮาเนดะ→ไทย / ฟุกุโอกะ→คันไซ→ไทย) ต้องทำอย่างไร?【สำคัญมาก】",a:"ต้องทำเรื่องศุลกากรที่【สนามบินนานาชาติสุดท้าย】ก่อนออกจากญี่ปุ่น (เช่น ฮาเนดะ/คันไซ)! หากมีสินค้าปลอดภาษีในกระเป๋าโหลด (โดยเฉพาะของเหลวเกิน 100ml) ตอนเช็กอินที่สนามบินต้นทางในประเทศ ต้องแจ้งเจ้าหน้าที่สายการบินว่าขอ 'รับกระเป๋าที่สนามบินต่อเครื่อง (Short Check-in)' เพื่อรับกระเป๋าออกมาสแกนศุลกากรที่อาคารระหว่างประเทศ (เผื่อติดไฟแดงต้องเปิดกระเป๋าตรวจ) แล้วค่อยโหลดกระเป๋าใหม่ ※หากนำของติดตัวขึ้นเครื่องได้ทั้งหมด สามารถเช็กอินกระเป๋ายาวถึงปลายทางได้"},
+      {q:"Q4. ทำใบเสร็จกระดาษหาย หรือลืมสแกน QR ลงทะเบียนก่อนมาสนามบิน ทำอย่างไร?",a:"ระบบใหม่เป็นข้อมูลดิจิทัล แม้ไม่มีใบเสร็จกระดาษก็ใช้พาสปอร์ตสแกนผ่านศุลกากรได้ แต่หากเป็นร้านที่ต้องสแกน QR ลงทะเบียนเอง (J-TaxRefund / การ์ดฟ้า Global Blue) ต้องรีบลงทะเบียนช่องทางรับเงินในมือถือให้เสร็จก่อนผ่านศุลกากร มิฉะนั้นจะไม่ได้รับเงินคืน"},
+      {q:"Q5. รับเงินคืนเข้าบัตรเครดิต 'คนละใบ' กับบัตรที่ใช้รูดจ่ายได้ไหม?",a:"ได้ครับ! สามารถผูกบัตรเครดิตใบอื่น หรือ E-Wallet (Alipay / WeChat Pay) เป็นช่องทางรับเงินคืนได้ โดยชื่อเจ้าของบัญชีต้องตรงกับชื่อในพาสปอร์ต"},
+      {q:"Q6. ใช้ส่วนลด 5% ของห้าง (Guest Card) ร่วมกับ Tax-Free 10% ได้ไหม?",a:"ได้ครับ! ห้างจะหักส่วนลด 5% ก่อน (ยอดหลังหักส่วนลดต้องยังถึง 5,000 เยน ไม่รวมภาษี) และคำนวณเงินคืนภาษีจากยอดที่จ่ายจริง"},
+      {q:"Q7. ในใบเสร็จเดียวมีทั้งสินค้าภาษี 10% (เสื้อผ้า) และ 8% (ขนม/เครื่องดื่ม) คิดรวมกันได้ไหม?",a:"รวมในใบเสร็จเดียวให้ครบ 5,000 เยน (ไม่รวมภาษี) ได้เลยครับ ระบบจะแยกคำนวณภาษี 10% และ 8% แล้วรวมยอดคืนให้พร้อมกัน"},
+      {q:"Q8. หากใช้คูปองหรือแต้มส่วนลดของร้าน ยอดขั้นต่ำ 5,000 เยน นับก่อนหรือหลังหักส่วนลด?",a:"นับ【หลังหักคูปองและแต้มส่วนลด】ยอดที่จ่ายจริง (ไม่รวมภาษี) ต้องไม่ต่ำกว่า 5,000 เยน"},
+      {q:"Q9. เงินคืนจะเข้าเมื่อไหร่ และได้เป็นสกุลเงินอะไร?",a:"บัตรเครดิต, Alipay, WeChat Pay เงินจะคืนอัตโนมัติใน 2–14 วัน เป็นสกุลเงินของประเทศคุณตามอัตราแลกเปลี่ยนของบัตร/แอป ส่วนการรับเงินสด (JPY) จะรับเป็นเงินเยนทันทีหลังผ่าน ตม. ที่สนามบิน"},
+      {q:"Q10. เสื้อผ้า กระเป๋า นาฬิกา ที่ซื้อแบบปลอดภาษี สามารถแกะใช้ระหว่างเที่ยวในญี่ปุ่นได้เลยไหม?",a:"ได้ครับ! ตามกฎใหม่ พ.ย. 2026 สินค้าทั่วไป (เสื้อผ้า กระเป๋า นาฬิกา เครื่องใช้ไฟฟ้า) สามารถแกะใช้ในญี่ปุ่นได้ หากนำออกนอกประเทศภายใน 90 วัน แต่【อาหาร เครื่องดื่ม เครื่องสำอาง ยา】ห้ามแกะใช้ในญี่ปุ่นเด็ดขาด (หากแกะแม้แต่ชิ้นเดียว ใบเสร็จนั้นจะถูกยกเลิกสิทธิ์ทั้งใบ)"},
+      {q:"Q11. เดินทางออกจากญี่ปุ่นด้วยเรือสำราญ (Cruise) ต้องตรวจศุลกากรที่ไหน?",a:"ติดต่อเคาน์เตอร์ศุลกากรที่ท่าเรือสุดท้ายก่อนออกจากญี่ปุ่น (เช่น ท่าเรือฮากาตะ โยโกฮาม่า นาฮะ) พร้อมพาสปอร์ตและสินค้า"},
+      {q:"Q12. ลืมผ่านศุลกากรและเดินทางกลับประเทศไปแล้ว สามารถขอคืนภาษีย้อนหลังได้ไหม?",a:"ไม่ได้ครับ หากไม่ได้รับการอนุมัติจากศุลกากรตอนขาออก จะไม่สามารถขอคืนภาษีย้อนหลังได้ในทุกกรณี"}
+    ]
+  }
+  ,
+  vi:{
+    chip:"❓ Hỏi đáp (Q&A)",
+    title:"❓ Câu hỏi thường gặp (12 Q&A quan trọng)",
+    items:[
+      {q:"Q1. Máy KIOSK Hải quan sân bay báo đèn ĐỎ (🔴 RED) thì sao? Có bị phạt không?",a:"Không bị phạt hay tịch thu! Đó chỉ là kiểm tra ngẫu nhiên. Hãy mang hộ chiếu, hóa đơn và hàng hóa tới quầy Hải quan ngay bên cạnh để kiểm tra thực tế và được duyệt tại chỗ."},
+      {q:"Q2. Thủ tục Hải quan sân bay mất bao lâu? Nên đến trước mấy tiếng?",a:"Quét KIOSK mất 1–2 phút, nhưng xếp hàng hoặc kiểm tra hàng có thể mất 15–30+ phút. Hãy đến sân bay trước giờ bay ít nhất 3 tiếng và LUÔN làm thủ tục Hải quan TRƯỚC khi ký gửi hành lý."},
+      {q:"Q3. Nếu nối chuyến nội địa Nhật (VD: Sapporo → Haneda → Về nước) thì làm thủ tục ở đâu? 【RẤT QUAN TRỌNG】",a:"Phải làm thủ tục Hải quan tại 【SÂN BAY QUỐC TẾ CUỐI CÙNG】 rời Nhật (Haneda/Kansai...)! Nếu hành lý ký gửi có hàng miễn thuế (nhất là chất lỏng >100ml), khi check-in chặng nội địa đầu tiên hãy yêu cầu nhân viên 'Short Check-in' (nhận lại hành lý tại sân bay nối chuyến) để mang qua KIOSK Hải quan quốc tế (mở vali kiểm tra nếu báo ĐỎ) rồi mới ký gửi tiếp! ※Nếu toàn bộ hàng miễn thuế đều xách tay lên máy bay thì có thể gửi thẳng hành lý."},
+      {q:"Q4. Làm mất hóa đơn giấy hoặc quên quét QR đăng ký trước khi ra sân bay thì sao?",a:"Dữ liệu mua sắm đã được số hóa nên không có hóa đơn giấy vẫn quét hộ chiếu qua Hải quan được. Tuy nhiên, với cửa hàng yêu cầu tự quét QR (J-TaxRefund / thẻ xanh Global Blue), bạn BẮT BUỘC phải hoàn tất đăng ký tài khoản nhận tiền trên điện thoại trước khi qua Hải quan."},
+      {q:"Q5. Có thể nhận tiền hoàn vào thẻ tín dụng KHÁC với thẻ đã thanh toán không?",a:"Có! Bạn có thể đăng ký thẻ tín dụng khác hoặc ví điện tử (Alipay / WeChat Pay) làm phương thức nhận hoàn tiền, miễn là cùng tên chủ sở hữu trên hộ chiếu."},
+      {q:"Q6. Có thể dùng chung thẻ giảm giá 5% của trung tâm thương mại với miễn thuế 10% không?",a:"Có! Bạn thanh toán giá đã giảm 5% trước (vẫn phải đạt từ 5.000 yên chưa thuế trở lên), và tiền hoàn thuế sẽ tính trên số tiền thực trả sau giảm giá."},
+      {q:"Q7. Hóa đơn gộp chung hàng 10% (quần áo) và hàng 8% (bánh kẹo/đồ uống) tính thế nào?",a:"Được gộp chung trên một hóa đơn để đạt mức từ 5.000 yên (chưa thuế). Hệ thống sẽ tự động tính riêng thuế 10% và 8% rồi hoàn gộp lại."},
+      {q:"Q8. Khi dùng phiếu giảm giá hoặc điểm thưởng, mức tối thiểu 5.000 yên tính trước hay sau giảm?",a:"Tính SAU khi trừ phiếu giảm giá/điểm thưởng. Số tiền thực thanh toán (chưa thuế) phải đạt ít nhất 5.000 yên."},
+      {q:"Q9. Khi nào nhận được tiền hoàn và nhận bằng tiền tệ gì?",a:"Hoàn qua Thẻ, Alipay, WeChat Pay sẽ tự động về tài khoản sau 2–14 ngày bằng tiền tệ nước bạn (theo tỷ giá thẻ/ứng dụng). Chỉ hoàn Tiền mặt (JPY) mới nhận yên Nhật ngay sau khi xuất cảnh."},
+      {q:"Q10. Quần áo, túi xách, đồng hồ mua miễn thuế có được mở ra dùng ngay tại Nhật không?",a:"Có! Theo quy định mới từ 11/2026, hàng thông thường (quần áo, túi, đồng hồ, đồ điện tử) được mở dùng tại Nhật nếu mang ra nước ngoài trong vòng 90 ngày. Riêng thực phẩm, đồ uống, mỹ phẩm, thuốc TUYỆT ĐỐI không được mở tại Nhật (mở 1 món sẽ hủy toàn bộ hóa đơn)."},
+      {q:"Q11. Rời Nhật Bản bằng du thuyền (Cruise) thì làm thủ tục Hải quan ở đâu?",a:"Làm thủ tục tại quầy Hải quan của 【CẢNG BIỂN CUỐI CÙNG】 trước khi rời Nhật (cảng Hakata, Yokohama, Naha...) cùng hộ chiếu và hàng hóa."},
+      {q:"Q12. Lỡ xuất cảnh khỏi Nhật mà quên qua Hải quan, sau đó có xin hoàn thuế bù được không?",a:"Không. Nếu không được Hải quan duyệt lúc xuất cảnh, bạn không thể yêu cầu hoàn thuế bổ sung dưới bất kỳ hình thức nào."}
+    ]
+  },
+  fr:{
+    chip:"❓ Questions (FAQ)",
+    title:"❓ Foire aux questions (12 Q&R essentielles)",
+    items:[
+      {q:"Q1. Que faire si la borne KIOSK des douanes affiche un voyant ROUGE (🔴 RED) ? Vais-je avoir une amende ?",a:"Aucune amende ni confiscation ! C'est un simple contrôle physique de routine. Présentez votre passeport, vos tickets et vos achats au comptoir douanier juste à côté pour validation immédiate."},
+      {q:"Q2. Combien de temps prend la douane à l'aéroport ? Quand arriver ?",a:"Le scan au KIOSK prend 1 à 2 min, mais la file ou un contrôle physique peut prendre 15 à 30+ min. Arrivez au moins 3 heures avant le vol et passez TOUJOURS à la douane AVANT d'enregistrer vos bagages."},
+      {q:"Q3. En cas de correspondance intérieure au Japon (ex. Sapporo → Haneda → Étranger), où faire les démarches ? 【TRÈS IMPORTANT】",a:"Vous devez passer la douane à votre 【DERNIER AÉROPORT INTERNATIONAL】 de départ du Japon (Haneda, Kansai, etc.) ! Si votre valise en soute contient des achats détaxés (surtout liquides >100ml), demandez impérativement un 'Short Check-in' (récupération du bagage à l'escale) au premier aéroport afin de pouvoir ouvrir votre valise à la douane internationale en cas de voyant ROUGE ! ※Si tout tient en bagage cabine, l'enregistrement direct est possible."},
+      {q:"Q4. Et si j'ai perdu mon ticket papier ou oublié de scanner le QR avant l'aéroport ?",a:"Les achats étant numérisés, votre passeport suffit au KIOSK même sans ticket papier. En revanche, si votre magasin exigeait une inscription QR (J-TaxRefund / Global Blue), vous DEVEZ enregistrer votre moyen de remboursement sur votre téléphone avant la douane."},
+      {q:"Q5. Puis-je recevoir le remboursement sur une AUTRE carte bancaire que celle utilisée pour payer ?",a:"Oui, dans la plupart des magasins et applications ! Vous pouvez enregistrer une autre carte ou un portefeuille électronique (Alipay / WeChat Pay) au MÊME nom que votre passeport."},
+      {q:"Q6. Peut-on cumuler la remise client de 5 % d'un grand magasin avec la détaxe de 10 % ?",a:"Oui ! Vous payez d'abord le prix réduit de 5 % (qui doit rester ≥ 5 000 ¥ hors taxes), et le remboursement est calculé sur ce montant remisé."},
+      {q:"Q7. Et si mon ticket mélange des articles à 10 % (vêtements) et à 8 % (snacks/boissons) ?",a:"Ils peuvent être cumulés sur un même ticket pour atteindre 5 000 ¥ HT. Chaque taxe (10 % ou 8 %) est calculée séparément et remboursée ensemble."},
+      {q:"Q8. Si j'utilise des coupons ou points, le seuil de 5 000 ¥ s'applique-t-il avant ou après remise ?",a:"APRÈS déduction des coupons/points. Le montant réellement payé (hors taxes) doit être d'au moins 5 000 ¥."},
+      {q:"Q9. Quand et dans quelle devise vais-je recevoir mon remboursement ?",a:"Par carte, Alipay ou WeChat Pay, le remboursement arrive automatiquement sous 2 à 14 jours dans votre devise (taux de votre banque/app). Seul le remboursement en espèces (JPY) est remis immédiatement à l'aéroport après l'immigration."},
+      {q:"Q10. Puis-je porter des vêtements ou utiliser un sac achetés en détaxe pendant mon séjour au Japon ?",a:"Oui ! Depuis novembre 2026, les articles généraux (vêtements, sacs, montres, électronique) peuvent être ouverts et utilisés au Japon s'ils sortent du pays sous 90 jours. En revanche, nourriture, boissons, cosmétiques et médicaments doivent rester strictement fermés au Japon."},
+      {q:"Q11. Où passer la douane si je quitte le Japon en bateau de croisière ?",a:"Au comptoir des douanes de votre 【DERNIER PORT D'ESCALE】 au Japon (Hakata, Yokohama, Naha, etc.) avant l'embarquement."},
+      {q:"Q12. J'ai quitté le Japon par erreur sans passer à la douane. Puis-je réclamer la détaxe après coup ?",a:"Non. Sans validation douanière au moment du départ, aucun remboursement rétroactif n'est possible."}
+    ]
+  }
+  ,
+  de:{
+    chip:"❓ Häufige Fragen",
+    title:"❓ Häufig gestellte Fragen (12 wichtige Q&As)",
+    items:[
+      {q:"Q1. Was passiert, wenn der Zoll-KIOSK am Flughafen ROT (🔴 RED) zeigt? Droht eine Strafe?",a:"Keine Strafe oder Beschlagnahmung! Es handelt sich um eine normale Stichprobenkontrolle. Gehen Sie mit Reisepass, Beleg und den gekauften Artikeln zum Zollschalter direkt daneben – nach Prüfung wird die Erstattung sofort freigegeben."},
+      {q:"Q2. Wie lange dauert der Zoll am Flughafen? Wann sollte ich dort sein?",a:"Der KIOSK-Scan dauert 1–2 Minuten, aber Warteschlangen oder Gepäckkontrollen können 15–30+ Minuten dauern. Seien Sie mindestens 3 Stunden vor Abflug am Flughafen und erledigen Sie den Zoll IMMER VOR der Gepäckaufgabe."},
+      {q:"Q3. Was gilt bei einem Inlands-Umstieg in Japan (z. B. Sapporo → Haneda → Ausland)? 【SEHR WICHTIG】",a:"Sie müssen den Zoll an Ihrem 【LETZTEN INTERNATIONALEN ABFLUGHAFEN】 in Japan (Haneda, Kansai usw.) erledigen! Wenn Ihr aufgegebener Koffer Tax-Free-Artikel (besonders Flüssigkeiten >100 ml) enthält, verlangen Sie beim ersten Check-in unbedingt einen 'Short Check-in' (Gepäckausgabe am Umsteigeflughafen), damit Sie den Koffer bei ROTEM Licht am internationalen Zoll öffnen können! ※Passt alles ins Handgepäck, ist Durchchecken möglich."},
+      {q:"Q4. Was, wenn ich den Papierbeleg verloren oder die QR-Registrierung vorab vergessen habe?",a:"Da Einkäufe digital gespeichert sind, erkennt der KIOSK Ihren Reisepass auch ohne Papierbeleg. Bei Geschäften mit Selbstregistrierung (J-TaxRefund / Global Blue) MÜSSEN Sie die Auszahlungsmethode jedoch vor dem Zoll auf dem Handy hinterlegen."},
+      {q:"Q5. Kann die Erstattung auf eine ANDERE Kreditkarte als die beim Kauf verwendete erfolgen?",a:"Ja, in den meisten Geschäften und Apps! Sie können eine andere Kreditkarte oder ein E-Wallet (Alipay / WeChat Pay) hinterlegen, sofern es auf DENSELBEN Namen wie Ihr Reisepass läuft."},
+      {q:"Q6. Kann man den 5-%-Gästerabatt eines Kaufhauses mit 10 % Tax-Free kombinieren?",a:"Ja! Sie zahlen zuerst den um 5 % reduzierten Preis (muss netto noch mind. 5.000 ¥ betragen), und die Steuererstattung wird auf diesen reduzierten Betrag berechnet."},
+      {q:"Q7. Was ist, wenn ein Beleg 10-%-Artikel (Kleidung) und 8-%-Artikel (Snacks/Getränke) mischt?",a:"Beide können auf einem Beleg zusammengezählt werden, um 5.000 ¥ (netto) zu erreichen. Jede Steuer (10 % bzw. 8 %) wird separat berechnet und gemeinsam erstattet."},
+      {q:"Q8. Zählt die 5.000-¥-Grenze bei Gutscheinen oder Punkten vor oder nach dem Rabatt?",a:"NACH Abzug von Gutscheinen und Punkten. Der tatsächlich gezahlte Nettobetrag muss mindestens 5.000 ¥ betragen."},
+      {q:"Q9. Wann und in welcher Währung erhalte ich die Rückerstattung?",a:"Bei Kreditkarte, Alipay und WeChat Pay erfolgt die Gutschrift automatisch in 2–14 Tagen in Ihrer Heimatwährung (zum Kurs Ihrer Bank/App). Nur Barauszahlung (JPY) erhalten Sie sofort nach der Ausreisekontrolle am Flughafen."},
+      {q:"Q10. Darf ich steuerfrei gekaufte Kleidung oder Taschen noch in Japan tragen/benutzen?",a:"Ja! Nach den Regeln ab Nov. 2026 dürfen allgemeine Waren (Kleidung, Taschen, Uhren, Elektronik) in Japan geöffnet und genutzt werden, sofern sie innerhalb von 90 Tagen ausgeführt werden. Lebensmittel, Getränke, Kosmetik und Medikamente müssen jedoch strikt ungeöffnet bleiben."},
+      {q:"Q11. Wo erledige ich den Zoll bei Ausreise mit einem Kreuzfahrtschiff?",a:"Am Zollschalter Ihres 【LETZTEN JAPANISCHEN HAFENS】 (z. B. Hakata, Yokohama, Naha) vor dem Einschiffen mit Reisepass und Waren."},
+      {q:"Q12. Ich bin versehentlich ohne Zollkontrolle ausgereist. Kann ich die Steuer nachträglich einfordern?",a:"Nein. Ohne Zollbestätigung bei der Ausreise ist eine nachträgliche Erstattung unter keinen Umständen möglich."}
+    ]
+  },
+  es:{
+    chip:"❓ Preguntas (FAQ)",
+    title:"❓ Preguntas frecuentes (12 Q&A esenciales)",
+    items:[
+      {q:"Q1. ¿Qué pasa si el KIOSKO de Aduanas muestra luz ROJA (🔴 RED)? ¿Me multarán?",a:"¡No hay multas ni confiscación! Es solo una inspección física de rutina. Lleve su pasaporte, recibo y artículos al mostrador de Aduanas de al lado; tras verificarlos, se aprobará al instante."},
+      {q:"Q2. ¿Cuánto tarda Aduanas en el aeropuerto? ¿Con cuánta antelación debo llegar?",a:"Escanear en el KIOSKO toma 1–2 min, pero las filas o inspecciones pueden llevar 15–30+ min. Llegue al menos 3 horas antes de su vuelo y pase SIEMPRE por Aduanas ANTES de facturar su equipaje."},
+      {q:"Q3. ¿Qué hago si tengo conexión nacional en Japón (ej. Sapporo → Haneda → Extranjero)? 【MUY IMPORTANTE】",a:"¡Debe pasar Aduanas en su 【ÚLTIMO AEROPUERTO INTERNACIONAL】 de salida de Japón (Haneda, Kansai, etc.)! Si su maleta facturada lleva artículos Tax-Free (sobre todo líquidos >100 ml), pida en el primer check-in 'Short Check-in' (recoger el equipaje en el aeropuerto de conexión) para poder abrir la maleta en Aduanas si sale luz ROJA. ※Si todo cabe en equipaje de mano, puede facturar directo."},
+      {q:"Q4. ¿Qué ocurre si perdí el recibo en papel o olvidé registrar el QR antes del aeropuerto?",a:"Como los datos están digitalizados, su pasaporte basta en el KIOSKO sin recibo en papel. Sin embargo, si su tienda requería registro QR propio (J-TaxRefund / Global Blue), DEBE registrar su método de reembolso en el móvil antes de Aduanas."},
+      {q:"Q5. ¿Puedo recibir el reembolso en una tarjeta de crédito DISTINTA a la que usé para pagar?",a:"¡Sí, en la mayoría de tiendas y apps! Puede registrar otra tarjeta o monedero electrónico (Alipay / WeChat Pay) siempre que esté a su MISMO nombre del pasaporte."},
+      {q:"Q6. ¿Se puede combinar el descuento del 5 % para turistas de grandes almacenes con el 10 % Tax-Free?",a:"¡Sí! Primero paga el precio con el 5 % de descuento (debe seguir siendo ≥ 5.000 ¥ sin impuestos) y el reembolso se calcula sobre ese importe rebajado."},
+      {q:"Q7. ¿Qué pasa si mi recibo mezcla artículos del 10 % (ropa) y del 8 % (snacks/bebidas)?",a:"Pueden sumarse en un mismo recibo para alcanzar los 5.000 ¥ (sin impuestos). Cada impuesto (10 % u 8 %) se calcula por separado y se reembolsa junto."},
+      {q:"Q8. Si uso cupones o puntos de la tienda, ¿el mínimo de 5.000 ¥ se calcula antes o después del descuento?",a:"DESPUÉS de descontar cupones o puntos. El importe real pagado (sin impuestos) debe ser de al menos 5.000 ¥."},
+      {q:"Q9. ¿Cuándo y en qué moneda recibiré mi reembolso?",a:"Con tarjeta, Alipay o WeChat Pay llega automáticamente en 2–14 días en su moneda local (al tipo de cambio de su banco/app). Solo el reembolso en efectivo (JPY) se cobra al instante en el aeropuerto tras migración."},
+      {q:"Q10. ¿Puedo usar ropa o bolsos comprados Tax-Free mientras sigo viajando por Japón?",a:"¡Sí! Con las normas desde nov. 2026, los artículos generales (ropa, bolsos, relojes, electrónica) pueden abrirse y usarse en Japón si salen del país en 90 días. En cambio, comida, bebidas, cosméticos y medicinas deben permanecer estrictamente cerrados en Japón."},
+      {q:"Q11. ¿Dónde paso Aduanas si salgo de Japón en crucero?",a:"En el mostrador de Aduanas de su 【ÚLTIMO PUERTO JAPONÉS】 de escala (Hakata, Yokohama, Naha, etc.) antes de embarcar, con pasaporte y compras."},
+      {q:"Q12. Salí de Japón por error sin pasar por Aduanas. ¿Puedo reclamar el reembolso después?",a:"No. Sin aprobación aduanera al salir del país, no es posible reclamar el reembolso de forma retroactiva bajo ninguna circunstancia."}
+    ]
+  }
+  ,
+  id:{
+    chip:"❓ Tanya Jawab",title:"❓ Pertanyaan Umum (12 Q&A Penting)",
+    items:[
+      {q:"Q1. Bagaimana jika KIOSK Bea Cukai bandara menyala MERAH (🔴 RED)? Apakah kena denda?",a:"Tidak ada denda atau penyitaan! Itu hanya pemeriksaan fisik rutin. Bawa paspor, struk, dan barang ke meja Bea Cukai di sebelahnya untuk dicek dan langsung disetujui."},
+      {q:"Q2. Berapa lama proses Bea Cukai di bandara? Kapan harus tiba?",a:"Scan KIOSK butuh 1–2 menit, tapi antrean atau cek fisik bisa 15–30+ menit. Tiba minimal 3 jam sebelum terbang dan SELALU ke Bea Cukai SEBELUM bag drop."},
+      {q:"Q3. Bagaimana jika transit domestik di Jepang (mis. Sapporo → Haneda → Luar Negeri)? 【PENTING】",a:"Wajib lapor Bea Cukai di 【BANDARA INTERNASIONAL TERAKHIR】 (Haneda/Kansai, dll.)! Jika bagasi berisi barang bebas cukai (terutama cairan >100ml), minta 'Short Check-in' di bandara pertama agar koper bisa diambil di bandara transit untuk dibuka jika KIOSK menyala MERAH! ※Jika semua masuk kabin, boleh langsung check-in ke tujuan akhir."},
+      {q:"Q4. Bagaimana jika struk kertas hilang atau lupa daftar QR sebelum ke bandara?",a:"Data belanja sudah digital sehingga paspor tetap bisa discan di KIOSK. Namun jika toko mewajibkan daftar QR mandiri (J-TaxRefund / Global Blue), Anda WAJIB menyelesaikan pendaftaran metode refund di HP sebelum ke Bea Cukai."},
+      {q:"Q5. Bisakah refund dikirim ke kartu kredit BERBEDA dari kartu saat membayar?",a:"Bisa! Anda dapat mendaftarkan kartu kredit lain atau e-wallet (Alipay / WeChat Pay) asalkan atas NAMA YANG SAMA dengan paspor."},
+      {q:"Q6. Bisakah menggabungkan diskon turis 5% department store dengan Tax-Free 10%?",a:"Bisa! Bayar harga setelah diskon 5% terlebih dahulu (harus tetap ≥ ¥5.000 belum termasuk pajak), dan refund dihitung dari nominal tersebut."},
+      {q:"Q7. Bagaimana jika satu struk mencampur barang 10% (baju) dan 8% (snack/minuman)?",a:"Dapat digabung dalam satu struk untuk mencapai ≥ ¥5.000 (sebelum pajak). Pajak 10% dan 8% dihitung terpisah lalu dikembalikan bersama."},
+      {q:"Q8. Jika memakai kupon/poin toko, batas ¥5.000 dihitung sebelum atau sesudah diskon?",a:"SETELAH potongan kupon/poin. Nominal aktual yang dibayar (sebelum pajak) harus minimal ¥5.000."},
+      {q:"Q9. Kapan dan dalam mata uang apa refund diterima?",a:"Kartu, Alipay, dan WeChat Pay masuk otomatis dalam 2–14 hari dalam mata uang Anda (kurs bank/aplikasi). Hanya Tunai (JPY) yang diambil langsung setelah imigrasi bandara."},
+      {q:"Q10. Bolehkah memakai baju atau tas bebas cukai selama masih di Jepang?",a:"Boleh! Sejak aturan Nov 2026, barang umum (baju, tas, jam, elektronik) boleh dibuka dan dipakai di Jepang asal dibawa keluar negeri dalam 90 hari. Makanan, minuman, kosmetik & obat WAJIB tetap tersegel."},
+      {q:"Q11. Di mana lapor Bea Cukai jika keluar Jepang naik kapal pesiar (Cruise)?",a:"Di konter Bea Cukai 【PELABUHAN TERAKHIR】 di Jepang (Hakata, Yokohama, Naha, dll.) sebelum naik kapal dengan paspor dan barang."},
+      {q:"Q12. Terlanjur keluar Jepang tanpa lapor Bea Cukai. Bisakah klaim refund belakangan?",a:"Tidak bisa. Tanpa persetujuan Bea Cukai saat keberangkatan, refund tidak dapat diklaim kembali."}
+    ]
+  },
+  ms:{
+    chip:"❓ Soalan Lazim",title:"❓ Soalan Lazim (12 Q&A Penting)",
+    items:[
+      {q:"Q1. Bagaimana jika KIOSK Kastam lapangan terbang menyala MERAH (🔴 RED)? Adakah didenda?",a:"Tiada denda atau rampasan! Ia hanya pemeriksaan fizikal biasa. Bawa pasport, resit dan barangan ke kaunter Kastam bersebelahan untuk disahkan serta-merta."},
+      {q:"Q2. Berapa lama urusan Kastam di lapangan terbang? Bila perlu tiba?",a:"Imbasan KIOSK ambil 1–2 minit, tetapi barisan atau semakan fizikal boleh makan 15–30+ minit. Tiba sekurang-kurangnya 3 jam sebelum berlepas dan SENTIASA ke Kastam SEBELUM serah bagasi."},
+      {q:"Q3. Bagaimana jika transit domestik di Jepun (cth: Sapporo → Haneda → Luar Negara)? 【PENTING】",a:"Wajib buat Kastam di 【LAPANGAN TERBANG ANTARABANGSA TERAKHIR】 (Haneda/Kansai dll.)! Jika bagasi ada barangan bebas cukai (terutama cecair >100ml), minta 'Short Check-in' di lapangan terbang pertama supaya beg boleh diambil di lapangan terbang transit untuk dibuka jika lampu MERAH! ※Jika semua dibawa dalam kabin, boleh daftar terus."},
+      {q:"Q4. Bagaimana jika resit kertas hilang atau lupa daftar QR sebelum ke lapangan terbang?",a:"Data belian adalah digital, jadi pasport masih boleh diimbas di KIOSK. Namun jika kedai perlukan daftar QR sendiri (J-TaxRefund / Global Blue), anda WAJIB lengkapkan pendaftaran kaedah bayaran balik di telefon sebelum ke Kastam."},
+      {q:"Q5. Bolehkah bayaran balik masuk ke kad kredit BERBEZA daripada kad bayaran?",a:"Boleh! Anda boleh daftarkan kad kredit lain atau e-dompet (Alipay / WeChat Pay) asalkan NAMA SAMA dengan pasport."},
+      {q:"Q6. Bolehkah gabung diskaun pelancong 5% gedung beli-belah dengan Bebas Cukai 10%?",a:"Boleh! Bayar harga selepas diskaun 5% dahulu (mesti kekal ≥ ¥5,000 tidak termasuk cukai), dan bayaran balik dikira atas jumlah tersebut."},
+      {q:"Q7. Bagaimana jika satu resit campur barang 10% (pakaian) dan 8% (makanan/minuman)?",a:"Boleh digabung dalam satu resit untuk capai ≥ ¥5,000 (tanpa cukai). Cukai 10% dan 8% dikira berasingan dan dipulangkan bersama."},
+      {q:"Q8. Jika guna kupon/mata ganjaran kedai, had ¥5,000 dikira sebelum atau selepas diskaun?",a:"SELEPAS potongan kupon/mata ganjaran. Jumlah sebenar dibayar (tanpa cukai) mesti sekurang-kurangnya ¥5,000."},
+      {q:"Q9. Bila dan dalam mata wang apa bayaran balik diterima?",a:"Kad, Alipay dan WeChat Pay masuk automatik dalam 2–14 hari dalam mata wang anda (kadar bank/aplikasi). Hanya Tunai (JPY) diambil terus selepas imigresen lapangan terbang."},
+      {q:"Q10. Bolehkah pakai pakaian atau beg bebas cukai semasa masih di Jepun?",a:"Boleh! Di bawah peraturan Nov 2026, barangan am (pakaian, beg, jam, elektronik) boleh dibuka dan dipakai di Jepun jika dibawa keluar negara dalam 90 hari. Makanan, minuman, kosmetik & ubat MESTI kekal belum dibuka."},
+      {q:"Q11. Di mana lapor Kastam jika keluar Jepun menaiki kapal persiaran (Cruise)?",a:"Di kaunter Kastam 【PELABUHAN TERAKHIR】 di Jepun (Hakata, Yokohama, Naha dll.) sebelum menaiki kapal bersama pasport dan barangan."},
+      {q:"Q12. Terlepas keluar Jepun tanpa melalui Kastam. Bolehkah tuntut bayaran balik kemudian?",a:"Tidak boleh. Tanpa kelulusan Kastam semasa berlepas, tuntutan bayaran balik selepas itu tidak dibenarkan."}
+    ]
+  },
+  tl:{
+    chip:"❓ Mga Tanong (FAQ)",title:"❓ Mga Madalas Itanong (12 Q&A)",
+    items:[
+      {q:"Q1. Paano kung umilaw ng PULA (🔴 RED) ang Customs KIOSK sa airport? May multa ba?",a:"Walang multa o kumpiskasyon! Routine physical check lang ito. Dalhin ang pasaporte, resibo, at binili sa katabing Customs desk para ma-verify at maaprubahan agad."},
+      {q:"Q2. Gaano katagal ang Customs sa airport? Anong oras dapat dumating?",a:"1–2 minuto ang KIOSK scan, pero 15–30+ minuto kung may pila o inspeksyon. Dumating nang hindi bababa sa 3 oras bago ang flight at LAGING mag-Customs BAGO mag-bag drop."},
+      {q:"Q3. Paano kung may domestic transit sa Japan (hal. Sapporo → Haneda → Abroad)? 【MAHALAGA】",a:"Dapat mag-Customs sa 【HULING INTERNATIONAL AIRPORT】 palabas ng Japan (Haneda/Kansai, atbp.)! Kung nasa check-in bag ang tax-free items (lalo na liquids >100ml), humiling ng 'Short Check-in' sa unang airport para makuha ang bag sa transit airport at mabuksan kung umilaw ng RED! ※Kung hand-carry lahat, puwede nang diretso."},
+      {q:"Q4. Paano kung nawala ang resibo o nakalimutang i-register ang QR bago mag-airport?",a:"Digital na ang data kaya puwede pa rin ang pasaporte sa KIOSK. Pero kung kailangan ng self-QR registration (J-TaxRefund / Global Blue), DAPAT tapusin muna sa phone ang payout registration bago mag-Customs."},
+      {q:"Q5. Puwede bang matanggap ang refund sa IBANG credit card kaysa sa pinambayad?",a:"Oo! Puwedeng magrehistro ng ibang credit card o e-wallet (Alipay / WeChat Pay) basta PAREHONG PANGALAN sa pasaporte."},
+      {q:"Q6. Puwede bang pagsamahin ang 5% guest discount ng department store at 10% tax-free?",a:"Oo! Bayaran muna ang may 5% discount (dapat ≥ ¥5,000 excl. tax pa rin), at doon ibabase ang tax refund."},
+      {q:"Q7. Paano kung pinagsama sa isang resibo ang 10% (damit) at 8% (snacks/inumin)?",a:"Puwedeng pagsamahin para umabot sa ≥ ¥5,000 (excl. tax). Hiwalay na kakalkulahin ang 10% at 8% at sabay ire-refund."},
+      {q:"Q8. Kung gumamit ng coupon o points, bago o pagkatapos ng discount ang ¥5,000 minimum?",a:"PAGKATAPOS ng coupon/points discount. Ang aktwal na binayaran (excl. tax) ay dapat hindi bababa sa ¥5,000."},
+      {q:"Q9. Kailan at anong currency matatanggap ang refund?",a:"Sa Card, Alipay, at WeChat Pay, papasok ito sa loob ng 2–14 araw sa sarili mong currency. Cash (JPY) lang ang kinukuha agad pagkatapos ng immigration sa airport."},
+      {q:"Q10. Puwede bang isuot o gamitin sa Japan ang biniling tax-free na damit o bag?",a:"Oo! Sa patakaran mula Nov 2026, ang general items (damit, bag, relo, electronics) ay puwedeng buksan at gamitin sa Japan basta ilabas ng bansa sa loob ng 90 araw. Ang pagkain, inumin, cosmetics at gamot ay BAWAL buksan sa Japan."},
+      {q:"Q11. Saan magpapa-Customs kung aalis ng Japan sakay ng cruise ship?",a:"Sa Customs counter ng 【HULING DAUNGAN】 sa Japan (Hakata, Yokohama, Naha, atbp.) bago sumakay dala ang pasaporte at binili."},
+      {q:"Q12. Nakalabas na ng Japan nang hindi dumaan sa Customs. Puwede pa bang mag-claim ng refund?",a:"Hindi na. Kung walang apruba ng Customs sa pag-alis, hindi na maaaring mag-claim ng refund."}
+    ]
+  },
+  hi:{
+    chip:"❓ अक्सर पूछे जाने वाले प्रश्न",title:"❓ सामान्य प्रश्न (12 महत्वपूर्ण Q&A)",
+    items:[
+{q:"Q1. एयरपोर्ट कस्टम KIOSK पर लाल बत्ती (🔴 RED) दिखे तो क्या होगा? क्या जुर्माना लगेगा?",a:"कोई जुर्माना या जब्ती नहीं होगी! यह केवल सामान्य जांच है। पासपोर्ट, रसीद और सामान बगल के कस्टम डेस्क पर दिखाएं, जांच के बाद तुरंत मंजूरी मिल जाएगी।"},
+{q:"Q2. एयरपोर्ट पर कस्टम में कितना समय लगता है? कब पहुंचना चाहिए?",a:"KIOSK स्कैन में 1–2 मिनट लगते हैं, पर भीड़ या सामान जांच में 15–30+ मिनट लग सकते हैं। उड़ान से कम से कम 3 घंटे पहले पहुंचें और हमेशा बैग ड्रॉप से पहले कस्टम कराएं।"},
+{q:"Q3. जापान में घरेलू ट्रांजिट (जैसे साप्पोरो → हानेदा → विदेश) हो तो कहां प्रक्रिया करें? 【जरूरी】",a:"जापान छोड़ने वाले 【अंतिम अंतरराष्ट्रीय एयरपोर्ट】 (हानेदा/कंसाई आदि) पर कस्टम कराएं! यदि चेक-इन बैग में टैक्स-फ्री सामान (खासकर >100ml तरल) है, तो पहले एयरपोर्ट पर 'Short Check-in' मांगें ताकि ट्रांजिट एयरपोर्ट पर बैग लेकर लाल बत्ती होने पर जांच करा सकें! ※यदि सब हैंड-कैरी में है, तो सीधा चेक-इन ठीक है।"},
+{q:"Q4. कागज की रसीद खो जाए या एयरपोर्ट से पहले QR रजिस्टर करना भूल जाएं तो क्या करें?",a:"डेटा डिजिटल है, इसलिए बिना रसीद भी पासपोर्ट स्कैन हो जाएगा। पर यदि स्टोर में सेल्फ-QR रजिस्ट्रेशन (J-TaxRefund / Global Blue) जरूरी था, तो कस्टम से पहले फोन पर पेआउट रजिस्ट्रेशन जरूर पूरा करें।"},
+{q:"Q5. क्या भुगतान किए गए कार्ड से अलग दूसरे क्रेडिट कार्ड में रिफंड मिल सकता है?",a:"हां! आप दूसरा क्रेडिट कार्ड या ई-वॉलेट (Alipay / WeChat Pay) चुन सकते हैं, बशर्ते वह पासपोर्ट वाले ही नाम से हो।"},
+{q:"Q6. क्या डिपार्टमेंट स्टोर की 5% गेस्ट छूट और 10% टैक्स-फ्री एक साथ मिल सकते हैं?",a:"हां! पहले 5% छूट वाली कीमत चुकाएं (टैक्स छोड़कर ≥ ¥5,000 होनी चाहिए), और उसी घटी हुई राशि पर रिफंड मिलेगा।"},
+{q:"Q7. एक ही रसीद में 10% (कपड़े) और 8% (स्नैक्स/पेय) सामान हों तो कैसे गिना जाएगा?",a:"दोनों को एक रसीद में जोड़कर ≥ ¥5,000 (टैक्स छोड़कर) पूरा किया जा सकता है। 10% और 8% टैक्स अलग-अलग जुड़कर वापस मिलेंगे।"},
+{q:"Q8. कूपन या पॉइंट्स इस्तेमाल करने पर ¥5,000 की सीमा छूट से पहले गिनी जाती है या बाद में?",a:"कूपन/पॉइंट्स छूट के बाद। वास्तविक भुगतान राशि (टैक्स छोड़कर) कम से कम ¥5,000 होनी चाहिए।"},
+{q:"Q9. रिफंड कब और किस मुद्रा में मिलेगा?",a:"कार्ड, Alipay और WeChat Pay रिफंड 2–14 दिनों में आपकी स्थानीय मुद्रा में अपने आप आ जाते हैं। केवल नकद (JPY) एयरपोर्ट पर इमिग्रेशन के बाद तुरंत मिलता है।"},
+{q:"Q10. क्या टैक्स-फ्री खरीदे कपड़े या बैग जापान में रहते हुए पहन/इस्तेमाल कर सकते हैं?",a:"हां! नवंबर 2026 के नियमों के तहत सामान्य सामान (कपड़े, बैग, घड़ी, इलेक्ट्रॉनिक्स) 90 दिनों के भीतर विदेश ले जाने की शर्त पर जापान में खोले और उपयोग किए जा सकते हैं। पर भोजन, पेय, कॉस्मेटिक्स और दवाएं सीलबंद रहनी चाहिए।"},
+{q:"Q11. क्रूज शिप से जापान छोड़ने पर कस्टम जांच कहां होगी?",a:"जापान के 【अंतिम बंदरगाह】 (हाकाता, योकोहामा, नाहा आदि) के कस्टम काउंटर पर सवार होने से पहले पासपोर्ट और सामान दिखाएं।"},
+{q:"Q12. गलती से बिना कस्टम कराए जापान से बाहर आ गए। क्या बाद में रिफंड मिल सकता है?",a:"नहीं। प्रस्थान के समय कस्टम मंजूरी के बिना किसी भी स्थिति में बाद में रिफंड नहीं मिल सकता।"}
+]
+},
+ar:{
+chip:"❓ الأسئلة الشائعة",title:"❓ الأسئلة الشائعة (12 سؤالاً مهماً)",
+items:[
+{q:"Q1. ماذا لو أظهر جهاز KIOSK الجمركي ضوءاً أحمر (🔴 RED)؟ هل هناك غرامة؟",a:"لا توجد غرامة أو مصادرة! إنه مجرد فحص روتيني. أحضر جواز سفرك والإيصال والمشتريات إلى مكتب الجمارك المجاور للمطابقة والموافقة الفورية."},
+{q:"Q2. كم تستغرق إجراءات الجمارك بالمطار؟ متى يجب الوصول؟",a:"مسح KIOSK يستغرق 1–2 دقيقة، لكن الطوابير أو الفحص قد يستغرق 15–30+ دقيقة. احضر قبل الإقلاع بـ 3 ساعات على الأقل وأنهِ الجمارك دائماً قبل تسليم الحقائب."},
+{q:"Q3. ماذا لو كان لدي رحلة ربط داخلية باليابان (مثل سابورو ← هانيدا ← الخارج)؟ 【مهم جداً】",a:"يجب إنهاء الجمارك في 【آخر مطار دولي】 تغادر منه اليابان (هانيدا/كانساي إلخ)! إذا كانت حقيبتك المشحونة تحتوي على مشتريات معفاة (خاصة السوائل >100 مل)، اطلب 'Short Check-in' (استلام الحقيبة في مطار الترانزيت) لتتمكن من فتحها للجمارك إذا أضاء الأحمر! ※إذا كانت جميعها في حقيبة اليد، يمكن شحنها مباشرة."},
+{q:"Q4. ماذا لو فقدت الإيصال الورقي أو نسيت تسجيل QR قبل المطار؟",a:"البيانات رقمية لذا يكفي جواز السفر عند KIOSK. لكن إذا كان المتجر يتطلب تسجيل QR ذاتي (J-TaxRefund / Global Blue)، فيجب إكمال تسجيل طريقة الاسترداد بهاتفك قبل الجمارك."},
+{q:"Q5. هل يمكن استلام المبلغ على بطاقة ائتمان مختلفة عن التي دفعت بها؟",a:"نعم، في معظم المتاجر والتطبيقات! يمكنك تسجيل بطاقة أخرى أو محفظة إلكترونية (Alipay / WeChat Pay) بشرط أن تكون بنفس اسم جواز السفر."},
+{q:"Q6. هل يمكن الجمع بين خصم 5% للسياح بالمتاجر الكبرى والإعفاء الضريبي 10%؟",a:"نعم! ادفع السعر بعد خصم 5% أولاً (يجب أن يظل ≥ 5,000 ين بدون ضريبة)، ويُحسب الاسترداد على المبلغ المخفض."},
+{q:"Q7. ماذا لو جمع الإيصال سلعاً بضريبة 10% (ملابس) و8% (وجبات خفيفة/مشروبات)؟",a:"يمكن جمعها في إيصال واحد لبلوغ ≥ 5,000 ين (بدون ضريبة). تُحسب ضريبة 10% و8% بشكل منفصل وتُرد معاً."},
+{q:"Q8. عند استخدام قسائم أو نقاط المتجر، هل يُحسب حد 5,000 ين قبل أم بعد الخصم؟",a:"بعد خصم القسائم والنقاط. يجب أن يكون المبلغ المدفوع فعلياً (بدون ضريبة) 5,000 ين على الأقل."},
+{q:"Q9. متى وبأي عملة سأستلم المبلغ المسترد؟",a:"تصل مبالغ البطاقة وAlipay وWeChat Pay تلقائياً خلال 2–14 يوماً بعملتك المحلية. فقط الاسترداد النقدي (JPY) يُستلم فوراً بالمطار بعد الجوازات."},
+{q:"Q10. هل يمكنني ارتداء الملابس أو استخدام الحقائب المعفاة أثناء وجودي في اليابان؟",a:"نعم! بموجب قواعد نوفمبر 2026، يمكن فتح واستخدام السلع العامة (ملابس، حقائب، ساعات، إلكترونيات) في اليابان بشرط إخراجها خلال 90 يوماً. أما الطعام والمشروبات ومستحضرات التجميل والأدوية فيجب أن تبقى مغلقة تماماً."},
+{q:"Q11. أين أنهي إجراءات الجمارك عند مغادرة اليابان بسفينة سياحية (كروز)؟",a:"في مكتب الجمارك بـ 【آخر ميناء ياباني】 تتوقف به السفينة (هاكاتا، يوكوهاما، ناها إلخ) قبل الصعود مع جواز السفر والمشتريات."},
+{q:"Q12. غادرت اليابان بالخطأ دون المرور بالجمارك. هل يمكن المطالبة بالاسترداد لاحقاً؟",a:"لا. بدون موافقة الجمارك عند المغادرة، لا يمكن المطالبة بالاسترداد بأثر رجعي تحت أي ظرف."}
+]
+},
+it:{
+chip:"❓ Domande (FAQ)",title:"❓ Domande frequenti (12 Q&A essenziali)",
+items:[
+{q:"Q1. Cosa succede se il KIOSK doganale mostra luce ROSSA (🔴 RED)? C'è una multa?",a:"Nessuna multa o confisca! È solo un controllo fisico di routine. Porta passaporto, scontrino e articoli al banco doganale accanto per la verifica e l'approvazione immediata."},
+{q:"Q2. Quanto tempo richiede la dogana in aeroporto? Quando arrivare?",a:"La scansione al KIOSK richiede 1–2 min, ma code o controlli possono richiedere 15–30+ min. Arriva almeno 3 ore prima del volo e passa SEMPRE alla dogana PRIMA di imbarcare i bagagli."},
+{q:"Q3. Cosa fare in caso di volo interno in Giappone (es. Sapporo → Haneda → Estero)? 【IMPORTANTE】",a:"Devi passare la dogana all'【ULTIMO AEROPORTO INTERNAZIONALE】 di partenza dal Giappone (Haneda/Kansai, ecc.)! Se il bagaglio da stiva contiene acquisti Tax-Free (specie liquidi >100 ml), chiedi al primo check-in lo 'Short Check-in' (ritiro bagaglio allo scalo) per poterlo aprire in dogana in caso di luce ROSSA! ※Se tutto sta nel bagaglio a mano, il check-in diretto va bene."},
+{q:"Q4. E se ho perso lo scontrino cartaceo o dimenticato la registrazione QR prima dell'aeroporto?",a:"I dati sono digitalizzati, quindi basta il passaporto al KIOSK. Tuttavia, se il negozio richiedeva la registrazione QR (J-TaxRefund / Global Blue), DEVI registrare il metodo di rimborso sul telefono prima della dogana."},
+{q:"Q5. Posso ricevere il rimborso su una carta di credito DIVERSA da quella usata per pagare?",a:"Sì, nella maggior parte dei negozi e app! Puoi registrare un'altra carta o e-wallet (Alipay / WeChat Pay) purché sia allo STESSO nome del passaporto."},
+{q:"Q6. Si può combinare lo sconto turisti del 5% dei grandi magazzini con il 10% Tax-Free?",a:"Sì! Paghi prima il prezzo scontato del 5% (deve restare ≥ 5.000 ¥ tasse escluse) e il rimborso viene calcolato su quell'importo."},
+{q:"Q7. Cosa succede se uno scontrino unisce articoli al 10% (abiti) e all'8% (snack/bevande)?",a:"Possono essere sommati su un unico scontrino per raggiungere ≥ 5.000 ¥ (tasse escluse). Le aliquote del 10% e 8% vengono calcolate separatamente e rimborsate insieme."},
+{q:"Q8. Se uso coupon o punti del negozio, la soglia di 5.000 ¥ vale prima o dopo lo sconto?",a:"DOPO aver detratto coupon o punti. L'importo effettivamente pagato (tasse escluse) deve essere almeno 5.000 ¥."},
+{q:"Q9. Quando e in che valuta riceverò il rimborso?",a:"Su Carta, Alipay e WeChat Pay arriva automaticamente in 2–14 giorni nella tua valuta (al tasso della banca/app). Solo i Contanti (JPY) si ritirano subito in aeroporto dopo l'immigrazione."},
+{q:"Q10. Posso indossare abiti o usare borse Tax-Free mentre sono ancora in Giappone?",a:"Sì! Con le regole da nov. 2026, gli articoli generali (abiti, borse, orologi, elettronica) possono essere aperti e usati in Giappone se portati all'estero entro 90 giorni. Cibo, bevande, cosmetici e farmaci devono restare rigorosamente sigillati."},
+{q:"Q11. Dove passo la dogana se lascio il Giappone in nave da crociera?",a:"Al banco doganale dell'【ULTIMO PORTO GIAPPONESE】 di scalo (Hakata, Yokohama, Naha, ecc.) prima dell'imbarco con passaporto e acquisti."},
+{q:"Q12. Sono uscito dal Giappone per errore senza passare alla dogana. Posso chiedere il rimborso dopo?",a:"No. Senza approvazione doganale alla partenza, non è possibile richiedere alcun rimborso retroattivo."}
+]
+},
+nl:{
+chip:"❓ Veelgestelde vragen",title:"❓ Veelgestelde vragen (12 Q&A's)",
+items:[
+{q:"Q1. Wat als de douane-KIOSK ROOD (🔴 RED) toont? Krijg ik een boete?",a:"Geen boete of inbeslagname! Het is een normale steekproef. Neem paspoort, bon en artikelen mee naar de douanebalie ernaast voor controle en directe goedkeuring."},
+{q:"Q2. Hoe lang duurt de douane op de luchthaven? Hoe vroeg moet ik er zijn?",a:"KIOSK-scannen duurt 1–2 min, maar wachtrijen of controle kunnen 15–30+ min duren. Wees minstens 3 uur voor vertrek aanwezig en ga ALTIJD naar de douane VOOR bagageafgifte."},
+{q:"Q3. Wat bij een binnenlandse overstap in Japan (bijv. Sapporo → Haneda → Buitenland)? 【BELANGRIJK】",a:"U moet langs de douane op uw 【LAATSTE INTERNATIONALE LUCHTHAVEN】 in Japan (Haneda/Kansai enz.)! Als uw ruimbagage Tax-Free artikelen bevat (vooral vloeistoffen >100 ml), vraag dan bij de eerste check-in om 'Short Check-in' (bagage ophalen op overstapluchthaven) zodat u de koffer bij ROOD licht kunt openen! ※Past alles in handbagage, dan is doorchecken prima."},
+{q:"Q4. Wat als ik de papieren bon kwijt ben of QR-registratie vooraf ben vergeten?",a:"Aankoopgegevens zijn digitaal, dus uw paspoort volstaat bij de KIOSK. Vereiste uw winkel echter zelf-QR-registratie (J-TaxRefund / Global Blue), dan MOET u uw terugbetalingsmethode voor de douane op uw telefoon registreren."},
+{q:"Q5. Kan de terugbetaling op een ANDERE creditcard dan waarmee ik betaalde?",a:"Ja, bij de meeste winkels en apps! U kunt een andere creditcard of e-wallet (Alipay / WeChat Pay) opgeven, mits op DEZELFDE naam als uw paspoort."},
+{q:"Q6. Kan ik 5% toeristenkorting van een warenhuis combineren met 10% Tax-Free?",a:"Ja! U betaalt eerst de prijs met 5% korting (moet excl. belasting nog ≥ ¥ 5.000 zijn) en de terugbetaling wordt over dat bedrag berekend."},
+{q:"Q7. Wat als één bon 10%-artikelen (kleding) en 8%-artikelen (snacks/drank) combineert?",a:"Ze mogen op één bon worden opgeteld om ≥ ¥ 5.000 (excl. belasting) te bereiken. De 10% en 8% belasting worden apart berekend en samen terugbetaald."},
+{q:"Q8. Geldt het minimum van ¥ 5.000 bij coupons of punten voor of na de korting?",a:"NA aftrek van coupons of punten. Het werkelijk betaalde bedrag (excl. belasting) moet minimaal ¥ 5.000 zijn."},
+{q:"Q9. Wanneer en in welke valuta ontvang ik de terugbetaling?",a:"Via Kaart, Alipay en WeChat Pay ontvangt u het bedrag automatisch binnen 2–14 dagen in uw eigen valuta. Alleen Contant (JPY) haalt u direct op na de paspoortcontrole."},
+{q:"Q10. Mag ik belastingvrij gekochte kleding of tassen al in Japan dragen/gebruiken?",a:"Ja! Volgens de regels vanaf nov. 2026 mogen algemene artikelen (kleding, tassen, horloges, elektronica) in Japan worden geopend en gebruikt mits binnen 90 dagen uitgevoerd. Eten, drinken, cosmetica en medicijnen moeten strikt verzegeld blijven."},
+{q:"Q11. Waar ga ik langs de douane als ik Japan per cruiseschip verlaat?",a:"Bij de douanebalie in uw 【LAATSTE JAPANSE HAVEN】 (Hakata, Yokohama, Naha enz.) voor het aan boord gaan, met paspoort en aankopen."},
+{q:"Q12. Ik heb Japan per ongeluk verlaten zonder douanecontrole. Kan ik achteraf nog terugvragen?",a:"Nee. Zonder douanegoedkeuring bij vertrek is terugbetaling achteraf onder geen beding mogelijk."}
+]
+},
+pt:{
+chip:"❓ Perguntas (FAQ)",title:"❓ Perguntas frequentes (12 Q&As essenciais)",
+items:[
+{q:"Q1. O que acontece se o KIOSK da Alfândega mostrar luz VERMELHA (🔴 RED)? Há multa?",a:"Sem multas ou apreensão! É apenas uma inspeção física de rotina. Leve passaporte, recibo e itens ao balcão da Alfândega ao lado para conferência e aprovação imediata."},
+{q:"Q2. Quanto tempo leva a Alfândega no aeroporto? Quando chegar?",a:"Escanear no KIOSK leva 1–2 min, mas filas ou inspeção podem levar 15–30+ min. Chegue pelo menos 3 horas antes do voo e passe SEMPRE na Alfândega ANTES de despachar bagagem."},
+{q:"Q3. E se eu tiver conexão doméstica no Japão (ex.: Sapporo → Haneda → Exterior)? 【MUITO IMPORTANTE】",a:"Você deve passar na Alfândega no 【ÚLTIMO AEROPORTO INTERNACIONAL】 de saída do Japão (Haneda/Kansai etc.)! Se a mala despachada tiver itens Tax-Free (especialmente líquidos >100 ml), peça 'Short Check-in' no primeiro check-in para retirar a mala na conexão e abri-la se der luz VERMELHA! ※Se tudo couber na bagagem de mão, pode despachar direto."},
+{q:"Q4. E se eu perdi o recibo em papel ou esqueci o registro QR antes do aeroporto?",a:"Os dados são digitalizados, então seu passaporte basta no KIOSK. Porém, se a loja exigia registro QR próprio (J-TaxRefund / Global Blue), você DEVE cadastrar o reembolso no celular antes da Alfândega."},
+{q:"Q5. Posso receber o reembolso em um cartão de crédito DIFERENTE do usado no pagamento?",a:"Sim, na maioria das lojas e apps! Você pode cadastrar outro cartão ou carteira digital (Alipay / WeChat Pay) desde que esteja no MESMO nome do passaporte."},
+{q:"Q6. Posso combinar o desconto de 5% para turistas de lojas de departamento com 10% Tax-Free?",a:"Sim! Pague primeiro o valor com 5% de desconto (deve continuar ≥ ¥ 5.000 sem impostos) e o reembolso será calculado sobre esse valor."},
+{q:"Q7. E se meu recibo misturar itens de 10% (roupas) e 8% (snacks/bebidas)?",a:"Podem ser somados no mesmo recibo para atingir ≥ ¥ 5.000 (sem impostos). Os impostos de 10% e 8% são calculados separadamente e reembolsados juntos."},
+{q:"Q8. Ao usar cupons ou pontos da loja, o mínimo de ¥ 5.000 vale antes ou depois do desconto?",a:"DEPOIS de descontar cupons ou pontos. O valor efetivamente pago (sem impostos) deve ser de pelo menos ¥ 5.000."},
+{q:"Q9. Quando e em qual moeda receberei o reembolso?",a:"No Cartão, Alipay e WeChat Pay cai automaticamente em 2–14 dias na sua moeda local. Apenas Dinheiro (JPY) é retirado na hora após a imigração no aeroporto."},
+{q:"Q10. Posso usar roupas ou bolsas compradas Tax-Free enquanto ainda estou no Japão?",a:"Sim! Pelas regras de nov. 2026, itens gerais (roupas, bolsas, relógios, eletrônicos) podem ser abertos e usados no Japão se saírem do país em até 90 dias. Comida, bebidas, cosméticos e remédios devem permanecer lacrados."},
+{q:"Q11. Onde passo na Alfândega se sair do Japão de navio de cruzeiro?",a:"No balcão da Alfândega do 【ÚLTIMO PORTO JAPONÊS】 de escala (Hakata, Yokohama, Naha etc.) antes do embarque, com passaporte e compras."},
+{q:"Q12. Saí do Japão por engano sem passar na Alfândega. Posso pedir reembolso depois?",a:"Não. Sem aprovação da Alfândega na saída, não é possível solicitar reembolso retroativo."}
+]
+　}
+};
+
+function renderFaqCard(){
+  var lang=getLang(),fd=FAQ_DATA[lang]||FAQ_DATA.en,body=$("g_faq_body");
+  txt("g_faq_t",fd.title);
+  if(!body)return;
+  body.innerHTML="";
+  fd.items.forEach(function(q){
+    var det=document.createElement("details");
+    det.style.cssText="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:12px;margin-bottom:8px;overflow:hidden";
+    var sum=document.createElement("summary");
+    sum.style.cssText="padding:11px 13px;font-size:13.5px;font-weight:900;color:#0f172a;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:flex-start;gap:8px;line-height:1.4";
+    var qSpan=document.createElement("span");
+    qSpan.textContent=q.q;
+    var arr=document.createElement("span");
+    arr.textContent="▼";
+    arr.style.cssText="font-size:11px;color:#64748b;flex-shrink:0;margin-top:2px";
+    sum.appendChild(qSpan);
+    sum.appendChild(arr);
+    var ans=document.createElement("div");
+    ans.style.cssText="padding:10px 13px 12px;border-top:1px dashed #cbd5e1;background:#fff;font-size:13px;color:#334155;line-height:1.55";
+    ans.textContent=q.a;
+    det.appendChild(sum);
+    det.appendChild(ans);
+    body.appendChild(det);
+  });
+}
+
 function renderGuide(){
   var lang=getLang(),g=GUIDE_DATA[lang]||GUIDE_DATA.en,ge=GUIDE_EXTRA[lang]||GUIDE_EXTRA.en;
+  var qr=QR_GUIDE_DATA[lang]||QR_GUIDE_DATA.en,fd=FAQ_DATA[lang]||FAQ_DATA.en;
   txt("t_tab_calc",g.tabCalc);txt("t_tab_guide",g.tabGuide);
   txt("g_sec1_t",g.s1t);txt("g_sec2_t",g.s2t);txt("g_sec3_t",g.s3t);txt("g_sec4_t",g.s4t);txt("g_sec5_t",g.s5t);txt("g_sec6_t",g.s6t);
   txt("g_link1",g.l1);txt("g_link2",g.l2);txt("g_link3",g.l3);
   txt("g_upd_badge",ge.upd);
 
-    var secIds=["sec_airport","apFloorCard","sec_new","sec_store","sec_cond","sec_doc","sec_ng","sec_links"],chipsBar=$("g_chips_bar");
+  var secIds=["sec_airport","sec_qr","apFloorCard","sec_new","sec_store","sec_cond","sec_doc","sec_ng","sec_faq","sec_links"],chipsBar=$("g_chips_bar");
   var linkChipMap={en:"🔗 Official",zh:"🔗 官方链接",tw:"🔗 官方連結",ko:"🔗 공식링크",th:"🔗 ลิงก์ทางการ",vi:"🔗 Chính thức",fr:"🔗 Officiel",es:"🔗 Oficial",de:"🔗 Offiziell",id:"🔗 Resmi",ms:"🔗 Rasmi",tl:"🔗 Opisyal",hi:"🔗 आधिकारिक",ar:"🔗 رسمي",it:"🔗 Ufficiale",nl:"🔗 Officieel",pt:"🔗 Oficial"};
-  var allChips=ge.chips.concat([linkChipMap[lang]||linkChipMap.en]);
+  var baseChips=ge.chips.slice();
+  baseChips.splice(1,0,qr.chip);
+  var allChips=baseChips.concat([fd.chip,linkChipMap[lang]||linkChipMap.en]);
   if(chipsBar){
     chipsBar.innerHTML="";
     allChips.forEach(function(label,idx){
@@ -2984,6 +3927,8 @@ function renderGuide(){
       chipsBar.appendChild(btn);
     });
   }
+
+  renderQrGuideCard();
 
   var s1Html="";
   g.s1.forEach(function(item){
@@ -2999,6 +3944,7 @@ function renderGuide(){
 
   renderChecklist();
   renderAirportCard();
+  renderFaqCard();
 }
 
 function selectAirportTab(idx){window.curAirportIdx=idx;renderAirportCard()}
@@ -3155,7 +4101,6 @@ function restoreReturnState(isBfCache){
       }
     }
   }catch(e){}
-  
 }
 window.addEventListener("pageshow",function(e){restoreReturnState(e&&e.persisted)});
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",function(){restoreReturnState(false)});
