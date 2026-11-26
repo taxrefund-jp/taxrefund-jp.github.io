@@ -408,7 +408,7 @@ button:active{transform:scale(.96)!important;opacity:.85!important}
         </div>
         <div class="method-card" id="m_cash" onclick="setM('cash')">
           <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><rect x="3" y="8" width="30" height="20" rx="4" fill="#059669"/><rect x="6" y="11" width="24" height="14" rx="2" stroke="#A7F3D0" stroke-width="1.5"/><circle cx="18" cy="18" r="4" fill="#ECFDF5"/></svg>
-          <span class="method-name" id="mn_cash">Cash</span><span class="method-fee" id="mf_cash">Fixed 200 JPY</span>
+          <span class="method-name" id="mn_cash">Cash</span><span class="method-fee" id="mf_cash">Fee 10% (150~500JPY)</span>
         </div>
         <div class="method-card" id="m_alipay" onclick="setM('alipay')">
           <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><rect x="3" y="3" width="30" height="30" rx="8" fill="#1677FF"/><path d="M18 8V12M11 12H25M12 16H24M21.5 16C20.5 21 16.5 25 10.5 27M14.5 19.5C17.5 22 21.5 24.5 26.5 26.5" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg>
@@ -676,7 +676,7 @@ function entry(f,l,c,r,extra){
     f:f,l:l,sub:c+" ("+(syms[c]||"")+")",c:c,r:r,
     ex:"Tax-Excluded Price",in:"Tax-Included Price",sm:"Select Refund Method",
     m:["Credit Card","Cash","Alipay","WeChat Pay"],
-    mf:["Fee 4.0%","Fixed 200 JPY","Fee 3.5%","Fee 3.5%"],
+    mf:["Fee 4.0%","Fee 10% (150~500JPY)","Fee 3.5%","Fee 3.5%"],
     lr:"↻ Live Rate",bf:"Store Payment (Tax-Included)",
     nt:"Final Net Cost",sv:"Final Refund",tx:"Consumption Tax (10%)",
     af:"Tax-Free Admin Fee",rf:"Refund Amount",rm:"Refund Method",
@@ -692,32 +692,76 @@ function entry(f,l,c,r,extra){
 
 var DB={
   US:entry("🇺🇸","English","USD",0.0067),
-  KR:entry("🇰🇷","한국어","KRW",9.2,{ex:"세전 가격 (면세 기준)",in:"세후 가격 (결제 금액)",sm:"환불 방법 선택",m:["신용카드","현금","알리페이","위챗페이"],mf:["수수료 4.0%","고정 200 JPY","수수료 3.5%","수수료 3.5%"],lr:"↻ 최신 환율",bf:"매장 결제 금액 (세금 포함)",nt:"최종 실부담액",sv:"최종 환급액",tx:"소비세 (10%)",af:"면세 수수료",rf:"환급 금액",rm:"환불 방법",pf:"환불 수수료",tf:"총 수수료",fr:"최종 환급 금액",rr:"환급률",trr:"소비세 환급률",ht:"유의사항",n1:"모든 계산 결과는 대략적인 추정치이며, 정확한 금액이 아닙니다.",n2:"단순 참고용으로만 이용해 주시기 바랍니다.",n3:"실제 환급액은 수속 당일 수수료, 환율 및 결제사의 환전 수수료에 따라 달라질 수 있습니다."}),
-  CN:entry("🇨🇳","简体中文","CNY",0.042,{ex:"不含税价格",in:"含税价格",sm:"选择退款方式",m:["信用卡","现金","支付宝","微信支付"],mf:["手续费 4.0%","固定 200 JPY","手续费 3.5%","手续费 3.5%"],lr:"↻ 实时汇率",bf:"店铺含税支付金额",nt:"最终实际支付",sv:"最终退款金额",tx:"消费税 (10%)",af:"退税手续费",rf:"退税金额",rm:"退款方式",pf:"退款手续费",tf:"手续费合计",fr:"最终退税金额",rr:"退税率",trr:"消费税退税率",ht:"注意事项",n1:"所有计算结果均为大约估算值，并非准确金额。",n2:"以上数据仅供参考使用。",n3:"实际退税金额可能会根据办理当天的手续费、汇率及货币转换费而有所变动。"}),
-  TW:entry("🇹🇼","繁體中文","TWD",0.215,{ex:"未稅價格",in:"含稅價格",sm:"選擇退款方式",m:["信用卡","現金","支付寶","微信支付"],mf:["手續費 4.0%","固定 200 JPY","手續費 3.5%","手續費 3.5%"],lr:"↻ 即時匯率",bf:"店鋪含稅付款金額",nt:"最終實際支付",sv:"最終退款金額",tx:"消費稅 (10%)",af:"免稅手續費",rf:"退稅金額",rm:"退款方式",pf:"退款手續費",tf:"總手續費",fr:"最終退稅金額",rr:"退稅率",trr:"消費稅退稅率",ht:"注意事項",n1:"所有計算結果皆為約略估算值，並非準確金額。",n2:"以上數據僅供參考使用。",n3:"實際退稅金額可能會依辦理當天的手續費、匯率及匯兌手續費而有所變動。"}),
-  HK:entry("🇭🇰","香港繁體","HKD",0.052,{ex:"未稅價格",in:"連稅價格",sm:"選擇退款方式",m:["信用卡","現金","支付寶","微信支付"],mf:["手續費 4.0%","固定 200 JPY","手續費 3.5%","手續費 3.5%"],lr:"↻ 即時匯率",bf:"店舖連稅付款金額",nt:"最終實際支付",sv:"最終退款金額",tx:"消費稅 (10%)",af:"免稅手續費",rf:"退稅金額",rm:"退款方式",pf:"退款手續費",tf:"總手續費",fr:"最終退稅金額",rr:"退稅率",trr:"消費稅退稅率",ht:"注意事項",n1:"所有計算結果均為大約估算值，並非準確金額。",n2:"以上數據僅供參考使用。",n3:"實際退稅金額可能會根據辦理當日的手續費、匯率及兌換手續費而有所變動。"}),
+  KR:entry("🇰🇷","한국어","KRW",9.2,{ex:"세전 가격 (면세 기준)",in:"세후 가격 (결제 금액)",sm:"환불 방법 선택",m:["신용카드","현금","알리페이","위챗페이"],mf:["수수료 4.0%","수수료 10% (150–500JPY)","수수료 3.5%","수수료 3.5%"],lr:"↻ 최신 환율",bf:"매장 결제 금액 (세금 포함)",nt:"최종 실부담액",sv:"최종 환급액",tx:"소비세 (10%)",af:"면세 수수료",rf:"환급 금액",rm:"환불 방법",pf:"환불 수수료",tf:"총 수수료",fr:"최종 환급 금액",rr:"환급률",trr:"소비세 환급률",ht:"유의사항",n1:"모든 계산 결과는 대략적인 추정치이며, 정확한 금액이 아닙니다.",n2:"단순 참고용으로만 이용해 주시기 바랍니다.",n3:"실제 환급액은 수속 당일 수수료, 환율 및 결제사의 환전 수수료에 따라 달라질 수 있습니다."}),
+  CN:entry("🇨🇳","简体中文","CNY",0.042,{ex:"不含税价格",in:"含税价格",sm:"选择退款方式",m:["信用卡","现金","支付宝","微信支付"],mf:["手续费 4.0%","手续费 10% (150~500JPY)","手续费 3.5%","手续费 3.5%"],lr:"↻ 实时汇率",bf:"店铺含税支付金额",nt:"最终实际支付",sv:"最终退款金额",tx:"消费税 (10%)",af:"退税手续费",rf:"退税金额",rm:"退款方式",pf:"退款手续费",tf:"手续费合计",fr:"最终退税金额",rr:"退税率",trr:"消费税退税率",ht:"注意事项",n1:"所有计算结果均为大约估算值，并非准确金额。",n2:"以上数据仅供参考使用。",n3:"实际退税金额可能会根据办理当天的手续费、汇率及货币转换费而有所变动。"}),
+  TW:entry("🇹🇼","繁體中文","TWD",0.215,{ex:"未稅價格",in:"含稅價格",sm:"選擇退款方式",m:["信用卡","現金","支付寶","微信支付"],mf:["手續費 4.0%","手续费 10% (150~500JPY)","手續費 3.5%","手續費 3.5%"],lr:"↻ 即時匯率",bf:"店鋪含稅付款金額",nt:"最終實際支付",sv:"最終退款金額",tx:"消費稅 (10%)",af:"免稅手續費",rf:"退稅金額",rm:"退款方式",pf:"退款手續費",tf:"總手續費",fr:"最終退稅金額",rr:"退稅率",trr:"消費稅退稅率",ht:"注意事項",n1:"所有計算結果皆為約略估算值，並非準確金額。",n2:"以上數據僅供參考使用。",n3:"實際退稅金額可能會依辦理當天的手續費、匯率及匯兌手續費而有所變動。"}),
+  HK:entry("🇭🇰","香港繁體","HKD",0.052,{ex:"未稅價格",in:"連稅價格",sm:"選擇退款方式",m:["信用卡","現金","支付寶","微信支付"],mf:["手續費 4.0%","手续费 10% (150~500JPY)","手續費 3.5%","手續費 3.5%"],lr:"↻ 即時匯率",bf:"店舖連稅付款金額",nt:"最終實際支付",sv:"最終退款金額",tx:"消費稅 (10%)",af:"免稅手續費",rf:"退稅金額",rm:"退款方式",pf:"退款手續費",tf:"總手續費",fr:"最終退稅金額",rr:"退稅率",trr:"消費稅退稅率",ht:"注意事項",n1:"所有計算結果均為大約估算值，並非準確金額。",n2:"以上數據僅供參考使用。",n3:"實際退稅金額可能會根據辦理當日的手續費、匯率及兌換手續費而有所變動。"}),
   EU:entry("🇪🇺","Europe","EUR",0.0061),
-  FR:entry("🇫🇷","Français","EUR",0.0061,{ex:"Prix Hors Taxes (HT)",in:"Prix TTC",sm:"Mode de remboursement",m:["Carte bancaire","Espèces","Alipay","WeChat Pay"],mf:["Frais 4,0%","Fixe 200 JPY","Frais 3,5%","Frais 3,5%"],lr:"↻ Taux en direct",bf:"Paiement en magasin (TTC)",nt:"Coût net final",sv:"Remboursement final",tx:"Taxe à la consommation (10%)",af:"Frais de détaxe",rf:"Montant du remboursement",rm:"Mode de remboursement",pf:"Frais de traitement",tf:"Total des frais",fr:"Montant final remboursé",rr:"Taux de remboursement",trr:"Taux de remboursement de la taxe",ht:"Remarque importante",n1:"Tous les résultats sont des estimations approximatives.",n2:"Veuillez utiliser ces chiffres à titre indicatif uniquement.",n3:"Le remboursement réel peut varier selon les frais, le taux de change et les frais de conversion du jour."}),
-  TH:entry("🇹🇭","ภาษาไทย","THB",0.225,{ex:"ราคาไม่รวมภาษี",in:"ราคารวมภาษี",sm:"เลือกวิธีการคืนเงิน",m:["บัตรเครดิต","เงินสด","อาลีเพย์","วีแชทเพย์"],mf:["ค่าธรรมเนียม 4.0%","คงที่ 200 JPY","ค่าธรรมเนียม 3.5%","ค่าธรรมเนียม 3.5%"],lr:"↻ อัตราปัจจุบัน",bf:"ยอดชำระที่ร้าน (รวมภาษี)",nt:"ยอดจ่ายสุทธิ",sv:"ยอดเงินคืนสุทธิ",tx:"ภาษีมูลค่าเพิ่ม (10%)",af:"ค่าธรรมเนียมการขอคืนภาษี",rf:"จำนวนเงินคืนภาษี",rm:"วิธีการคืนเงิน",pf:"ค่าธรรมเนียมการโอนคืน",tf:"รวมค่าธรรมเนียมทั้งหมด",fr:"ยอดเงินคืนสุทธิ",rr:"อัตราการคืนเงิน",trr:"อัตราการคืนภาษี",ht:"ข้อควรทราบ",n1:"ผลการคำนวณทั้งหมดเป็นเพียงการประมาณการเบื้องต้น",n2:"กรุณาใช้ตัวเลขนี้เพื่อเป็นข้อมูลอ้างอิงเท่านั้น",n3:"ยอดเงินจริงอาจแตกต่างตามค่าธรรมเนียมและอัตราแลกเปลี่ยน ณ วันที่ทำรายการ"}),
-  VN:entry("🇻🇳","Tiếng Việt","VND",168,{ex:"Giá chưa thuế",in:"Giá đã gồm thuế",sm:"Chọn phương thức hoàn tiền",m:["Thẻ tín dụng","Tiền mặt","Alipay","WeChat Pay"],mf:["Phí 4.0%","Cố định 200 JPY","Phí 3.5%","Phí 3.5%"],lr:"↻ Tỷ giá thực",bf:"Số tiền thanh toán tại cửa hàng (đã gồm thuế)",nt:"Thực trả cuối cùng",sv:"Số tiền hoàn cuối cùng",tx:"Thuế tiêu dùng (10%)",af:"Phí dịch vụ hoàn thuế",rf:"Số tiền hoàn thuế",rm:"Phương thức hoàn tiền",pf:"Phí xử lý hoàn tiền",tf:"Tổng phí",fr:"Số tiền hoàn cuối cùng",rr:"Tỷ lệ hoàn tiền",trr:"Tỷ lệ hoàn thuế",ht:"Lưu ý quan trọng",n1:"Tất cả kết quả đều là ước tính sơ bộ.",n2:"Vui lòng chỉ sử dụng các số liệu này để tham khảo.",n3:"Số tiền hoàn thực tế có thể thay đổi tùy theo phí và tỷ giá tại ngày giao dịch."}),
-  SG:entry("🇸🇬","Singapore","SGD",0.0089),
+    SG:entry("🇸🇬","Singapore","SGD",0.0088),
+    FR:entry("🇫🇷","Français","EUR",0.0061,{ex:"Prix Hors Taxes (HT)",in:"Prix TTC",sm:"Mode de remboursement",m:["Carte bancaire","Espèces","Alipay","WeChat Pay"],mf:["Frais 4,0%","10% (150–500JPY)","Frais 3,5%","Frais 3,5%"],lr:"↻ Taux en direct",bf:"Paiement en magasin (TTC)",nt:"Coût net final",sv:"Remboursement final",tx:"Taxe à la consommation (10%)",af:"Frais de détaxe",rf:"Montant du remboursement",rm:"Mode de remboursement",pf:"Frais de traitement",tf:"Total des frais",fr:"Montant final remboursé",rr:"Taux de remboursement",trr:"Taux de remboursement de la taxe",ht:"Remarque importante",n1:"Tous les résultats sont des estimations approximatives.",n2:"Veuillez utiliser ces chiffres à titre indicatif uniquement.",n3:"Le remboursement réel peut varier selon les frais, le taux de change et le taux de conversion du jour."}),
+   TH:entry("🇹🇭","ภาษาไทย","THB",0.225,{ex:"ราคาไม่รวมภาษี",
+    in:"ราคารวมภาษี",
+    sm:"เลือกวิธีการคืนเงิน",
+    m:["บัตรเครดิต","เงินสด","อาลีเพย์","วีแชทเพย์"],
+    mf:["ค่าธรรมเนียม 4.0%","10% (150–500JPY)","ค่าธรรมเนียม 3.5%","ค่าธรรมเนียม 3.5%"],
+    lr:"อัตราแลกเปลี่ยนจริง",
+    bf:"ยอดชำระที่ร้านค้า (รวมภาษี)",
+    nt:"ยอดจ่ายจริงสุทธิ",
+    sv:"ยอดเงินคืนสุทธิ",
+    tx:"ภาษีมูลค่าเพิ่ม (10%)",
+    af:"ค่าบริการคืนภาษี",
+    rf:"จำนวนเงินคืนภาษี",
+    rm:"วิธีการคืนเงิน",
+    pf:"ค่าธรรมเนียมการโอนคืน",
+    tf:"รวมค่าธรรมเนียมทั้งหมด",
+    fr:"ยอดเงินคืนสุทธิ",
+    rr:"อัตราการคืนเงิน",
+    trr:"อัตราการคืนภาษี",
+    ht:"ข้อควรทราบ",
+    n1:"ผลการคำนวณทั้งหมดเป็นเพียงการประมาณการเบื้องต้น",
+    n2:"กรุณาใช้ตัวเลขนี้เพื่อเป็นข้อมูลอ้างอิงเท่านั้น",
+    n3:"ยอดเงินจริงอาจแตกต่างตามค่าธรรมเนียมและอัตราแลกเปลี่ยน ณ วันที่ทำรายการ"
+  }),
+
+
+  VN:entry("🇻🇳","Tiếng Việt","VND",168,{ex:"Giá chưa thuế",
+    in:"Giá đã gồm thuế",
+    sm:"Chọn phương thức hoàn tiền",
+    m:["Thẻ tín dụng","Tiền mặt","Alipay","WeChat Pay"],
+    mf:["Phí 4.0%","Phí 10% (150~500JPY)","Phí 3.5%","Phí 3.5%"],
+    lr:"Tỷ giá thực",
+    bf:"Số tiền thanh toán tại cửa hàng (đã gồm thuế)",
+    nt:"Thực trả cuối cùng",
+    sv:"Số tiền hoàn cuối cùng",
+    tx:"Thuế tiêu dùng (10%)",
+    af:"Phí dịch vụ hoàn thuế",
+    rf:"Số tiền hoàn thuế",
+    rm:"Phương thức hoàn tiền",
+    pf:"Phí xử lý hoàn tiền",
+    tf:"Tổng phí",
+    fr:"Số tiền hoàn cuối cùng",
+    rr:"Tỷ lệ hoàn tiền",
+    trr:"Tỷ lệ hoàn thuế",
+    ht:"Lưu ý quan trọng"
+  }),
+
   AU:entry("🇦🇺","Australia","AUD",0.010),
   GB:entry("🇬🇧","UK","GBP",0.0052),
   CA:entry("🇨🇦","Canada","CAD",0.0092),
   NZ:entry("🇳🇿","New Zealand","NZD",0.011),
-  CH:entry("🇨🇭","Schweiz","CHF",0.0060,{rr:"Rückerstattungsquote",trr:"Steuerrückerstattungsquote",sv:"Endgültiger Erstattungsbetrag"}),
-  MY:entry("🇲🇾","Malaysia","MYR",0.031,{rr:"Kadar bayaran balik",trr:"Kadar bayaran balik cukai",sv:"Jumlah bayaran balik akhir"}),
-  ID:entry("🇮🇩","Indonesia","IDR",105,{rr:"Persentase pengembalian",trr:"Persentase pengembalian pajak",sv:"Jumlah pengembalian akhir"}),
-  PH:entry("🇵🇭","Pilipinas","PHP",0.39,{rr:"Rate ng refund",trr:"Rate ng refund sa buwis",sv:"Huling halaga ng refund"}),
-  IN:entry("🇮🇳","भारत","INR",0.56,{rr:"रिफंड दर",trr:"कर रिफंड दर",sv:"अंतिम रिफंड राशि"}),
-  AE:entry("🇦🇪","الإمارات","AED",0.0248,{rr:"معدل الاسترداد",trr:"معدل استرداد الضريبة",sv:"مبلغ الاسترداد النهائي"}),
-  SA:entry("🇸🇦","السعودية","SAR",0.0253,{rr:"معدل الاسترداد",trr:"معدل استرداد الضريبة",sv:"مبلغ الاسترداد النهائي"}),
-  DE:entry("🇩🇪","Deutsch","EUR",0.0061,{rr:"Erstattungsquote",trr:"Steuerrückerstattungsquote",sv:"Endgültiger Erstattungsbetrag"}),
-  IT:entry("🇮🇹","Italiano","EUR",0.0061,{rr:"Tasso di rimborso",trr:"Tasso di rimborso fiscale",sv:"Importo del rimborso finale"}),
-  ES:entry("🇪🇸","Español","EUR",0.0061,{rr:"Tasa de reembolso",trr:"Tasa de devolución de impuestos",sv:"Importe del reembolso final"}),
-  NL:entry("🇳🇱","Nederlands","EUR",0.0061,{rr:"Terugbetalingspercentage",trr:"Belastingteruggavepercentage",sv:"Definitief terugbetaald bedrag"}),
-  MX:entry("🇲🇽","México","MXN",0.115,{rr:"Tasa de reembolso",trr:"Tasa de devolución de impuestos",sv:"Importe del reembolso final"}),
-  BR:entry("🇧🇷","Brasil","BRL",0.033,{rr:"Taxa de reembolso",trr:"Taxa de restituição de impostos",sv:"Valor final do reembolso"})
+  CH:entry("🇨🇭","Schweiz","CHF",0.0056,{ex:"Preis ohne MwSt.",in:"Preis inkl. MwSt.",sm:"Rückerstattungsmethode wählen",m:["Kreditkarte","Bargeld","Alipay","WeChat Pay"],mf:["Gebühr 4,0%","Gebühr 10% (150~500JPY)","Gebühr 3,5%","Gebühr 3,5%"],lr:"↻ Live-Kurs",bf:"Zahlung im Geschäft (inkl. MwSt.)",nt:"Endgültiger Nettobetrag",sv:"Endgültige Rückerstattung",tx:"Mehrwertsteuer (10%)",af:"Tax-Free-Bearbeitungsgebühr",rf:"Steuerrückerstattungsbetrag",rm:"Rückerstattungsmethode",pf:"Bearbeitungsgebühr",tf:"Gesamtgebühren",fr:"Endgültige Rückerstattung",rr:"Rückerstattungsquote",trr:"Steuerrückerstattungsquote",ht:"Wichtiger Hinweis"}),
+  MY:entry("🇲🇾","Malaysia","MYR",0.031,{ex:"Harga Tanpa Cukai",in:"Harga Termasuk Cukai",sm:"Pilih Kaedah Bayaran Balik",m:["Kad Kredit","Tunai","Alipay","WeChat Pay"],mf:["Caj 4.0%","Caj 10% (150~500JPY)","Caj 3.5%","Caj 3.5%"],lr:"↻ Kadar Semasa",bf:"Bayaran di Kedai (Termasuk Cukai)",nt:"Kos Bersih Akhir",sv:"Jumlah Bayaran Balik Akhir",tx:"Cukai Penggunaan (10%)",af:"Yuran Pentadbiran Tax-Free",rf:"Jumlah Bayaran Balik Cukai",rm:"Kaedah Bayaran Balik",pf:"Yuran Pemprosesan",tf:"Jumlah Yuran",fr:"Jumlah Bayaran Balik Akhir",rr:"Kadar Bayaran Balik",trr:"Kadar Bayaran Balik Cukai",ht:"Notis Penting"}),
+  ID:entry("🇮🇩","Indonesia","IDR",105,{ex:"Harga Sebelum Pajak",in:"Harga Termasuk Pajak",sm:"Pilih Metode Pengembalian",m:["Kartu Kredit","Tunai","Alipay","WeChat Pay"],mf:["Biaya 4,0%","Biaya 10% (150~500JPY)","Biaya 3,5%","Biaya 3,5%"],lr:"↻ Kurs Langsung",bf:"Pembayaran di Toko (Termasuk Pajak)",nt:"Biaya Bersih Akhir",sv:"Jumlah Pengembalian Akhir",tx:"Pajak Konsumsi (10%)",af:"Biaya Admin Tax-Free",rf:"Jumlah Pengembalian Pajak",rm:"Metode Pengembalian",pf:"Biaya Pemrosesan",tf:"Total Biaya",fr:"Jumlah Pengembalian Akhir",rr:"Persentase Pengembalian",trr:"Persentase Pengembalian Pajak",ht:"Catatan Penting"}),
+  PH:entry("🇵🇭","Pilipinas","PHP",0.39,{ex:"Presyo Bago ang Buwis",in:"Presyo Kasama ang Buwis",sm:"Piliin ang Paraan ng Refund",m:["Credit Card","Cash","Alipay","WeChat Pay"],mf:["Bayad 4.0%","Bayad 10% (150~500JPY)","Bayad 3.5%","Bayad 3.5%"],lr:"↻ Live na Palitan",bf:"Bayad sa Tindahan (Kasama ang Buwis)",nt:"Huling Netong Gastos",sv:"Huling Halaga ng Refund",tx:"Consumption Tax (10%)",af:"Bayad sa Admin ng Tax-Free",rf:"Halaga ng Tax Refund",rm:"Paraan ng Refund",pf:"Bayad sa Pagproseso",tf:"Kabuuang Bayarin",fr:"Huling Halaga ng Refund",rr:"Rate ng Refund",trr:"Rate ng Refund sa Buwis",ht:"Mahalagang Paalala"}),
+  IN:entry("🇮🇳","भारत","INR",0.56,{ex:"कर-रहित मूल्य",in:"कर-सहित मूल्य",sm:"रिफंड का तरीका चुनें",m:["क्रेडिट कार्ड","नकद (Cash)","Alipay","WeChat Pay"],mf:["शुल्क 4.0%","शुल्क 10% (150~500JPY)","शुल्क 3.5%","शुल्क 3.5%"],lr:"↻ लाइव दर",bf:"स्टोर में भुगतान (कर-सहित)",nt:"अंतिम शुद्ध लागत",sv:"अंतिम रिफंड राशि",tx:"उपभोग कर (10%)",af:"टैक्स-फ्री प्रशासन शुल्क",rf:"कर रिफंड राशि",rm:"रिफंड का तरीका",pf:"प्रोसेसिंग शुल्क",tf:"कुल शुल्क",fr:"अंतिम रिफंड राशि",rr:"रिफंड दर",trr:"कर रिफंड दर",ht:"महत्वपूर्ण सूचना"}),
+    AE:entry("🇦🇪","الإمارات","AED",0.0248,{ex:"السعر غير شامل الضريبة",in:"السعر شامل الضريبة",sm:"اختر طريقة الاسترداد",m:["بطاقة ائتمان","نقداً","Alipay","WeChat Pay"],mf:["رسوم 4.0%","رسوم 10%(150~500JPY)","رسوم 3.5%","رسوم 3.5%"],lr:"↻ سعر الصرف المباشر",bf:"الدفع في المتجر (شامل الضريبة)",nt:"التكلفة الصافية النهائية",sv:"مبلغ الاسترداد النهائي",tx:"ضريبة الاستهلاك (10%)",af:"رسوم إدارة الإعفاء الضريبي",rf:"مبلغ استرداد الضريبة",rm:"طريقة الاسترداد",pf:"رسوم المعالجة",tf:"إجمالي الرسوم",fr:"مبلغ الاسترداد النهائي",rr:"معدل الاسترداد",trr:"معدل استرداد الضريبة",ht:"ملاحظة هامة"}),
+  SA:entry("🇸🇦","السعودية","SAR",0.0253,{ex:"السعر غير شامل الضريبة",in:"السعر شامل الضريبة",sm:"اختر طريقة الاسترداد",m:["بطاقة ائتمان","نقداً","Alipay","WeChat Pay"],mf:["رسوم 4.0%","رسوم 10%(150~500JPY)","رسوم 3.5%","رسوم 3.5%"],lr:"↻ سعر الصرف المباشر",bf:"الدفع في المتجر (شامل الضريبة)",nt:"التكلفة الصافية النهائية",sv:"مبلغ الاسترداد النهائي",tx:"ضريبة الاستهلاك (10%)",af:"رسوم إدارة الإعفاء الضريبي",rf:"مبلغ استرداد الضريبة",rm:"طريقة الاسترداد",pf:"رسوم المعالجة",tf:"إجمالي الرسوم",fr:"مبلغ الاسترداد النهائي",rr:"معدل الاسترداد",trr:"معدل استرداد الضريبة",ht:"ملاحظة هامة"}),
+  DE:entry("🇩🇪","Deutsch","EUR",0.0061,{ex:"Preis ohne MwSt.",in:"Preis inkl. MwSt.",sm:"Rückerstattungsmethode wählen",m:["Kreditkarte","Bargeld","Alipay","WeChat Pay"],mf:["Gebühr 4,0%","Gebühr 10%(150~500JPY)","Gebühr 3,5%","Gebühr 3,5%"],lr:"↻ Live-Kurs",bf:"Zahlung im Geschäft (inkl. MwSt.)",nt:"Endgültiger Nettobetrag",sv:"Endgültige Rückerstattung",tx:"Mehrwertsteuer (10%)",af:"Tax-Free-Bearbeitungsgebühr",rf:"Steuerrückerstattungsbetrag",rm:"Rückerstattungsmethode",pf:"Bearbeitungsgebühr",tf:"Gesamtgebühren",fr:"Endgültige Rückerstattung",rr:"Erstattungsquote",trr:"Steuerrückerstattungsquote",ht:"Wichtiger Hinweis"}),
+  IT:entry("🇮🇹","Italiano","EUR",0.0061,{ex:"Prezzo IVA esclusa",in:"Prezzo IVA inclusa",sm:"Seleziona metodo di rimborso",m:["Carta di credito","Contanti","Alipay","WeChat Pay"],mf:["Comm. 4,0%","Comm. 10%(150~500JPY)","Comm. 3,5%","Comm. 3,5%"],lr:"↻ Tasso live",bf:"Pagamento in negozio (IVA incl.)",nt:"Costo netto finale",sv:"Importo del rimborso finale",tx:"Imposta sui consumi (10%)",af:"Commissione amministrativa Tax-Free",rf:"Importo rimborso imposte",rm:"Metodo di rimborso",pf:"Commissione di elaborazione",tf:"Commissioni totali",fr:"Importo del rimborso finale",rr:"Tasso di rimborso",trr:"Tasso di rimborso fiscale",ht:"Avviso importante"}),
+  ES:entry("🇪🇸","Español","EUR",0.0061,{ex:"Precio sin impuestos",in:"Precio con impuestos",sm:"Seleccionar método de reembolso",m:["Tarjeta de crédito","Efectivo","Alipay","WeChat Pay"],mf:["Comisión 4,0%","Comisión 10%(150~500JPY)","Comisión 3,5%","Comisión 3,5%"],lr:"↻ Tasa en vivo",bf:"Pago en tienda (con impuestos)",nt:"Costo neto final",sv:"Importo del reembolso final",tx:"Impuesto al consumo (10%)",af:"Tarifa administrativa Tax-Free",rf:"Monto de reembolso de impuestos",rm:"Método de reembolso",pf:"Tarifa de procesamiento",tf:"Tarifas totales",fr:"Importe del reembolso final",rr:"Tasa de reembolso",trr:"Tasa de devolución de impuestos",ht:"Aviso importante"}),
+  NL:entry("🇳🇱","Nederlands","EUR",0.0061,{ex:"Prijs excl. btw",in:"Prijs incl. btw",sm:"Kies terugbetalingsmethode",m:["Creditcard","Contant","Alipay","WeChat Pay"],mf:["Kosten 4,0%","Kosten 10%(150~500JPY)","Kosten 3,5%","Kosten 3,5%"],lr:"↻ Live koers",bf:"Betaling in winkel (incl. btw)",nt:"Definitieve nettokosten",sv:"Definitief terugbetaald bedrag",tx:"Verbruiksbelasting (10%)",af:"Tax-Free administratiekosten",rf:"Belastingteruggavebedrag",rm:"Terugbetalingsmethode",pf:"Verwerkingskosten",tf:"Totale kosten",fr:"Definitief terugbetaald bedrag",rr:"Terugbetalingspercentage",trr:"Belastingteruggavepercentage",ht:"Belangrijke opmerking"}),
+  MX:entry("🇲🇽","México","MXN",0.115,{ex:"Precio sin impuestos",in:"Precio con impuestos",sm:"Seleccionar método de reembolso",m:["Tarjeta de crédito","Efectivo","Alipay","WeChat Pay"],mf:["Comisión 4.0%","Comisión 10%(150~500JPY)","Comisión 3.5%","Comisión 3.5%"],lr:"↻ Tipo de cambio en vivo",bf:"Pago en tienda (con impuestos)",nt:"Costo neto final",sv:"Importe del reembolso final",tx:"Impuesto al consumo (10%)",af:"Tarifa administrativa Tax-Free",rf:"Monto de reembolso de impuestos",rm:"Método de reembolso",pf:"Tarifa de procesamiento",tf:"Tarifas totales",fr:"Importe del reembolso final",rr:"Tasa de reembolso",trr:"Tasa de devolución de impuestos",ht:"Aviso importante"}),
+  BR:entry("🇧🇷","Brasil","BRL",0.033,{ex:"Preço sem impostos",in:"Preço com impostos",sm:"Selecionar método de reembolso",m:["Cartão de crédito","Dinheiro","Alipay","WeChat Pay"],mf:["Taxa 4,0%","Taxa 10%(150~500JPY)","Taxa 3,5%","Taxa 3,5%"],lr:"↻ Câmbio ao vivo",bf:"Pagamento na loja (com impostos)",nt:"Custo líquido final",sv:"Valor final do reembolso",tx:"Imposto sobre consumo (10%)",af:"Taxa administrativa Tax-Free",rf:"Valor do reembolso de impostos",rm:"Método de reembolso",pf:"Taxa de processamento",tf:"Total de taxas",fr:"Valor final do reembolso",rr:"Taxa de reembolso",trr:"Taxa de restituição de impostos",ht:"Aviso importante"})
 };
 
 var STORE_LANG={US:"en",EU:"en",SG:"en",AU:"en",GB:"en",CA:"en",NZ:"en",KR:"ko",CN:"zh",TW:"tw",HK:"tw",FR:"fr",TH:"th",VN:"vi",CH:"de",DE:"de",MY:"ms",ID:"id",PH:"tl",IN:"hi",AE:"ar",SA:"ar",IT:"it",ES:"es",MX:"es",NL:"nl",BR:"pt"};
@@ -2870,7 +2914,7 @@ function calc(ex,inc){
 
   var aRate=getHandlingRate(ex,currentStoreType),adm=ex*aRate;
   var ref=Math.max(0,tax-adm);
-  var mFee=curM==="cash"?(ref>0?200:0):curM==="card"?ref*.04:ref*.035;
+  var mFee=curM==="cash"?(ref>0?Math.min(500,Math.max(150,Math.round(ref*.10))):0):curM==="card"?ref*.04:ref*.035;
   var tFee=adm+mFee,fin=Math.max(0,ref-mFee),net=Math.max(0,inc-fin);
   var pct=inc>0?((fin/inc)*100):0,taxRefundPct=tax>0?((fin/tax)*100):0;
   var mIdx=["card","cash","alipay","wechat"].indexOf(curM);
